@@ -25,6 +25,12 @@ public class EmailServiceJDBCImpl implements EmailService {
     private JavaMailSender javaMailSender;
     private EmailToSimpleMailMessage emailToSimpleMailMessage;
 
+    private String selectAllQuery = "select id, address, text, subject, date from emails";
+    private String addEmailQuery = "INSERT INTO emails(address, subject, text, date ) VALUES (?,?,?,?)";
+    private String updateDateQuery = "UPDATE emails SET date = ? WHERE id = ?";
+    private String deletePendingEmailQuery = " TRUNCATE emails";
+    private String deleteEmailByIdQuery = "DELETE FROM emails WHERE id = ?";
+
     @Autowired
     public EmailServiceJDBCImpl(DatabaseConnection databaseConnection,
                                 TaskScheduler taskScheduler,
@@ -35,12 +41,6 @@ public class EmailServiceJDBCImpl implements EmailService {
         this.javaMailSender = javaMailSender;
         this.emailToSimpleMailMessage = emailToSimpleMailMessage;
     }
-
-    private String selectAllQuery = "select id, address, text, subject, date from emails";
-    private String addEmailQuery = "INSERT INTO emails(address, subject, text, date ) VALUES (?,?,?,?)";
-    private String updateDateQuery = "UPDATE emails SET date = ? WHERE id = ?";
-    private String deletePendingEmailQuery = " TRUNCATE emails";
-    private String deleteEmailByIdQuery = "DELETE FROM emails WHERE id = ?";
 
     public List<Email> getAllEmails() throws SQLException {
         Statement statement = databaseConnection.createConnection().createStatement();
