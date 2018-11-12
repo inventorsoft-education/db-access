@@ -1,5 +1,18 @@
-# db-access
+# spring-rest-task
+Repository for spring rest hometask
 
-Your task is to integrate storage of emails from previous task with SQL databases using both pure JDBC API and Hibernate.
-You should create a generic interface with all storage operations you do and then provide two implementations for it: one using JDBC and one using Hibernate. 
-Please do not keep results in local collection field inside your implementation anymore. If you need to get data from db - do the query!
+# Hometask
+
+Your task is to create REST api for email delivery project from **spring-boot-task**.
+Requirements are the following:
+
+1) Create endpoint for retrieving list of pending email deliveries;
+2) Create endpoint for creating new email delivery;
+3) Create endpoint for update delivery date for pending email delivery;
+4) Create endpoint to remove pending email delivery.
+
+# Useful links 
+1) https://docs.google.com/presentation/d/1k8wEvDLquMbi4_GxWHUWSIF0b9jHH8fpt_QKKdjKTlk/edit?usp=sharing;
+2) https://spring.io/guides/gs/rest-service/;
+3) https://www.restapitutorial.com/;
+4) https://www.getpostman.com/.
