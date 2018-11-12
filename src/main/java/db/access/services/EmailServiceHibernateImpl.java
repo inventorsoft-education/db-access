@@ -1,6 +1,4 @@
 package db.access.services;
-
-import db.access.DatabaseConnection;
 import db.access.model.Email;
 import db.access.model.EmailRequest;
 import db.access.converters.EmailToSimpleMailMessage;
@@ -23,18 +21,15 @@ import java.util.Optional;
 public class EmailServiceHibernateImpl implements EmailService {
 
     private EmailRepository emailRepository;
-    private DatabaseConnection databaseConnection;
     private TaskScheduler taskScheduler;
     private JavaMailSender javaMailSender;
     private EmailToSimpleMailMessage emailToSimpleMailMessage;
     @Autowired
     public EmailServiceHibernateImpl(EmailRepository emailRepository,
-                                     DatabaseConnection databaseConnection,
                                      TaskScheduler taskScheduler,
                                      JavaMailSender javaMailSender,
                                      EmailToSimpleMailMessage emailToSimpleMailMessage) {
         this.emailRepository = emailRepository;
-        this.databaseConnection = databaseConnection;
         this.taskScheduler = taskScheduler;
         this.javaMailSender = javaMailSender;
         this.emailToSimpleMailMessage = emailToSimpleMailMessage;

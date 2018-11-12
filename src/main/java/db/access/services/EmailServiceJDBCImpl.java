@@ -25,7 +25,7 @@ public class EmailServiceJDBCImpl implements EmailService {
     private JavaMailSender javaMailSender;
     private EmailToSimpleMailMessage emailToSimpleMailMessage;
 
-    private String selectAllQuery = "select id, address, text, subject, date from emails";
+    private String selectAllQuery = "SELECT id, address, text, subject, date FROM emails";
     private String addEmailQuery = "INSERT INTO emails(address, subject, text, date ) VALUES (?,?,?,?)";
     private String updateDateQuery = "UPDATE emails SET date = ? WHERE id = ?";
     private String deletePendingEmailQuery = " TRUNCATE emails";
@@ -72,7 +72,6 @@ public class EmailServiceJDBCImpl implements EmailService {
             Date date = dateFormat.parse(emailRequest.getDate());
             preparedStatement.setTimestamp(4, new java.sql.Timestamp(date.getTime()));
             preparedStatement.execute();
-            preparedStatement.close();
             sendScheduledEmail();
         }catch (SQLException e) {
             e.printStackTrace();
