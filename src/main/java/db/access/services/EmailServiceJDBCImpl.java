@@ -42,72 +42,81 @@ public class EmailServiceJDBCImpl implements EmailService {
         this.emailToSimpleMailMessage = emailToSimpleMailMessage;
     }
 
-    public List<Email> getAllEmails() throws SQLException {
-        Statement statement = databaseConnection.createConnection().createStatement();
-        ResultSet resultSet = statement.executeQuery(selectAllQuery);
+    public List<Email> getAllEmails(){
         List<Email> emails = new ArrayList<>();
-        while (resultSet.next()) {
-            Email email = new Email();
-            email.setId(resultSet.getLong("id"));
-            email.setAddress(resultSet.getString("address"));
-            email.setSubject(resultSet.getString("subject"));
-            email.setText(resultSet.getString("text"));
-            email.setDate(resultSet.getTimestamp("date"));
-            emails.add(email);
-        }
+            try (Statement statement = databaseConnection.createConnection().createStatement();
+                 ResultSet resultSet = statement.executeQuery(selectAllQuery)) {
+                while (resultSet.next()) {
+                    Email email = new Email();
+                    email.setId(resultSet.getLong("id"));
+                    email.setAddress(resultSet.getString("address"));
+                    email.setSubject(resultSet.getString("subject"));
+                    email.setText(resultSet.getString("text"));
+                    email.setDate(resultSet.getTimestamp("date"));
+                    emails.add(email);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         return emails;
     }
 
     @Override
-    public void addNewEmail(EmailRequest emailRequest) throws SQLException, ParseException {
-        PreparedStatement preparedStatement = databaseConnection.createConnection().
-                prepareStatement(addEmailQuery);
-        preparedStatement.setString(1, emailRequest.getAddress());
-        preparedStatement.setString(2, emailRequest.getSubject());
-        preparedStatement.setString(3, emailRequest.getText());
-        DateFormat dateFormat = new SimpleDateFormat("yy-MM-dd HH:mm");
-        Date date = dateFormat.parse(emailRequest.getDate());
-        preparedStatement.setTimestamp(4,new java.sql.Timestamp(date.getTime()));
-        preparedStatement.execute();
-        preparedStatement.close();
-        sendScheduledEmail();
+    public void addNewEmail(EmailRequest emailRequest) throws ParseException {
+        try(PreparedStatement preparedStatement = databaseConnection.createConnection().
+                prepareStatement(addEmailQuery)) {
+            preparedStatement.setString(1, emailRequest.getAddress());
+            preparedStatement.setString(2, emailRequest.getSubject());
+            preparedStatement.setString(3, emailRequest.getText());
+            DateFormat dateFormat = new SimpleDateFormat("yy-MM-dd HH:mm");
+            Date date = dateFormat.parse(emailRequest.getDate());
+            preparedStatement.setTimestamp(4, new java.sql.Timestamp(date.getTime()));
+            preparedStatement.execute();
+            preparedStatement.close();
+            sendScheduledEmail();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void updateEmailDate(long id, Date date) throws SQLException {
-        PreparedStatement preparedStatement = databaseConnection.createConnection().
-                prepareStatement(updateDateQuery);
-        preparedStatement.setTimestamp(1, new java.sql.Timestamp(date.getTime()));
-        preparedStatement.setLong(2, id);
-        preparedStatement.executeUpdate();
-        preparedStatement.close();
+    public void updateEmailDate(long id, Date date){
+        try(PreparedStatement preparedStatement = databaseConnection.createConnection().
+                prepareStatement(updateDateQuery)) {
+            preparedStatement.setTimestamp(1, new java.sql.Timestamp(date.getTime()));
+            preparedStatement.setLong(2, id);
+            preparedStatement.executeUpdate();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void removePendingEmails() throws SQLException {
-        Statement statement = databaseConnection.createConnection().createStatement();
-        statement.executeUpdate(deletePendingEmailQuery);
-        statement.close();
+    public void removePendingEmails(){
+        try(Statement statement = databaseConnection.createConnection().createStatement()) {
+            statement.executeUpdate(deletePendingEmailQuery);
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void sendScheduledEmail() throws SQLException {
+    public void sendScheduledEmail(){
         List<Email> simpleMailMessages = getAllEmails();
         for(Email email : simpleMailMessages){
             taskScheduler.schedule(()->{
                 javaMailSender.send(emailToSimpleMailMessage.convert(email));
-                try {
-                    clearEmail(email.getId());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                clearEmail(email.getId());
             },emailToSimpleMailMessage.convert(email).getSentDate());
         }
     }
 
-    public void clearEmail(long id) throws SQLException {
-        PreparedStatement preparedStatement = databaseConnection.createConnection().prepareStatement(deleteEmailByIdQuery);
-        preparedStatement.setLong(1, id);
-        preparedStatement.execute();
-        preparedStatement.close();
+    public void clearEmail(long id){
+        try(PreparedStatement preparedStatement = databaseConnection.createConnection().
+                prepareStatement(deleteEmailByIdQuery)) {
+            preparedStatement.setLong(1, id);
+            preparedStatement.execute();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
