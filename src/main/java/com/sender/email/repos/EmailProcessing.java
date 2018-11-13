@@ -1,6 +1,6 @@
 package com.sender.email.repos;
 
-import com.sender.email.Email;
+import com.sender.email.models.Email;
 
 import java.util.Date;
 import java.util.List;

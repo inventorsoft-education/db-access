@@ -1,6 +1,6 @@
 package com.sender.email.service;
 
-import com.sender.email.Email;
+import com.sender.email.models.Email;
 import com.sender.email.repos.EmailProcessing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -8,17 +8,16 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
-public class EmailService {
+public class EmailSender {
     private JavaMailSender mailSender;
     private ThreadPoolTaskScheduler scheduler;
     private EmailProcessing emailProcessing;
 
     @Autowired
-    public EmailService(JavaMailSender javaMailSender, ThreadPoolTaskScheduler scheduler, EmailProcessing fileProcessing) {
+    public EmailSender(JavaMailSender javaMailSender, ThreadPoolTaskScheduler scheduler, EmailProcessing fileProcessing) {
         this.mailSender = javaMailSender;
         this.scheduler = scheduler;
         this.emailProcessing = fileProcessing;

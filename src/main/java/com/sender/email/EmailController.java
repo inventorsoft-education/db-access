@@ -1,13 +1,13 @@
 package com.sender.email;
 
-import com.sender.email.repos.EmailDbProcessing;
+import com.sender.email.models.Email;
 import com.sender.email.repos.EmailProcessing;
-import com.sender.email.service.EmailService;
+import com.sender.email.service.EmailSender;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.HttpServletResponse;
+
 import java.util.Date;
 import java.util.List;
 
@@ -15,8 +15,8 @@ import java.util.List;
 @RequestMapping(value = "/emails")
 @AllArgsConstructor
 public class EmailController {
-    EmailDbProcessing processing;
-    EmailService emailService;
+    EmailProcessing processing;
+    EmailSender emailSender;
 
     @GetMapping
     public List<Email> getEmails() {
@@ -26,7 +26,7 @@ public class EmailController {
     @PostMapping(consumes = "application/json")
     public void newEmail(@RequestBody List<Email> email){
         processing.addNewEmail(email);
-        emailService.sendAll();
+        emailSender.sendAll();
     }
 
     @PutMapping(value = "/{id}/date", produces = "application/json")
@@ -35,6 +35,7 @@ public class EmailController {
         if (id > last_id) {
             return ResponseEntity.status(404).body("404\nIndex out of range");
         }
+        System.out.println(id + " " + newDate);
         processing.changeDate(id, newDate);
         return ResponseEntity.ok(String.format("Delivery date of email with id: %s has been changed!", id));
     }

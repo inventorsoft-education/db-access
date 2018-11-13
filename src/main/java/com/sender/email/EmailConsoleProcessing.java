@@ -1,5 +1,6 @@
 package com.sender.email;
 
+import com.sender.email.models.Email;
 import org.springframework.stereotype.Component;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;

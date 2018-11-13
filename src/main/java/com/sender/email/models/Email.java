@@ -1,31 +1,41 @@
-package com.sender.email;
+package com.sender.email.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+
+@Entity
 @Getter
 @Setter
-public class Email implements Serializable {
+@Table(name="emails")
+public class Email {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique=true, nullable=false)
     private int id;
 
+    @Column
     private String recipient;
 
+    @Column
     private String subject;
 
+    @Column
     private String body;
 
+    @Column
+    @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy HH:mm", timezone="EET")
     private Date deliveryDate;
 
     private Boolean isSent;
 
-
-    Email() {
+    public Email() {
         recipient = "A1lexen30@gmail.com";
         subject = "TEST!";
         body = "TEST";

@@ -1,8 +1,8 @@
 package com.sender.email.repos;
 
-import com.sender.email.Email;
-import com.sender.email.EmailMapper;
+import com.sender.email.models.Email;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
+@Profile("JDBC")
 public class EmailDbProcessing implements EmailProcessing {
     JdbcTemplate jdbcTemplate;
 

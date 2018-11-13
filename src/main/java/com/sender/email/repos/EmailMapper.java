@@ -1,5 +1,6 @@
-package com.sender.email;
+package com.sender.email.repos;
 
+import com.sender.email.models.Email;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
