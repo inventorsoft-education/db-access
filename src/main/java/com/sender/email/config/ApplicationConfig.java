@@ -12,7 +12,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import javax.sql.DataSource;
 
 @Configuration
-public class MyConfig {
+public class ApplicationConfig {
     @Autowired
     Environment environment;
 

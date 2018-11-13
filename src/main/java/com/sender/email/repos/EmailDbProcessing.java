@@ -31,10 +31,10 @@ public class EmailDbProcessing implements EmailProcessing {
     }
 
     @Override
-    public void addNewEmail(List<Email> emails) {
+    public void addNewEmail(Email email) {
         jdbcTemplate.update("INSERT INTO local_db.emails (recipient, subject, body, delivery_date, is_sent) " +
-                "VALUES(?,?,?,?,?)", emails.get(0).getRecipient(), emails.get(0).getSubject(),
-                emails.get(0).getBody(), emails.get(0).getDeliveryDate(), false);
+                "VALUES(?,?,?,?,?)", email.getRecipient(), email.getSubject(),
+                email.getBody(), email.getDeliveryDate(), false);
     }
 
     @Override

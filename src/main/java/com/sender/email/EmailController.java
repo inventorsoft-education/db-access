@@ -24,26 +24,31 @@ public class EmailController {
     }
 
     @PostMapping(consumes = "application/json")
-    public void newEmail(@RequestBody List<Email> email){
+    public void newEmail(@RequestBody Email email){
         processing.addNewEmail(email);
         emailSender.sendAll();
     }
 
     @PutMapping(value = "/{id}/date", produces = "application/json")
     public ResponseEntity<String> updateDate(@PathVariable(value="id") int id,@RequestParam(value="date") @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm") Date newDate){
-        int last_id = processing.getAll().get(processing.getAll().size()-1).getId();
-        if (id > last_id) {
+        List<Email> emails = processing.getAll();
+        Boolean isPresent = emails.stream()
+                .anyMatch( e -> e.getId() == id);
+
+        if (!isPresent) {
             return ResponseEntity.status(404).body("404\nIndex out of range");
         }
-        System.out.println(id + " " + newDate);
+
         processing.changeDate(id, newDate);
         return ResponseEntity.ok(String.format("Delivery date of email with id: %s has been changed!", id));
     }
 
     @DeleteMapping(value = "/delete", produces = "application/json")
     public ResponseEntity<String> deleteEmail(@RequestParam(value="id") int id) {
-        int last_id = processing.getAll().get(processing.getAll().size()-1).getId();
-        if (id > last_id) {
+        List<Email> emails = processing.getAll();
+        Boolean isPresent = emails.stream()
+                .anyMatch( e -> e.getId() == id);
+        if (!isPresent) {
             return ResponseEntity.status(404).body("404\nIndex out of range");
         }
         processing.delete(id);

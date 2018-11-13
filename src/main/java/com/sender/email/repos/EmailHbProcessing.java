@@ -32,7 +32,9 @@ public interface EmailHbProcessing extends JpaRepository<Email, Integer>, EmailP
     void changeDate(int id, Date newDate);
 
     @Override
-    @Query(value = "SELECT * FROM emails WHERE id = ?1", nativeQuery = true)
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE emails SET is_sent = 1 WHERE id = ?1", nativeQuery = true)
     void changeStatus(int id);
 
     @Override
@@ -40,8 +42,8 @@ public interface EmailHbProcessing extends JpaRepository<Email, Integer>, EmailP
     List<Email> getUnsent();
 
     @Override
-    default void addNewEmail(List<Email> emails) {
-        save(emails.get(0));
+    default void addNewEmail(Email email) {
+        save(email);
     }
 
     @Override
