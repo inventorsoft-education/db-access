@@ -1,6 +1,7 @@
 package com.sender.email.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,22 +18,29 @@ public class Email {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique=true, nullable=false)
+    @ApiModelProperty(notes="The database generated Email ID")
     private int id;
 
     @Column
+    @ApiModelProperty(notes="Email's recipient address")
     private String recipient;
 
     @Column
+    @ApiModelProperty(notes="Subject of email")
     private String subject;
 
     @Column
+    @ApiModelProperty(notes="Main text of email")
     private String body;
 
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy HH:mm", timezone="EET")
+    @ApiModelProperty(notes="Date on which you want to send email")
     private Date deliveryDate;
 
+    @Column
+    @ApiModelProperty(notes="The database generated email status(sent or not)")
     private Boolean isSent;
 
     public Email() {
