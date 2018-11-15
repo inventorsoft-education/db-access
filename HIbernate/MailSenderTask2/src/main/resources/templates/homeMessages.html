@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1" />
+<title>Insert title here</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<script src="/postrequest.js"></script>
+<script src="/getrequest.js"></script>
+</head>
+<body>
+	<div id="postResultDiv" align="center"></div>
+	<div class="container">
+		<h2>Message form</h2>
+		<form id="messageForm">
+			<div class="form-group">
+				<label for="bookId">MessageId :</label> <input type="text"
+					class="form-control" id="id" placeholder="Enter message Id"
+					name="id">
+			</div>
+			<div class="form-group">
+				<label for="recipient">Send to :</label> <input type="text"
+					class="form-control" id="recipient" placeholder="Enter recipient"
+					name="recipient">
+			</div>
+			<div class="form-group">
+				<label for="subject">Subject :</label> <input type="text"
+					class="form-control" id="subject" placeholder="Enter subject"
+					name="subject">
+			</div>
+			<div class="form-group">
+				<label for="body">Text :</label> <input type="text"
+					class="form-control" id="body" placeholder="Enter text"
+					name="body">
+			</div>
+		<!-- 	<div class="form-group">
+				<label for="date">Message date :</label> <input type="text"
+					class="form-control" id="date" placeholder="Enter date"
+					name="date">
+			</div> -->
+
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+		<br />
+		<div class="col-sm-7" style="margin: 20px 0px 20px 0px">
+			<button id="getALlMessages" type="button" class="btn btn-primary">Get
+				All Messages</button>
+			<div id="getResultDiv" style="padding: 20px 10px 20px 50px">
+				<ul class="list-group">
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
