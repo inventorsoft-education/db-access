@@ -1,0 +1,11 @@
+C:\insoft\spring-boot-task\src\main\java\com\example\demo\DemoApplication.java
+C:\insoft\spring-boot-task\src\main\java\com\example\demo\console\SpringBootConsoleApplication.java
+C:\insoft\spring-boot-task\src\main\java\com\example\demo\model\Status.java
+C:\insoft\spring-boot-task\src\main\java\com\example\demo\exception\IntegerValidator.java
+C:\insoft\spring-boot-task\src\main\java\com\example\demo\config\MailConfig.java
+C:\insoft\spring-boot-task\src\main\java\com\example\demo\model\Message.java
+C:\insoft\spring-boot-task\src\main\java\com\example\demo\repo\JsonRepo.java
+C:\insoft\spring-boot-task\src\main\java\com\example\demo\service\MailSender.java
+C:\insoft\spring-boot-task\src\main\java\com\example\demo\exception\EmailValidator.java
+C:\insoft\spring-boot-task\src\main\java\com\example\demo\service\ShedulerService.java
+C:\insoft\spring-boot-task\src\main\java\com\example\demo\repo\InputValue.java
