@@ -1,20 +1,17 @@
 package com.example.demo.service;
 
 import com.example.demo.model.entity.Message;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class MailSenderService {
 
     private JavaMailSender mailSender;
 
-    @Autowired
-    public MailSenderService(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
-    }
 
     public void send(Message message) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();

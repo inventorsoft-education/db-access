@@ -22,7 +22,6 @@ import java.util.List;
 @RequestMapping("/messages/")
 public class MailSenderController {
 
-    @Autowired
     private MessageRepository messageRepository;
 
     @RequestMapping
