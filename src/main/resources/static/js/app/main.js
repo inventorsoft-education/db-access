@@ -2,7 +2,8 @@
 
                  $("#btn_add").on('click', function() {
                                     $('#new_mess').show();
-                                    $('#btn_ok').on('click', function() {
+                                    $(document).on('submit','form#contact-form', function(e) {
+                                        e.preventDefault();
                                         var subject = $('#subject').val();
                                         var email_to = $('#input_email_to').val();
                                         var email_text = $('#input_message').val();
@@ -20,13 +21,14 @@
                                             url: '/messages/',
                                             data: mess,
                                             success: function() {
-                                            alert("success");
+                                                    $(feedback).remove();
+                                                    location.reload();
                                             },
                                             error: function(e) {
-                                            var json = "<h4>Ajax Response</h4><pre>"
-                                                                                            + e.responseText + "</pre>";
-                                                                                        $('#feedback').html(json);
-                                            }
+                                                        var error = "<h4>Ajax Response error</h4>"
+                                                        + e.responseText + "</pre>";
+                                                        $('#feedback').html(error);
+                                                    }
                                         })
                                     })
                                 })
