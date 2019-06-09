@@ -1,10 +1,11 @@
-package com.example.demo.dao.impl;
+package com.example.demo.repository.jdbc;
 
+import com.example.demo.model.dto.MessageDto;
 import com.example.demo.model.entity.Message;
-import com.example.demo.dao.MessageRepository;
 import com.example.demo.model.enums.Status;
 import com.example.demo.model.enums.jdbc.JdbcConnect;
 import com.example.demo.model.enums.sql.SqlRequestMessages;
+import com.example.demo.service.MessageService;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public class JdbcConnection implements MessageRepository {
+public class JdbcConnection implements MessageService {
 
     private Connection dbConnection;
 
@@ -35,9 +36,9 @@ public class JdbcConnection implements MessageRepository {
     public void save(Message message) {
         PreparedStatement statement = this.getDbConnection().prepareStatement(SqlRequestMessages.SQL_INSERT.getRequest());
         statement.setString(1, message.getSubject());
-        statement.setString(2, message.getEmailTo());
-        statement.setString(3, message.getMessage());
-        statement.setLong(4, message.getFutureSecond());
+        statement.setString(2, message.getEmail_to());
+        statement.setString(3, message.getEmail_text());
+        statement.setLong(4, message.getFuture_second());
         statement.setLong(5, new Date().getTime());
         statement.setString(6, String.valueOf(message.getStatus()));
         statement.executeUpdate();
@@ -55,10 +56,30 @@ public class JdbcConnection implements MessageRepository {
             Message message = new Message();
             message.setId(resultSet.getLong("id"));
             message.setSubject(resultSet.getString("subject"));
-            message.setEmailTo(resultSet.getString("emailTo"));
-            message.setMessage(resultSet.getString("message"));
-            message.setFutureSecond(resultSet.getLong("futureSecond"));
+            message.setEmail_to(resultSet.getString("email_to"));
+            message.setEmail_text(resultSet.getString("email_text"));
+            message.setFuture_second(resultSet.getLong("futureSecond"));
             message.setCurrentTime(resultSet.getLong("currentTime"));
+            message.setStatus(Status.valueOf(resultSet.getString("status")));
+            messages.add(message);
+        }
+
+        transaction(statement);
+        return messages;
+    }
+
+    @Override
+    @SneakyThrows
+    public List<MessageDto> getAllMessageDto() {
+        List<MessageDto> messages = new ArrayList();
+        PreparedStatement statement = this.getDbConnection().prepareStatement(SqlRequestMessages.SQL_SELECT_ALL.getRequest());
+        ResultSet resultSet = statement.executeQuery();
+
+        while (resultSet.next()) {
+            MessageDto message = new MessageDto();
+            message.setSubject(resultSet.getString("subject"));
+            message.setEmail_to(resultSet.getString("email_to"));
+            message.setEmail_text(resultSet.getString("email_text"));
             message.setStatus(Status.valueOf(resultSet.getString("status")));
             messages.add(message);
         }
@@ -77,9 +98,9 @@ public class JdbcConnection implements MessageRepository {
         if (resultSet.next()) {
             message.setId(resultSet.getLong("id"));
             message.setSubject(resultSet.getString("subject"));
-            message.setEmailTo(resultSet.getString("emailTo"));
-            message.setMessage(resultSet.getString("message"));
-            message.setFutureSecond(resultSet.getLong("futureSecond"));
+            message.setEmail_to(resultSet.getString("email_to"));
+            message.setEmail_text(resultSet.getString("email_text"));
+            message.setFuture_second(resultSet.getLong("futureSecond"));
             message.setCurrentTime(resultSet.getLong("currentTime"));
             message.setStatus(Status.valueOf(resultSet.getString("status")));
         }
@@ -89,11 +110,10 @@ public class JdbcConnection implements MessageRepository {
 
     }
 
-    @Override
     @SneakyThrows
-    public void updateEmailTimeById(Long id, Long time) {
+    public void updateTimeById(long id, long second) {
         PreparedStatement preparedStatement = this.getDbConnection().prepareStatement(SqlRequestMessages.SQL_UPDATE_TIME.getRequest());
-        preparedStatement.setLong(1, time);
+        preparedStatement.setLong(1, second);
         preparedStatement.setLong(2, id);
         preparedStatement.executeUpdate();
         transaction(preparedStatement);
@@ -101,9 +121,9 @@ public class JdbcConnection implements MessageRepository {
 
     @Override
     @SneakyThrows
-    public void updateEmailStatusById(Long id, Status status) {
+    public void updateStatusById(long id, String status) {
         PreparedStatement statement = this.getDbConnection().prepareStatement(SqlRequestMessages.SQL_UPDATE_STATUS.getRequest());
-        statement.setString(1, String.valueOf(status));
+        statement.setString(1, status);
         statement.setLong(2, id);
         statement.executeUpdate();
         transaction(statement);

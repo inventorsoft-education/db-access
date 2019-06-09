@@ -1,25 +1,35 @@
 package com.example.demo.model.entity;
 
-import com.example.demo.model.enums.Status;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 @Data
-@NoArgsConstructor
-public class Message {
+@Entity
+@Table(name="messages")
+public class Message extends BaseEntity{
 
-    private long id;
-
+    @NotNull
+    @Length(min = 3, message = "Subject must be at least 3 characters")
+    @Column(name="subject")
     private String subject;
 
-    private String emailTo;
+    @Email(message = "email fail")
+    @Column(name="email_to")
+    private String email_to;
 
-    private String message;
+    @NotEmpty(message = "Email text may not be empty")
+    @Column(name="email_text")
+    private String email_text;
 
-    private long futureSecond;
-
-    private long currentTime;
-
-    private Status status;
-
+    @NotNull
+    @Column(name="future_second")
+    private long future_second;
 }
+
