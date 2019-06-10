@@ -1,6 +1,5 @@
 package com.example.demo.model.entity;
 
-import com.example.demo.model.enums.Status;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,12 +13,9 @@ public class Message {
 
     private String emailTo;
 
-    private String message;
+    private String emailText;
 
-    private long futureSecond;
+    private String timeStamp;
 
-    private long currentTime;
-
-    private Status status;
-
+    private boolean status;
 }

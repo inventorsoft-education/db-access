@@ -1,14 +1,15 @@
 package com.example.demo.validations;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class DateValidation {
 
-    public DateValidation() {
-    }
+    public static LocalDateTime parseStringToDate(String date) {
 
-    public static boolean dateTransformer(long date, long jdate) {
-        Date current = new Date();
-        return jdate + (date * 1000) <= current.getTime() ? true : false;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        LocalDateTime dateTime = LocalDateTime.parse(date, formatter);
+
+        return dateTime;
     }
 }

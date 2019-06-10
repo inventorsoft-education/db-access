@@ -1,7 +1,6 @@
 package com.example.demo.dao;
 
 import com.example.demo.model.entity.Message;
-import com.example.demo.model.enums.Status;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,9 +13,9 @@ public interface MessageRepository {
 
     Message findById(Long id);
 
-    void updateEmailTimeById(Long id, Long time);
+    void updateEmailTimeById(Long id, String timeStamp);
 
-    void updateEmailStatusById(Long id, Status status);
+    void updateEmailStatusById(Long id, boolean status);
 
     void deleteById(Long id);
 }

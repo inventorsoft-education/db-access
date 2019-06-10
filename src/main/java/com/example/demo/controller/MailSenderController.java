@@ -46,8 +46,8 @@ public class MailSenderController {
 
     @PutMapping("{id}")
     public ResponseEntity<Void> updateFutureDate(@PathVariable long id,
-                                                 @RequestParam long date) {
-        messageRepository.updateEmailTimeById(id, date);
+                                                 @RequestParam String time) {
+        messageRepository.updateEmailTimeById(id, time);
         return ResponseEntity.ok().build();
     }
 

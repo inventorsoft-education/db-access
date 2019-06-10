@@ -2,8 +2,6 @@ package com.example.demo.dao.impl;
 
 import com.example.demo.dao.MessageRepository;
 import com.example.demo.model.entity.Message;
-import com.example.demo.model.enums.Status;
-import com.example.demo.model.enums.jdbc.JdbcConnect;
 import com.example.demo.model.enums.sql.SqlRequestMessages;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Repository;
@@ -15,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -25,8 +22,8 @@ public class JdbcConnection implements MessageRepository {
 
     @SneakyThrows
     private Connection getDbConnection() {
-        Class.forName(JdbcConnect.POSTGRESQL_DRIVER.getData());
-        this.dbConnection = DriverManager.getConnection(JdbcConnect.CONNECTION_URL.getData(), JdbcConnect.USER_NAME.getData(), JdbcConnect.PASSWORD.getData());
+        Class.forName("org.postgresql.Driver");
+        this.dbConnection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "root");
         this.dbConnection.setAutoCommit(false);
         return this.dbConnection;
     }
@@ -37,12 +34,11 @@ public class JdbcConnection implements MessageRepository {
         PreparedStatement statement = this.getDbConnection().prepareStatement(SqlRequestMessages.SQL_INSERT.getRequest());
         statement.setString(1, message.getSubject());
         statement.setString(2, message.getEmailTo());
-        statement.setString(3, message.getMessage());
-        statement.setLong(4, message.getFutureSecond());
-        statement.setLong(5, new Date().getTime());
-        statement.setString(6, String.valueOf(message.getStatus()));
+        statement.setString(3, message.getEmailText());
+        statement.setString(4, message.getTimeStamp());
+        statement.setBoolean(5, message.isStatus());
         statement.executeUpdate();
-        transaction(statement);
+        transactionalAnalys(statement);
     }
 
     @Override
@@ -56,15 +52,14 @@ public class JdbcConnection implements MessageRepository {
             Message message = new Message();
             message.setId(resultSet.getLong("id"));
             message.setSubject(resultSet.getString("subject"));
-            message.setEmailTo(resultSet.getString("emailTo"));
-            message.setMessage(resultSet.getString("message"));
-            message.setFutureSecond(resultSet.getLong("futureSecond"));
-            message.setCurrentTime(resultSet.getLong("currentTime"));
-            message.setStatus(Status.valueOf(resultSet.getString("status")));
+            message.setEmailTo(resultSet.getString("email_to"));
+            message.setEmailText(resultSet.getString("email_text"));
+            message.setTimeStamp(resultSet.getString("time_stamp"));
+            message.setStatus(resultSet.getBoolean("status"));
             messages.add(message);
         }
 
-        transaction(statement);
+        transactionalAnalys(statement);
         return messages;
     }
 
@@ -78,36 +73,35 @@ public class JdbcConnection implements MessageRepository {
         if (resultSet.next()) {
             message.setId(resultSet.getLong("id"));
             message.setSubject(resultSet.getString("subject"));
-            message.setEmailTo(resultSet.getString("emailTo"));
-            message.setMessage(resultSet.getString("message"));
-            message.setFutureSecond(resultSet.getLong("futureSecond"));
-            message.setCurrentTime(resultSet.getLong("currentTime"));
-            message.setStatus(Status.valueOf(resultSet.getString("status")));
+            message.setEmailTo(resultSet.getString("email_to"));
+            message.setEmailText(resultSet.getString("email_text"));
+            message.setTimeStamp(resultSet.getString("time_stamp"));
+            message.setStatus(resultSet.getBoolean("status"));
         }
 
-        transaction(statement);
+        transactionalAnalys(statement);
         return message;
 
     }
 
     @Override
     @SneakyThrows
-    public void updateEmailTimeById(Long id, Long time) {
+    public void updateEmailTimeById(Long id, String timeStamp) {
         PreparedStatement preparedStatement = this.getDbConnection().prepareStatement(SqlRequestMessages.SQL_UPDATE_TIME.getRequest());
-        preparedStatement.setLong(1, time);
+        preparedStatement.setString(1, timeStamp);
         preparedStatement.setLong(2, id);
         preparedStatement.executeUpdate();
-        transaction(preparedStatement);
+        transactionalAnalys(preparedStatement);
     }
 
     @Override
     @SneakyThrows
-    public void updateEmailStatusById(Long id, Status status) {
+    public void updateEmailStatusById(Long id, boolean status) {
         PreparedStatement statement = this.getDbConnection().prepareStatement(SqlRequestMessages.SQL_UPDATE_STATUS.getRequest());
-        statement.setString(1, String.valueOf(status));
+        statement.setBoolean(1, status);
         statement.setLong(2, id);
         statement.executeUpdate();
-        transaction(statement);
+        transactionalAnalys(statement);
     }
 
     @Override
@@ -116,10 +110,10 @@ public class JdbcConnection implements MessageRepository {
         PreparedStatement statement = this.getDbConnection().prepareStatement(SqlRequestMessages.SQL_DELETE_MESSAGE_ID.getRequest());
         statement.setLong(1, id);
         statement.execute();
-        transaction(statement);
+        transactionalAnalys(statement);
     }
 
-    private void transaction(PreparedStatement statement) throws SQLException {
+    private void transactionalAnalys(PreparedStatement statement) throws SQLException {
         try {
             statement.getConnection().commit();
         } catch (SQLException var6) {

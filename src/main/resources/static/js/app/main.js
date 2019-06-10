@@ -1,5 +1,4 @@
    $(document).ready(function() {
-
                  $("#btn_add").on('click', function() {
                                     $('#new_mess').show();
                                     $(document).on('submit','form#contact-form', function(e) {
@@ -7,14 +6,14 @@
                                         var subject = $('#subject').val();
                                         var email_to = $('#input_email_to').val();
                                         var email_text = $('#input_message').val();
-                                        var future_second = $('#input_future_second').val();
+                                        var time_stamp = $('#time_stamp').val();
 
                                         var mess = {
                                             subject: subject,
-                                            email_to: email_to,
-                                            email_text: email_text,
-                                            future_second: future_second,
-                                            status: "NOT_SENT"
+                                            emailTo: email_to,
+                                            emailText: email_text,
+                                            timeStamp: time_stamp,
+                                            status: false
                                         };
                                         $.ajax({
                                             type: 'POST',
@@ -46,9 +45,9 @@
                                 $('#my_table').append(
                                     "<tr id='" + response[i].id + "Row'><td>" + response[i].id +
                                     "</td><td>" + response[i].subject +
-                                    "</td><td>" + response[i].email_to +
-                                    "</td><td>" + response[i].email_text +
-                                    "</td><td>" + response[i].future_second +
+                                    "</td><td>" + response[i].emailTo +
+                                    "</td><td>" + response[i].emailText +
+                                    "</td><td>" + response[i].timeStamp +
                                     "</td><td>" + response[i].status +
                                     "</td><td> <button id='btn_delete' data= '" + response[i].id + "' >Delete</button>" + " " +
                                     "<button id='btn_change' data= '" + response[i].id + "' >Change</button></td></tr>");
@@ -77,7 +76,7 @@
                                         type: 'PUT',
                                         url: '/messages/' + idBtn,
                                         data: {
-                                            'future_second': future_sec
+                                            'time': future_sec
                                         },
                                         success: function() {
                                         }

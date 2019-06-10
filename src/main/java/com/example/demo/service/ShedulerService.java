@@ -2,13 +2,13 @@ package com.example.demo.service;
 
 import com.example.demo.dao.MessageRepository;
 import com.example.demo.model.entity.Message;
-import com.example.demo.model.enums.Status;
 import com.example.demo.validations.DateValidation;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -24,17 +24,17 @@ public class ShedulerService {
     private void dataCheck() {
         messageLists = messageRepository.getAllMessage();
 
-        if (messageLists.size() != 0) {
+        if (!messageLists.isEmpty()) {
             sendMessageInFuture();
         }
     }
 
     private void sendMessageInFuture() {
+        LocalDateTime localDateTime = LocalDateTime.now();
         for (Message message : messageLists) {
-            if (message.getStatus().equals(Status.NOT_SENT)) {
-                if (DateValidation.dateTransformer(message.getFutureSecond(), message.getCurrentTime())) {
-                    messageRepository.updateEmailStatusById(message.getId() - 1, Status.SENT);
-                    System.out.println(message.getCurrentTime());
+            if (!message.isStatus()) {
+                if(localDateTime.isBefore(DateValidation.parseStringToDate(message.getTimeStamp()))) {
+                    messageRepository.updateEmailStatusById(message.getId(), true);
                     messageService.send(message);
                 }
             }
