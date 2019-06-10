@@ -19,9 +19,9 @@ public class MailSenderService {
     public void send(Message message) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-        mailMessage.setTo(message.getEmail_to());
+        mailMessage.setTo(message.getEmailTo());
         mailMessage.setSubject(message.getSubject());
-        mailMessage.setText(message.getEmail_text());
+        mailMessage.setText(message.getEmailText());
 
         mailSender.send(mailMessage);
     }

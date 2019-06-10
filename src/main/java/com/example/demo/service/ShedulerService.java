@@ -1,14 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.model.entity.Message;
-import com.example.demo.model.enums.Status;
-import com.example.demo.validations.DateValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -26,18 +25,19 @@ public class ShedulerService {
 
     @Scheduled(fixedDelay = 1000)
     private void dataCheck() {
-        messageLists = messageService.getAllMessage();
+        messageLists = messageService.getAllMessages();
 
-        if (messageLists.size() != 0) {
+        if (!messageLists.isEmpty()) {
             sendMessageInFuture();
         }
     }
 
     private void sendMessageInFuture() {
+        LocalDateTime localDateTime = LocalDateTime.now();
         for (Message message : messageLists) {
-            if (message.getStatus().equals(Status.NOT_SENT)) {
-                if (DateValidation.dateTransformer(message.getFuture_second(), message.getCurrentTime())) {
-                    messageService.updateStatusById(message.getId(), String.valueOf(Status.SENT));
+            if (!message.isStatus()) {
+                if (localDateTime.isAfter(message.getTimeStamp())) {
+                    messageService.updateStatusById(message.getId(), true);
                     mailSender.send(message);
                 }
             }

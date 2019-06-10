@@ -10,10 +10,10 @@ public final class MessageDtoFactory {
         return new MessageDto(
                 message.getId(),
                 message.getSubject(),
-                message.getEmail_to(),
-                message.getEmail_text(),
-                message.getFuture_second(),
-                message.getStatus()
+                message.getEmailTo(),
+                message.getEmailText(),
+                message.getTimeStamp(),
+                message.isStatus()
         );
     }
 }

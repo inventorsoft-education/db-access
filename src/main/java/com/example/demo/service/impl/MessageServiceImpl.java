@@ -9,9 +9,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -22,46 +22,38 @@ public class MessageServiceImpl implements MessageService {
     @Override
     @Transactional
     public void save(Message message) {
-        message.setCurrentTime(new Date().getTime());
-
         messageRepository.save(message);
     }
 
     @Override
     @Transactional
-    public List<Message> getAllMessage() {
-        List<Message> messages = messageRepository.findAll();
-        return messages;
+    public List<Message> getAllMessages() {
+        return messageRepository.findAll();
     }
 
     @Override
     @Transactional
-    public List<MessageDto> getAllMessageDto() {
-        List<Message> messages = messageRepository.findAll();
-        List<MessageDto> messageDtoList = new ArrayList<>();
-        messages.forEach(message ->
-            messageDtoList.add(MessageDtoFactory.create(message)));
-        return messageDtoList;
+    public List<MessageDto> getAllMessagesDto() {
+        return messageRepository.findAll().stream()
+                .map(message -> MessageDtoFactory.create(message))
+                .collect(Collectors.toList());
     }
-
 
     @Override
     @Transactional
     public Message findById(Long id) {
-        Message message = messageRepository.findById(id).get();
-        return message;
-    }
-
-
-    @Override
-    @Transactional
-    public void updateTimeById(long id, long second) {
-        messageRepository.updateTimeById(id, second);
+        return messageRepository.findById(id).get();
     }
 
     @Override
     @Transactional
-    public void updateStatusById(long id, String status) {
+    public void updateTimeById(long id, LocalDateTime time) {
+        messageRepository.updateTimeById(id, time);
+    }
+
+    @Override
+    @Transactional
+    public void updateStatusById(long id, boolean status) {
         messageRepository.updateStatusById(id, status);
     }
 

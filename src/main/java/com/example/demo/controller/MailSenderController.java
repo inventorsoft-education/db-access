@@ -4,12 +4,21 @@ import com.example.demo.model.dto.MessageDto;
 import com.example.demo.model.entity.Message;
 import com.example.demo.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.DeleteMapping;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController()
@@ -17,12 +26,11 @@ import java.util.List;
 public class MailSenderController {
 
     @Autowired
-    @Qualifier("messageServiceImpl")
     private MessageService messageService;
 
     @RequestMapping
     public List<MessageDto> getMessages() {
-        List<MessageDto> sender = messageService.getAllMessageDto();
+        List<MessageDto> sender = messageService.getAllMessagesDto();
         return sender;
     }
 
@@ -40,15 +48,14 @@ public class MailSenderController {
 
     @PutMapping("{id}")
     public ResponseEntity<Void> updateFutureDate(@PathVariable long id,
-                                                 @RequestParam long future_second) {
-        messageService.updateTimeById(id, future_second);
+                                                 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime time) {
+        messageService.updateTimeById(id, time);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteMessage(@PathVariable long id) {
         messageService.deleteById(id);
-        return ResponseEntity.accepted().build();
+        return ResponseEntity.noContent().build();
     }
-
 }

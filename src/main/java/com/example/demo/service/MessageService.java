@@ -4,21 +4,22 @@ import com.example.demo.model.dto.MessageDto;
 import com.example.demo.model.entity.Message;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public interface MessageService {
     void save(Message message);
 
-    List<Message> getAllMessage();
+    List<Message> getAllMessages();
 
-    List<MessageDto> getAllMessageDto();
+    List<MessageDto> getAllMessagesDto();
 
     Message findById(Long id);
 
-    void updateTimeById(long id, long second);
+    void updateTimeById(long id, LocalDateTime time);
 
-    void updateStatusById(long id, String status);
+    void updateStatusById(long id, boolean status);
 
     void deleteById(Long id);
 }
