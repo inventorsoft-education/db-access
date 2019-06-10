@@ -13,7 +13,7 @@ public class JDBCEmailRepository implements EmailRepository {
     private Connection connection;
     private Statement statement=null;
     private ResultSet resultSet=null;
-    private ArrayList<Email> emails=new ArrayList<Email>();
+    private ArrayList<Email> emails=new ArrayList<>();
     private Email email=new Email();
 
     @Autowired
@@ -28,7 +28,7 @@ public class JDBCEmailRepository implements EmailRepository {
         try {
 
             statement = connection.createStatement();
-            String selectActiveQuery="Select * from email where isSent=false";
+            String selectActiveQuery="SELECT id_Email,recipient_Name,email_Subject,email_Body,delivery_Date,is_Sent FROM email WHERE is_Sent IS FALSE";
             resultSet=statement.executeQuery(selectActiveQuery);
 
         while(resultSet.next()){
@@ -50,7 +50,7 @@ public class JDBCEmailRepository implements EmailRepository {
   public void  addNewEmail(Email email)  {
 
       try{
-            String addEmailQuery = "INSERT INTO email(recipientName,emailSubject,emailBody,deliveryDate,isSent) VALUES (?,?,?,?,?)";
+            String addEmailQuery = "INSERT INTO email(recipient_Name,email_Subject,email_Body,delivery_Date,is_Sent) VALUES (?,?,?,?,?)";
             PreparedStatement preparedStatement=connection.prepareStatement(addEmailQuery);
             preparedStatement.setString(1, email.getRecepientName());
             preparedStatement.setString(2,email.getEmailSubject());
@@ -69,7 +69,7 @@ public class JDBCEmailRepository implements EmailRepository {
     public void updateDeliveryDateForOneEmail(int id, Date date) {
 
         try{
-            String updateDeliveryDateForOneEmail="update Email set deliveryDate=(?) where idEmail=(?) ";
+            String updateDeliveryDateForOneEmail="UPDATE Email SET delivery_Date=(?) WHERE id_Email=(?) ";
             PreparedStatement preparedStatement = connection.prepareStatement(updateDeliveryDateForOneEmail);
             preparedStatement.setDate(1,date);
             preparedStatement.setInt(2,id);
@@ -85,7 +85,7 @@ public class JDBCEmailRepository implements EmailRepository {
     public void deleteOneEmail(int id)  {
 
         try {
-               String deleteEmailByID = "delete  from email where idEmail=(?)";
+               String deleteEmailByID = "DELETE  FROM email WHERE id_Email=(?)";
                PreparedStatement preparedStatement = connection.prepareStatement(deleteEmailByID);
                preparedStatement.setInt(1, id);
                preparedStatement.executeUpdate();
@@ -102,7 +102,7 @@ public class JDBCEmailRepository implements EmailRepository {
 
         try {
             statement = connection.createStatement();
-            String selectAllQuery="Select * from email";
+            String selectAllQuery="SELECT id_Email,recipient_Name,email_Subject,email_Body,delivery_Date,is_Sent FROM email";
             resultSet=statement.executeQuery(selectAllQuery);
 
             while(resultSet.next()){
@@ -124,7 +124,7 @@ public class JDBCEmailRepository implements EmailRepository {
     public void updateStatus(Email email){
 
         try{
-            String updateDeliveryDateForOneEmail="update Email set isSent=true where recipientName=(?) and emailSubject=(?) and emailBody=(?)";
+            String updateDeliveryDateForOneEmail="UPDATE Email SET is_Sent=TRUE WHERE recipient_Name=(?) AND email_Subject=(?) AND email_Body=(?)";
             PreparedStatement preparedStatement = connection.prepareStatement(updateDeliveryDateForOneEmail);
             preparedStatement.setString(1,email.getRecepientName());
             preparedStatement.setString(2,email.getEmailSubject());

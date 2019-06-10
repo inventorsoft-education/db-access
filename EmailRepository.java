@@ -8,10 +8,10 @@ import java.util.ArrayList;
 
 public interface EmailRepository {
 
-    public ArrayList<Email> getActive() ;
-    public void addNewEmail(Email email);
-    public void updateDeliveryDateForOneEmail(int id, Date date);
-    public void deleteOneEmail(int id);
+     ArrayList<Email> getActive() ;
+     void addNewEmail(Email email);
+     void updateDeliveryDateForOneEmail(int id, Date date);
+     void deleteOneEmail(int id);
 
 
 }

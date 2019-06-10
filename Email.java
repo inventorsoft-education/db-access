@@ -5,12 +5,11 @@ import java.util.Date;
 
 
 public class Email implements Serializable {
-
-    private String recipientName=null;
-    private String emailSubject=null;
-    private String emailBody=null;
-    private Date deliveryDate=null;
-    private boolean isSent=false;
+    private String recipientName;
+    private String emailSubject;
+    private String emailBody;
+    private Date deliveryDate;
+    private boolean isSent;
 
     public void setRecepientName(String recepientName) {
         this.recipientName = recepientName;
