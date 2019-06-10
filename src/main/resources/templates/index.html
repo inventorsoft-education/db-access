@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Thymeleaf</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/main.css}" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+
+</head>
+
+<body>
+<H1>Messages</H1>
+<div>
+    <table id="my_table" class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">subject</th>
+            <th scope="col">email_to</th>
+            <th scope="col">email_text</th>
+            <th scope="col">future_second</th>
+            <th scope="col">status</th>
+            <th scope="col">remove / change</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <div class="popup" id="change_time" style="display:none">
+        <div class="object" style="text-align: center">
+            <form action= "" method= "">
+                <p>Future date :
+                    <input id="change_date" type= "number" name= "future_second">
+                    <input type= "submit" id="change_btn" value= "ok">
+                </p>
+            </form>
+        </div>
+    </div>
+    <div class="popup" id="new_mess" style="display:none">
+        <div class="object" style="text-align: center">
+            <form action= "" id="contact-form" name="f_message">
+                <p>
+                <div id="feedback"></div>
+
+                    <b>New message :</b>
+                    subject
+                    <input id="subject" type= "text">
+                    email to
+                    <input id="input_email_to" type= "text">
+                    message
+                    <input id="input_message" type= "text">
+                    second
+                    <input id="input_future_second" type= "number">
+
+                    <input type= "submit" id="btn_ok" value= "ok">
+                </p>
+            </form>
+        </div>
+    </div>
+    <button id="load_table">Load Table</button>
+    <button id="btn_add">add Message</button>
+    </li>
+    </ul>
+    <script type="text/javascript" src="js/app/main.js"></script>
+</div>
+</body>
+</html>
