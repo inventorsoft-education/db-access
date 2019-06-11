@@ -48,13 +48,17 @@ public class MessageServiceImpl implements MessageService {
     @Override
     @Transactional
     public void updateTimeById(long id, LocalDateTime time) {
-        messageRepository.updateTimeById(id, time);
+        Message message = findById(id);
+        message.setTimeStamp(time);
+        messageRepository.save(message);
     }
 
     @Override
     @Transactional
     public void updateStatusById(long id, boolean status) {
-        messageRepository.updateStatusById(id, status);
+        Message message = findById(id);
+        message.setStatus(status);
+        messageRepository.save(message);
     }
 
     @Override
