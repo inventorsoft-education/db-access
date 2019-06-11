@@ -11,17 +11,14 @@ import java.time.LocalDateTime;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
-    Message findById(long id);
 
-    @Transactional
     @Modifying
-    @Query(value = "UPDATE messages SET time_stamp=?2 WHERE id=?1",
-            nativeQuery = true)
+    @Transactional
+    @Query(value = "update Message m set m.timeStamp=?2 where m.id=?1")
     void updateTimeById(long id, LocalDateTime time);
 
-    @Transactional
     @Modifying
-    @Query(value = "UPDATE messages SET status=?2 WHERE id=?1",
-            nativeQuery = true)
+    @Transactional
+    @Query(value = "update Message m set m.status=?2 where m.id=?1")
     void updateStatusById(long id, boolean status);
 }
