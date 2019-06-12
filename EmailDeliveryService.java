@@ -1,6 +1,7 @@
 package com.example.demo;
 
-import com.example.demo.repository.JDBCEmailRepository;
+import com.example.demo.model.Email;
+import com.example.demo.service.EmailServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -13,19 +14,19 @@ import java.util.Date;
 
 @Service
 @EnableScheduling
-public class EmailService {
+public class EmailDeliveryService {
 
     SimpleMailMessage simpleMailMessage;
     JavaMailSender javaMailSender;
     ArrayList<Email> allEmailsList;
-    JDBCEmailRepository jdbcEmailRepository;
+    EmailServiceImplementation emailServiceImplementation;
 
     @Autowired
-    public EmailService(JDBCEmailRepository jdbcEmailRepository,JavaMailSender javaMailSender) {
-        this.jdbcEmailRepository=jdbcEmailRepository;
+    public EmailDeliveryService(EmailServiceImplementation emailServiceImplementation,JavaMailSender javaMailSender) {
+        this.emailServiceImplementation=emailServiceImplementation;
         this.javaMailSender=javaMailSender;
         simpleMailMessage=new SimpleMailMessage();
-        allEmailsList=jdbcEmailRepository.getAll();
+        allEmailsList=emailServiceImplementation.getAllEmails();
     }
 
 
@@ -33,13 +34,13 @@ public class EmailService {
     public void lookingForCurrentEmails() {
 
         for (Email counter:allEmailsList){
-            if (counter.getDeliveryDate().equals(new Date()) && !counter.getSended()){
-                simpleMailMessage.setTo(counter.getRecepientName());
+            if (counter.getDeliveryDate().equals(new Date()) && !counter.getIsSent()){
+                simpleMailMessage.setTo(counter.getRecipientName());
                 simpleMailMessage.setSubject(counter.getEmailSubject());
                 simpleMailMessage.setText(counter.getEmailBody());
                 javaMailSender.send(simpleMailMessage);
-                counter.setSended(true);
-                jdbcEmailRepository.updateStatus(counter);
+                counter.setIsSent(true);
+                emailServiceImplementation.updateIsSentStatusForEmailForByID(counter.getId());
             }
         }
 
