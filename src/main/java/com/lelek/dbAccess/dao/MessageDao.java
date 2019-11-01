@@ -1,18 +1,18 @@
 package com.lelek.dbAccess.dao;
 
-import com.lelek.dbAccess.model.MySimpleMailMessage;
+import com.lelek.dbAccess.dto.MessageDto;
 
 import java.util.List;
 
 public interface MessageDao {
 
-    List<MySimpleMailMessage> getMessages();
+    List<MessageDto> getMessages();
 
-    void saveMessage(MySimpleMailMessage mySimpleMailMessage);
+    void saveMessage(MessageDto mySimpleMailMessage);
 
-    MySimpleMailMessage getMessage(long id);
+    MessageDto getMessage(long id);
 
     void removeMessage(long id);
 
-    void updateMessage(long id, MySimpleMailMessage updates);
+    void updateMessage(long id, MessageDto updates);
 }

@@ -1,1 +1,3 @@
 https://www.google.com/settings/security/lesssecureapps
+
+{"to":"<email>@gmail.com", "subject":"Test", "text":"hello", "date":"01.11.2019 18:31"}

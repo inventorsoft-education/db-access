@@ -1,12 +1,14 @@
 package com.lelek.dbAccess.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.Date;
 
 @Builder
 @Getter
 @Setter
+@EqualsAndHashCode
+@ToString
 public class MessageDto {
     private long id;
     private boolean sent;
