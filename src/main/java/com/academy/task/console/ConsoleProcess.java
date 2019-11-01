@@ -32,7 +32,6 @@ public class ConsoleProcess implements CommandLineRunner {
         System.out.println("Hi! Let's send something email!");
 
         Email email = new Email();
-        email.setId(emailService.getLargestId() + 1);
         email.setRecipient(inputRecipient());
         email.setSubject(inputSubject());
         email.setBody(inputBody());
