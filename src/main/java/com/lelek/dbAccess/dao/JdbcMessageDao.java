@@ -27,14 +27,12 @@ public class JdbcMessageDao implements MessageDao {
                     .executeQuery("SELECT message_id, sent, recipient, subject, text, send_date " +
                     "FROM mail_message");
             while (resultSet.next()) {
-                dtoList.add(MessageDto.builder()
-                        .id(resultSet.getLong("message_id"))
-                        .sent(resultSet.getBoolean("sent"))
-                        .to(resultSet.getString("recipient"))
-                        .subject(resultSet.getString("subject"))
-                        .text(resultSet.getString("text"))
-                        .date(resultSet.getString("send_date"))
-                        .build());
+                dtoList.add(new MessageDto(resultSet.getLong("message_id"),
+                        resultSet.getBoolean("sent"),
+                        resultSet.getString("recipient"),
+                        resultSet.getString("subject"),
+                        resultSet.getString("text"),
+                        resultSet.getString("send_date")));
             }
             resultSet.close();
             statement.close();
@@ -76,14 +74,12 @@ public class JdbcMessageDao implements MessageDao {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            messageDto = MessageDto.builder()
-                    .id(resultSet.getLong("message_id"))
-                    .sent(resultSet.getBoolean("sent"))
-                    .to(resultSet.getString("recipient"))
-                    .subject(resultSet.getString("subject"))
-                    .text(resultSet.getString("text"))
-                    .date(resultSet.getString("send_date"))
-                    .build();
+            messageDto = new MessageDto(resultSet.getLong("message_id"),
+                    resultSet.getBoolean("sent"),
+                    resultSet.getString("recipient"),
+                    resultSet.getString("subject"),
+                    resultSet.getString("text"),
+                    resultSet.getString("send_date"));
             resultSet.close();
             preparedStatement.close();
             connection.close();

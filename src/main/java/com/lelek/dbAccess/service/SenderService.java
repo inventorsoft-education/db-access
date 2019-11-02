@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -48,14 +47,12 @@ public class SenderService extends Thread {
     }
 
     private MessageDto mapToDto(MySimpleMailMessage mySimpleMailMessage) {
-        return MessageDto.builder()
-                .id(mySimpleMailMessage.getId())
-                .sent(mySimpleMailMessage.isSent())
-                .to(Objects.requireNonNull(mySimpleMailMessage.getTo())[0])
-                .subject(mySimpleMailMessage.getSubject())
-                .text(mySimpleMailMessage.getText())
-                .date(format.format(mySimpleMailMessage.getSentDate()))
-                .build();
+        return new MessageDto(mySimpleMailMessage.getId(),
+                mySimpleMailMessage.isSent(),
+                Objects.requireNonNull(mySimpleMailMessage.getTo())[0],
+                mySimpleMailMessage.getSubject(),
+                mySimpleMailMessage.getText(),
+                format.format(mySimpleMailMessage.getSentDate()));
     }
 
     private void send() throws IOException {

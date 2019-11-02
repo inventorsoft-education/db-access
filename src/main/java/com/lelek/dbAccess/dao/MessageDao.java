@@ -8,7 +8,7 @@ public interface MessageDao {
 
     List<MessageDto> getMessages();
 
-    void saveMessage(MessageDto mySimpleMailMessage);
+    void saveMessage(MessageDto messageDto);
 
     MessageDto getMessage(long id);
 
