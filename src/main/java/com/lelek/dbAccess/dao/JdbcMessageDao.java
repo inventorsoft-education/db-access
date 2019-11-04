@@ -17,10 +17,10 @@ import java.util.List;
 @Repository
 public class JdbcMessageDao implements MessageDao {
 
-    private final static String DRIVER = "org.postgresql.Driver";
-    private final static String URL = "jdbc:postgresql://localhost:5432/messageDb";
-    private final static String USER = "postgres";
-    private final static String PASS = "root";
+    private static final String DRIVER = "org.postgresql.Driver";
+    private static final String URL = "jdbc:postgresql://localhost:5432/messageDb";
+    private static final String USER = "postgres";
+    private static final String PASS = "root";
 
     @Override
     public List<MessageDto> getMessages() {
