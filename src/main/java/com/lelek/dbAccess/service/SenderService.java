@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -40,7 +41,7 @@ public class SenderService extends Thread {
         try {
             mySimpleMailMessage.setSentDate(format.parse(messageDto.getDate()));
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error("error " + e);
         }
         mySimpleMailMessage.setSent(messageDto.isSent());
         return mySimpleMailMessage;
@@ -56,17 +57,15 @@ public class SenderService extends Thread {
     }
 
     private void send() throws IOException {
-        List<MySimpleMailMessage> allMessages = messageDao.getMessages().stream()
+        List<MySimpleMailMessage> messagesToSend = messageDao.getMessages().stream()
                 .map(this::mapToSimpleMailMessage)
+                .filter(message -> !message.isSent())
+                .filter(message -> Objects.requireNonNull(message.getSentDate()).getTime() <= System.currentTimeMillis())
                 .collect(Collectors.toList());
-        for (MySimpleMailMessage message : allMessages) {
-            if (!message.isSent()) {
-                if (Objects.requireNonNull(message.getSentDate()).getTime() <= System.currentTimeMillis()) {
-                    javaMailSender.send(message);
-                    message.setSent(true);
-                    messageDao.updateMessage(message.getId(), mapToDto(message));
-                }
-            }
+        for (MySimpleMailMessage message : messagesToSend) {
+            javaMailSender.send(message);
+            message.setSent(true);
+            messageDao.updateMessage(message.getId(), mapToDto(message));
         }
     }
 
@@ -75,9 +74,9 @@ public class SenderService extends Thread {
         while (!stop) {
             try {
                 send();
-                Thread.sleep(5000);
+                TimeUnit.SECONDS.sleep(5);
             } catch (InterruptedException | IOException e) {
-                e.printStackTrace();
+                log.error("error " + e);
             }
         }
     }

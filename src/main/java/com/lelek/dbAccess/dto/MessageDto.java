@@ -1,15 +1,19 @@
 package com.lelek.dbAccess.dto;
 
-import lombok.*;
 
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.GenerationType;
+
+
+@Data
 @AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-@EqualsAndHashCode
-@ToString
 @Entity
 @Table(name = "mail_message")
 public class MessageDto {

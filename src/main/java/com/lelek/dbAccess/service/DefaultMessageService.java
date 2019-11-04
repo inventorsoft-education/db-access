@@ -3,20 +3,19 @@ package com.lelek.dbAccess.service;
 import com.lelek.dbAccess.dao.MessageDao;
 import com.lelek.dbAccess.dto.MessageDto;
 import com.lelek.dbAccess.model.MySimpleMailMessage;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class DefaultMessageService implements MessageService {
 
-    @Autowired
     private MessageDao messageDao;
 
-    @Autowired
     private MySimpleMailMessage mySimpleMailMessage;
 
     public List<MessageDto> getMessages() {

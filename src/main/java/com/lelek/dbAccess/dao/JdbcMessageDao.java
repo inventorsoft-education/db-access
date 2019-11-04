@@ -4,7 +4,12 @@ import com.lelek.dbAccess.dto.MessageDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +17,10 @@ import java.util.List;
 @Repository
 public class JdbcMessageDao implements MessageDao {
 
-    private final String DRIVER = "org.postgresql.Driver";
-    private final String URL = "jdbc:postgresql://localhost:5432/messageDb";
-    private final String USER = "postgres";
-    private final String PASS = "root";
+    private final static String DRIVER = "org.postgresql.Driver";
+    private final static String URL = "jdbc:postgresql://localhost:5432/messageDb";
+    private final static String USER = "postgres";
+    private final static String PASS = "root";
 
     @Override
     public List<MessageDto> getMessages() {
@@ -25,7 +30,7 @@ public class JdbcMessageDao implements MessageDao {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement
                     .executeQuery("SELECT message_id, sent, recipient, subject, text, send_date " +
-                    "FROM mail_message");
+                            "FROM mail_message");
             while (resultSet.next()) {
                 dtoList.add(new MessageDto(resultSet.getLong("message_id"),
                         resultSet.getBoolean("sent"),
@@ -38,7 +43,7 @@ public class JdbcMessageDao implements MessageDao {
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("error " + e);
         }
         return dtoList;
     }
@@ -59,7 +64,7 @@ public class JdbcMessageDao implements MessageDao {
             preparedStatement.close();
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("error " + e);
         }
     }
 
@@ -84,7 +89,7 @@ public class JdbcMessageDao implements MessageDao {
             preparedStatement.close();
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("error " + e);
         }
         return messageDto;
     }
@@ -100,7 +105,7 @@ public class JdbcMessageDao implements MessageDao {
             preparedStatement.close();
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("error " + e);
         }
     }
 
@@ -121,7 +126,7 @@ public class JdbcMessageDao implements MessageDao {
             preparedStatement.close();
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("error " + e);
         }
     }
 
@@ -131,7 +136,7 @@ public class JdbcMessageDao implements MessageDao {
             Class.forName(DRIVER);
             connection = DriverManager.getConnection(URL, USER, PASS);
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error("error " + e);
         }
         return connection;
     }
