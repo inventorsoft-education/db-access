@@ -1,14 +1,14 @@
 package com.lelek.dbAccess.dao;
 
 import com.lelek.dbAccess.dto.MessageDto;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Slf4j
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Repository
 public class HibernateMessageDao implements MessageDao {
 
