@@ -3,14 +3,14 @@ package com.lelek.dbAccess.service;
 import com.lelek.dbAccess.dao.MessageDao;
 import com.lelek.dbAccess.dto.MessageDto;
 import com.lelek.dbAccess.model.MySimpleMailMessage;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Slf4j
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Service
 public class DefaultMessageService implements MessageService {
 

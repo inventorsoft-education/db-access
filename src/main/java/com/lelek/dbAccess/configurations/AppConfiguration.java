@@ -2,7 +2,7 @@ package com.lelek.dbAccess.configurations;
 
 import com.lelek.dbAccess.dao.MessageDao;
 import com.lelek.dbAccess.service.SenderService;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +11,7 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.mail.javamail.JavaMailSender;
 
 @Configuration
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class AppConfiguration {
 
     private JavaMailSender javaMailSender;

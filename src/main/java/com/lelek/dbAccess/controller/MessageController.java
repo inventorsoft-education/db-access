@@ -2,7 +2,7 @@ package com.lelek.dbAccess.controller;
 
 import com.lelek.dbAccess.dto.MessageDto;
 import com.lelek.dbAccess.service.MessageService;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class MessageController {
 
     private MessageService messageService;
