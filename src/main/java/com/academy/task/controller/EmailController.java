@@ -3,7 +3,7 @@ package com.academy.task.controller;
 import com.academy.task.model.Email;
 import com.academy.task.service.EmailService;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/emails/")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class EmailController {
 

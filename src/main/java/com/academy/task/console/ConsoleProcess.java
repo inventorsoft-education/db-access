@@ -2,7 +2,8 @@ package com.academy.task.console;
 
 import com.academy.task.model.Email;
 import com.academy.task.service.EmailService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
@@ -12,13 +13,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Component
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ConsoleProcess implements CommandLineRunner {
 
-    private EmailService emailService;
+     EmailService emailService;
 
-    private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    @Autowired
     public ConsoleProcess(EmailService emailService) {
         this.emailService = emailService;
     }
