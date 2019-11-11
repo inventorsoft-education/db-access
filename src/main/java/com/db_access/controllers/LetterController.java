@@ -32,7 +32,7 @@ public class LetterController {
 
     @PutMapping
     public ResponseEntity<String> updateLetter(@RequestBody Letter letter) {
-        letterService.updateById(letter);
+        letterService.update(letter);
         return ResponseEntity.ok("Letter updated");
     }
 
@@ -46,5 +46,9 @@ public class LetterController {
         return letterService.getAll();
     }
 
+    @GetMapping(value = "{recipient}")
+    public List<Letter> getLetterByRecipient(@PathVariable String recipient) {
+        return letterService.getByRecipient(recipient);
+    }
 
 }
