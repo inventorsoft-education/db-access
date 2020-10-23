@@ -2,7 +2,7 @@ package com.paskar.email.application.service;
 
 
 import com.paskar.email.application.model.Email;
-import com.paskar.email.application.repositiory.EmailDaoImpl;
+import com.paskar.email.application.repositiory.hibernate.EmailRepositoryIml;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +19,17 @@ public class EmailService {
     private static final Logger LOG = LoggerFactory.getLogger(EmailService.class);
 
     private final JavaMailSender emailSender;
-    private final EmailDaoImpl emailDao;
+    private final EmailRepositoryIml emailRepoForHibernate;
 
     @Autowired
-    public EmailService(JavaMailSender emailSender, EmailDaoImpl storage) {
+    public EmailService(JavaMailSender emailSender, EmailRepositoryIml emailRepoForHibernate) {
         this.emailSender = emailSender;
-        this.emailDao = storage;
+        this.emailRepoForHibernate = emailRepoForHibernate;
     }
 
     @Scheduled(fixedRate = 60000) //1 min
     public void sendSimpleEmail() throws MailException {
-        List<Email> emailsNearDeliveryDate = emailDao.findEmailsNearDeliveryDate();
+        List<Email> emailsNearDeliveryDate = emailRepoForHibernate.findEmailsNearDeliveryDate();
         for (Email emails : emailsNearDeliveryDate) {
 
             SimpleMailMessage message = new SimpleMailMessage();
@@ -41,7 +41,7 @@ public class EmailService {
             LOG.info("All information about your email {}:", emails.toString());
             this.emailSender.send(message);
 
-            emailDao.deleteById(emails.getId());
+            emailRepoForHibernate.deleteById(emails.getId());
         }
     }
 }

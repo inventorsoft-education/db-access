@@ -12,7 +12,7 @@ public class EmailMapper implements RowMapper<Email> {
     @Override
     public Email mapRow(ResultSet resultSet, int i) throws SQLException {
         Email email = new Email();
-        email.setId(resultSet.getInt("id"));
+        email.setId(resultSet.getLong("id"));
         email.setRecipient(resultSet.getString("recipient"));
         email.setSubject(resultSet.getString("subject"));
         email.setBody(resultSet.getString("body"));

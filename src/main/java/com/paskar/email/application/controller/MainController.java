@@ -1,7 +1,9 @@
 package com.paskar.email.application.controller;
 
 import com.paskar.email.application.model.Email;
-import com.paskar.email.application.repositiory.EmailDao;
+import com.paskar.email.application.repositiory.hibernate.EmailRepoForHibernate;
+import com.paskar.email.application.repositiory.hibernate.EmailRepositoryIml;
+import com.paskar.email.application.repositiory.jdbc.EmailDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,11 +21,11 @@ import java.util.List;
 @Controller
 public class MainController {
 
-    private final EmailDao repository;
+    private final EmailRepositoryIml emailRepository;
 
     @Autowired
-    public MainController(EmailDao repository) {
-        this.repository = repository;
+    public MainController(EmailRepositoryIml emailRepository) {
+        this.emailRepository = emailRepository;
     }
 
 
@@ -35,7 +37,7 @@ public class MainController {
     @GetMapping("/emails")
     @PreAuthorize("hasAnyAuthority('delete/read')")
     public String showAllEmails(Model model) {
-        model.addAttribute("emails", repository.findAll());
+        model.addAttribute("emails", emailRepository.findAll());
         return "emails";
     }
 
@@ -53,15 +55,14 @@ public class MainController {
                                  @RequestParam LocalDate dateTime,
                                  @RequestParam String body,
                                  Model model) {
-        repository.save(new Email(recipient, subject, body, dateTime));
+        emailRepository.save(new Email(recipient, subject, body, dateTime));
         return "redirect:/main";
     }
 
     @DeleteMapping("/delete/email/{time}")
     @PreAuthorize("hasAnyAuthority('delete/read')")
     public void deleteByEmailByDate(@PathVariable LocalDate time) {//this controller just for example, the html page was not created
-        List<Email> emails = repository.findAll();
-        emails.removeIf(email -> email.getDate().equals(time));
+        emailRepository.deleteByEmailByDate(time);
     }
 
     @GetMapping("/")
@@ -71,15 +72,15 @@ public class MainController {
 
     @GetMapping("/email/{id}")
     @PreAuthorize("hasAnyAuthority('delete/read')")
-    public String getEmailById(@PathVariable("id") int id, Model model) {
-        model.addAttribute("email", repository.getById(id));
+    public String getEmailById(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("email", emailRepository.findById(id));
         return "show_email_by_id";
     }
 
     @GetMapping("/delete/email/{id}")
     @PreAuthorize("hasAnyAuthority('delete/read')")
-    public String deleteByEmailById(@PathVariable int id) {
-       repository.deleteById(id);
+    public String deleteByEmailById(@PathVariable Long id) {
+        emailRepository.deleteById(id);
        return "redirect:/main";
     }
 
