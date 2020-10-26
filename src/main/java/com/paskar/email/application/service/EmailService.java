@@ -2,7 +2,6 @@ package com.paskar.email.application.service;
 
 
 import com.paskar.email.application.model.Email;
-import com.paskar.email.application.repositiory.hibernate.EmailRepositoryIml;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +18,10 @@ public class EmailService {
     private static final Logger LOG = LoggerFactory.getLogger(EmailService.class);
 
     private final JavaMailSender emailSender;
-    private final EmailRepositoryIml emailRepoForHibernate;
+    private final EmailRepositoryForHibernateIml emailRepoForHibernate;
 
     @Autowired
-    public EmailService(JavaMailSender emailSender, EmailRepositoryIml emailRepoForHibernate) {
+    public EmailService(JavaMailSender emailSender, EmailRepositoryForHibernateIml emailRepoForHibernate) {
         this.emailSender = emailSender;
         this.emailRepoForHibernate = emailRepoForHibernate;
     }

@@ -1,9 +1,7 @@
 package com.paskar.email.application.controller;
 
 import com.paskar.email.application.model.Email;
-import com.paskar.email.application.repositiory.hibernate.EmailRepoForHibernate;
-import com.paskar.email.application.repositiory.hibernate.EmailRepositoryIml;
-import com.paskar.email.application.repositiory.jdbc.EmailDao;
+import com.paskar.email.application.service.EmailRepositoryForHibernateIml;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,15 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Controller
 public class MainController {
 
-    private final EmailRepositoryIml emailRepository;
+    private final EmailRepositoryForHibernateIml emailRepository;
 
     @Autowired
-    public MainController(EmailRepositoryIml emailRepository) {
+    public MainController(EmailRepositoryForHibernateIml emailRepository) {
         this.emailRepository = emailRepository;
     }
 
