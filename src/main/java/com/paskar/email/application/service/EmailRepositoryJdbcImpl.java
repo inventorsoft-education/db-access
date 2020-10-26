@@ -1,7 +1,8 @@
-package com.paskar.email.application.repositiory;
+package com.paskar.email.application.service;
 
 import com.paskar.email.application.mapper.EmailMapper;
 import com.paskar.email.application.model.Email;
+import com.paskar.email.application.repositiory.EmailRepositoryJdbc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -11,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class EmailDaoImpl implements EmailDao {
+public class EmailRepositoryJdbcImpl implements EmailRepositoryJdbc {
 
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public EmailDaoImpl(JdbcTemplate jdbcTemplate) {
+    public EmailRepositoryJdbcImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

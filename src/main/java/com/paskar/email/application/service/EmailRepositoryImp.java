@@ -1,4 +1,4 @@
-package com.paskar.email.application.repositiory.console;
+package com.paskar.email.application.service;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -17,12 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class EmailStorage implements EmailRepository {
+public class EmailRepositoryImp implements EmailRepository {
     private final static String baseFile = "emailList.json";
 
     private final ObjectMapper mapper;
 
-    public EmailStorage(ObjectMapper mapper) {
+    public EmailRepositoryImp(ObjectMapper mapper) {
         this.mapper = mapper;
     }
 

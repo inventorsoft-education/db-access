@@ -1,7 +1,7 @@
 package com.paskar.email.application.controller;
 
 import com.paskar.email.application.model.Email;
-import com.paskar.email.application.repositiory.EmailDao;
+import com.paskar.email.application.repositiory.EmailRepositoryJdbc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,10 +19,10 @@ import java.util.List;
 @Controller
 public class MainController {
 
-    private final EmailDao repository;
+    private final EmailRepositoryJdbc repository;
 
     @Autowired
-    public MainController(EmailDao repository) {
+    public MainController(EmailRepositoryJdbc repository) {
         this.repository = repository;
     }
 

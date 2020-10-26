@@ -4,7 +4,7 @@ import com.paskar.email.application.model.Email;
 
 import java.util.List;
 
-public interface EmailDao {
+public interface EmailRepositoryJdbc {
     List<Email> findAll();
 
     void save(Email email);
