@@ -5,7 +5,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paskar.email.application.model.Email;
 import com.paskar.email.application.repositiory.EmailRepository;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedWriter;
@@ -20,10 +22,11 @@ import java.util.List;
 
 @Repository
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class EmailRepoForConsoleAppImpl implements EmailRepository {
-    private final static String baseFile = "emailList.json";
+    static String baseFile = "emailList.json";
 
-    private final ObjectMapper mapper;
+    ObjectMapper mapper;
 
     @Override
     public void save(List<Email> email) throws IOException {

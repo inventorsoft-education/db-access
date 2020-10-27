@@ -19,9 +19,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 @Controller
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MainController {
 
-    private final EmailRepository repository;
+    EmailRepository repository;
 
     public MainController(@Qualifier("emailRepositoryJdbcImpl") EmailRepository repository) {
         this.repository = repository;
@@ -83,7 +84,7 @@ public class MainController {
     @PreAuthorize("hasAnyAuthority('delete/read')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public String deleteByEmailById(@PathVariable int id) {
-       repository.deleteById(id);
-       return "redirect:/main";
+        repository.deleteById(id);
+        return "redirect:/main";
     }
 }

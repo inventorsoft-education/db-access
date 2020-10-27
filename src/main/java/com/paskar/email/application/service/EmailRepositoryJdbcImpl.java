@@ -3,7 +3,9 @@ package com.paskar.email.application.service;
 import com.paskar.email.application.mapper.EmailMapper;
 import com.paskar.email.application.model.Email;
 import com.paskar.email.application.repositiory.EmailRepository;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -14,9 +16,10 @@ import java.util.List;
 
 @Repository
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class EmailRepositoryJdbcImpl implements EmailRepository {
 
-    private final JdbcTemplate jdbcTemplate;
+    JdbcTemplate jdbcTemplate;
 
     @Override
     public void save(Email email) {
