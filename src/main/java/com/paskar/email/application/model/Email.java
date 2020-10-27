@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -22,6 +23,7 @@ public class Email {
 
     String body;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     LocalDate date;
 
     public Email(String recipient, String subject, String body, LocalDate date) {
