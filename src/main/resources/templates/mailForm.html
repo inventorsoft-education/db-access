@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Mail</title>
+</head>
+<body>
+
+<form action="/mail" method="post">
+    <label for="recipient">Recipient
+        <input class="form-control" type="email" id="recipient" name="recipient">
+    </label>
+    <br>
+    <label for="subject">Subject
+        <input class="input-field" type="text" id="subject" name="subject">
+    </label>
+    <br>
+    <label for="body">Body
+        <input class="input-field" type="text" id="body" name="body">
+    </label>
+    <br>
+    <label for="localdate">When to send (dd MM yyyy HH:mm)
+        <input class="input-field" type="date" id="localdate" name="date">
+    </label>
+    <br>
+    <input type="submit" value="Send an email">
+</form>
+</body>
+</html>
