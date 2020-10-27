@@ -16,7 +16,7 @@
     <description>Demo project for InventorSoft Academy</description>
 
     <properties>
-        <java.version>15</java.version>
+        <java.version>13</java.version>
     </properties>
 
     <dependencies>
