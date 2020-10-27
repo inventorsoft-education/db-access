@@ -42,6 +42,9 @@
             </tr>
             </thead>
             <tbody>
+
+<!--           emails - java.util.List<com.paskar.email.application.model.Email>-->
+
             <tr th:each="emails : ${emails}">
                 <td th:text="${emails.id}"></td>
                 <td th:text="${emails.recipient}"></td>

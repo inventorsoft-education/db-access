@@ -2,34 +2,31 @@ package com.paskar.email.application.service;
 
 import com.paskar.email.application.mapper.EmailMapper;
 import com.paskar.email.application.model.Email;
-import com.paskar.email.application.repositiory.EmailRepositoryJdbc;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.paskar.email.application.repositiory.EmailRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-public class EmailRepositoryJdbcImpl implements EmailRepositoryJdbc {
+@Repository
+@AllArgsConstructor
+public class EmailRepositoryJdbcImpl implements EmailRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    public EmailRepositoryJdbcImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
     @Override
     public void save(Email email) {
-        String sql = "INSERT INTO first_homework_with_jdbc (recipient,subject, body, date) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO first_homework_with_jdbc (recipient, subject, body, date) VALUES (?,?,?,?)";
         jdbcTemplate.update(sql, email.getRecipient(), email.getSubject(), email.getBody(), email.getDate());
     }
 
     @Override
     public Email getById(int id) {
-        String sql ="SELECT * FROM first_homework_with_jdbc WHERE id=?";
+        String sql = "SELECT `recipient`, `subject`, `body`, `date` FROM first_homework_with_jdbc WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, new EmailMapper(), id);
     }
 
@@ -41,14 +38,20 @@ public class EmailRepositoryJdbcImpl implements EmailRepositoryJdbc {
 
     @Override
     public void update(Email email) {
-        String sql ="UPDATE first_homework_with_jdbc SET recipient=?, subject=?, body=?, date=? WHERE id=?";
-        jdbcTemplate.update(sql,email.getRecipient(), email.getSubject(), email.getBody(), email.getDate(), email.getId());
+        String sql = "UPDATE first_homework_with_jdbc SET recipient = ?, subject = ?, body = ?, date = ? WHERE id = ?";
+        jdbcTemplate.update(sql, email.getRecipient(), email.getSubject(), email.getBody(), email.getDate(), email.getId());
     }
 
     @Override
     public void deleteById(int id) {
         String sql = "DELETE FROM first_homework_with_jdbc WHERE id=?";
         jdbcTemplate.update(sql, id);
+    }
+
+    @Override
+    public void deleteByEmailByDate(LocalDate time) {
+        String sql = "DELETE FROM first_homework_with_jdbc WHERE date = ?";
+        jdbcTemplate.update(sql, time);
     }
 
     @Override
@@ -63,5 +66,15 @@ public class EmailRepositoryJdbcImpl implements EmailRepositoryJdbc {
             }
         }
         return result;
+    }
+
+    @Override
+    public void deletingMassagesThatWereSent() throws IOException {
+
+    }
+
+    @Override
+    public void save(List<Email> email) throws IOException {
+
     }
 }

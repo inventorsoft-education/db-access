@@ -1,25 +1,28 @@
 package com.paskar.email.application.model;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Email {
 
-    private int id;
+    int id;
 
-    private String recipient;
+    String recipient;
 
-    private String subject;
+    String subject;
 
-    private String body;
+    String body;
 
-    private LocalDate date;
+    LocalDate date;
 
     public Email(String recipient, String subject, String body, LocalDate date) {
         this.recipient = recipient;

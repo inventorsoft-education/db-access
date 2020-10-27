@@ -2,33 +2,29 @@ package com.paskar.email.application.service;
 
 
 import com.paskar.email.application.model.Email;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
+@AllArgsConstructor
 public class EmailService {
     private static final Logger LOG = LoggerFactory.getLogger(EmailService.class);
 
     private final JavaMailSender emailSender;
-    private final EmailRepositoryJdbcImpl emailDao;
+    private final EmailRepositoryJdbcImpl emailRepositoryJdbc;
 
-    @Autowired
-    public EmailService(JavaMailSender emailSender, EmailRepositoryJdbcImpl storage) {
-        this.emailSender = emailSender;
-        this.emailDao = storage;
-    }
 
     @Scheduled(fixedRate = 60000) //1 min
     public void sendSimpleEmail() throws MailException {
-        List<Email> emailsNearDeliveryDate = emailDao.findEmailsNearDeliveryDate();
+        List<Email> emailsNearDeliveryDate = emailRepositoryJdbc.findEmailsNearDeliveryDate();
         for (Email emails : emailsNearDeliveryDate) {
 
             SimpleMailMessage message = new SimpleMailMessage();
@@ -40,7 +36,7 @@ public class EmailService {
             LOG.info("All information about your email {}:", emails.toString());
             this.emailSender.send(message);
 
-            emailDao.deleteById(emails.getId());
+            emailRepositoryJdbc.deleteById(emails.getId());
         }
     }
 }

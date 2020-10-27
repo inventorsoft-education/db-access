@@ -4,27 +4,26 @@ package com.paskar.email.application.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paskar.email.application.model.Email;
-import com.paskar.email.application.repositiory.console.EmailRepository;
-import org.springframework.stereotype.Component;
+import com.paskar.email.application.repositiory.EmailRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-public class EmailRepositoryImp implements EmailRepository {
+@Repository
+@AllArgsConstructor
+public class EmailRepoForConsoleAppImpl implements EmailRepository {
     private final static String baseFile = "emailList.json";
 
     private final ObjectMapper mapper;
-
-    public EmailRepositoryImp(ObjectMapper mapper) {
-        this.mapper = mapper;
-    }
 
     @Override
     public void save(List<Email> email) throws IOException {
@@ -66,5 +65,30 @@ public class EmailRepositoryImp implements EmailRepository {
             }
         }
         mapper.writeValue(new File(baseFile), resultList);
+    }
+
+    @Override
+    public void save(Email email) {
+
+    }
+
+    @Override
+    public Email getById(int id) {
+        return null;
+    }
+
+    @Override
+    public void update(Email email) {
+
+    }
+
+    @Override
+    public void deleteById(int id) {
+
+    }
+
+    @Override
+    public void deleteByEmailByDate(LocalDate time) {
+
     }
 }
