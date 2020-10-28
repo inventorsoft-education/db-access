@@ -1,65 +1,56 @@
 package com.paskar.email.application.controller;
 
 import com.paskar.email.application.model.Email;
-import com.paskar.email.application.service.EmailRepositoryForHibernateIml;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
+import com.paskar.email.application.repositiory.hibernate.EmailRepoForHibernate;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.time.LocalDate;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MainController {
 
-    private final EmailRepositoryForHibernateIml emailRepository;
-
-    @Autowired
-    public MainController(EmailRepositoryForHibernateIml emailRepository) {
-        this.emailRepository = emailRepository;
-    }
+    EmailRepoForHibernate emailRepository;
 
 
     @GetMapping("/main")
+    @ResponseStatus(HttpStatus.OK)
     public String mainPage() {
         return "home";
     }
 
     @GetMapping("/emails")
-    @PreAuthorize("hasAnyAuthority('delete/read')")
+    @PreAuthorize("hasAnyAuthority('read','delete')")
+    @ResponseStatus(HttpStatus.OK)
     public String showAllEmails(Model model) {
         model.addAttribute("emails", emailRepository.findAll());
         return "emails";
     }
 
-    @GetMapping("/emails-create")
+    @GetMapping("/create-email")
     @PreAuthorize("hasAnyAuthority('write')")
-    public String createEmail(Model model) {
+    @ResponseStatus(HttpStatus.OK)
+    public String createEmail(@ModelAttribute("email") Email email) {
         return "create_new_email";
     }
 
-    @PostMapping("/emails-create")
+    @PostMapping("/create-email")
     @PreAuthorize("hasAnyAuthority('write')")
-    public String createNewEmail(@RequestParam String recipient,
-                                 @RequestParam String subject,
-                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                                 @RequestParam LocalDate dateTime,
-                                 @RequestParam String body,
-                                 Model model) {
-        emailRepository.save(new Email(recipient, subject, body, dateTime));
+    @ResponseStatus(HttpStatus.CREATED)
+    public String createNewEmail(@ModelAttribute("email") Email email) {
+        emailRepository.save(email);
         return "redirect:/main";
-    }
-
-    @DeleteMapping("/delete/email/{time}")
-    @PreAuthorize("hasAnyAuthority('delete/read')")
-    public void deleteByEmailByDate(@PathVariable LocalDate time) {//this controller just for example, the html page was not created
-        emailRepository.deleteByEmailByDate(time);
     }
 
     @GetMapping("/")
@@ -68,17 +59,18 @@ public class MainController {
     }
 
     @GetMapping("/email/{id}")
-    @PreAuthorize("hasAnyAuthority('delete/read')")
-    public String getEmailById(@PathVariable("id") Long id, Model model) {
+    @PreAuthorize("hasAnyAuthority('read','delete')")
+    @ResponseStatus(HttpStatus.OK)
+    public String getEmailById(@PathVariable() Long id, Model model) {
         model.addAttribute("email", emailRepository.findById(id));
         return "show_email_by_id";
     }
 
-    @GetMapping("/delete/email/{id}")
-    @PreAuthorize("hasAnyAuthority('delete/read')")
+    @DeleteMapping("/delete/email/{id}")
+    @PreAuthorize("hasAnyAuthority('read','delete')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public String deleteByEmailById(@PathVariable Long id) {
         emailRepository.deleteById(id);
-       return "redirect:/main";
+        return "redirect:/main";
     }
-
 }

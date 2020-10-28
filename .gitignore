@@ -1,3 +1,5 @@
 .idea/*
 target
 spring-boot-task.iml
+**/*.iml
+*.iml

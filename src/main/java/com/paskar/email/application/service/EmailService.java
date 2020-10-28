@@ -2,26 +2,30 @@ package com.paskar.email.application.service;
 
 
 import com.paskar.email.application.model.Email;
+import com.paskar.email.application.repositiory.hibernate.EmailRepoForHibernate;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class EmailService {
-    private static final Logger LOG = LoggerFactory.getLogger(EmailService.class);
+    static Logger LOG = LoggerFactory.getLogger(EmailService.class);
 
-    private final JavaMailSender emailSender;
-    private final EmailRepositoryForHibernateIml emailRepoForHibernate;
+    JavaMailSender emailSender;
+    EmailRepoForHibernate emailRepoForHibernate;
 
-    @Autowired
-    public EmailService(JavaMailSender emailSender, EmailRepositoryForHibernateIml emailRepoForHibernate) {
+    public EmailService(JavaMailSender emailSender, EmailRepoForHibernate emailRepoForHibernate) {
         this.emailSender = emailSender;
         this.emailRepoForHibernate = emailRepoForHibernate;
     }

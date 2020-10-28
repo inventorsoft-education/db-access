@@ -30,41 +30,43 @@
     }
 </style>
 <body>
-        <h2>Emails</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Id of email</th>
-                <th>Recipient</th>
-                <th>Subject</th>
-                <th>Main text of massage</th>
-                <th>Send date</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="emails : ${emails}">
-                <td th:text="${emails.id}"></td>
-                <td th:text="${emails.recipient}"></td>
-                <td th:text="${emails.subject}"></td>
-                <td th:text="${emails.body}"></td>
-                <td th:text="${emails.date}"></td>
-            </tr>
-            </tbody>
-        </table>
-    <br>
-    <br>
-    <br>
-    <br>
-    <p><a href="/main">Back to main</a></p>
-    <form action="/" method="POST">
-        <button type="submit">Logout</button>
-    </form>
+<h2>Emails</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Id of email</th>
+        <th>Recipient</th>
+        <th>Subject</th>
+        <th>Main text of massage</th>
+        <th>Send date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--           emails - java.util.List<com.paskar.email.application.model.Email>-->
+
+    <tr th:each="emails : ${emails}">
+        <td th:text="${emails.id}"></td>
+        <td th:text="${emails.recipient}"></td>
+        <td th:text="${emails.subject}"></td>
+        <td th:text="${emails.body}"></td>
+        <td th:text="${emails.date}"></td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<br>
+<br>
+<br>
+<p><a href="/main">Back to main</a></p>
+<form action="/" method="POST">
+    <button type="submit">Logout</button>
+</form>
 </div>
 <footer class="mt-auto">
-<div class="inner">
-    <p>This little project was created for InventorSoft Academy, by <a
-            href="https://github.com/Paskar-Oleksandr">@Oleksandr_Paskar</a>.</p>
-</div>
+    <div class="inner">
+        <p>This little project was created for InventorSoft Academy, by <a
+                href="https://github.com/Paskar-Oleksandr">@Oleksandr_Paskar</a>.</p>
+    </div>
 </footer>
 </body>
 </html>
