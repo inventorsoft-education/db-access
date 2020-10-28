@@ -47,7 +47,7 @@ public class EmailRepositoryJdbcImpl implements EmailRepository {
 
     @Override
     public void deleteById(int id) {
-        String sql = "DELETE FROM first_homework_with_jdbc WHERE id=?";
+        String sql = "DELETE FROM first_homework_with_jdbc WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
 

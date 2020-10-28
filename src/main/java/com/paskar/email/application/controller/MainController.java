@@ -25,7 +25,7 @@ public class MainController {
 
     EmailRepository repository;
 
-    public MainController(@Qualifier("emailRepositoryJdbcImpl") EmailRepository repository) {
+    public MainController(@Qualifier("emailRepositoryPureJdbcImpl") EmailRepository repository) {
         this.repository = repository;
     }
 
