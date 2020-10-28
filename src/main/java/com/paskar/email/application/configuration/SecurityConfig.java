@@ -56,15 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .build()
         );
     }
-   /* public static PasswordEncoder createDelegatingPasswordEncoder() {
-        String idForEncode = "bcrypt";
-        Map<String, PasswordEncoder> encoders = new HashMap<>();
-        encoders.put(idForEncode, new BCryptPasswordEncoder());
-        encoders.put("pbkdf2", new Pbkdf2PasswordEncoder());
-        encoders.put("scrypt", new SCryptPasswordEncoder());
-        return new DelegatingPasswordEncoder(idForEncode, encoders);
-    }
-*/
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
