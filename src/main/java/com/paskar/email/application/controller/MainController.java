@@ -36,7 +36,7 @@ public class MainController {
     }
 
     @GetMapping("/emails")
-    @PreAuthorize("hasAnyAuthority('delete/read')")
+    @PreAuthorize("hasAnyAuthority('read','delete')")
     @ResponseStatus(HttpStatus.OK)
     public String showAllEmails(Model model) throws IOException {
         model.addAttribute("emails", repository.findAll());
@@ -59,7 +59,7 @@ public class MainController {
     }
 
     @DeleteMapping("/delete/email/{time}")
-    @PreAuthorize("hasAnyAuthority('delete/read')")
+    @PreAuthorize("hasAnyAuthority('read','delete')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteByEmailByDate(@PathVariable LocalDate time) {
         repository.deleteByEmailByDate(time);
@@ -71,7 +71,7 @@ public class MainController {
     }
 
     @GetMapping("/email/{id}")
-    @PreAuthorize("hasAnyAuthority('delete/read')")
+    @PreAuthorize("hasAnyAuthority('read','delete')")
     @ResponseStatus(HttpStatus.OK)
     public String getEmailById(@PathVariable() int id, Model model) {
         model.addAttribute("email", repository.getById(id));
@@ -79,7 +79,7 @@ public class MainController {
     }
 
     @DeleteMapping("/delete/email/{id}")
-    @PreAuthorize("hasAnyAuthority('delete/read')")
+    @PreAuthorize("hasAnyAuthority('read','delete')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public String deleteByEmailById(@PathVariable int id) {
         repository.deleteById(id);

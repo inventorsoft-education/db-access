@@ -4,7 +4,9 @@ import lombok.Getter;
 
 public enum Permission {
     WRITE("write"),
-    READ_DELETE("delete/read");
+    READ("read"),
+    DELETE("delete");
+
 
     @Getter
     private String permission;
