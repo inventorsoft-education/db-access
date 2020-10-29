@@ -10,48 +10,42 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.sql.DataSource;
 
 @Configuration
-@ComponentScan("co.inventorsoft")
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final DataSource dataSource;
 
-    @Qualifier("userDetailsServiceImpl")
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Qualifier("dataSource")
-    @Autowired
-    private DataSource dataSource;
+    public SecurityConfig(@Qualifier("dataSource") DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/signUp/**").permitAll()
                     .antMatchers("/").permitAll()
-                    .antMatchers("/css/**").permitAll()
-                    .anyRequest().authenticated()
+                    .antMatchers("/mail/**").authenticated()
                 .and()
                 .formLogin()
-                    .usernameParameter("login")
-                    .defaultSuccessUrl("/")
-                    .loginPage("/login.html")
-                    .permitAll()
+                    .loginPage("/login").permitAll()
+                    .defaultSuccessUrl("/").permitAll()
                 .and()
                 .rememberMe()
                     .rememberMeParameter("remember-me")
-                    .tokenRepository(tokenRepository());
+                    .tokenRepository(tokenRepository())
+                .and()
+                .csrf().disable();
 
     }
 
@@ -64,9 +58,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-        auth.jdbcAuthentication().withUser("user").password(passwordEncoder.encode("password"));
+        auth.inMemoryAuthentication()
+                .withUser("thymeleaf@test.com")
+                .password("{noop}thymeleaf")
+                .roles("USER");
     }
 
-
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
 }

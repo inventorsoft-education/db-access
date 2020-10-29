@@ -4,9 +4,9 @@ import co.inventorsoft.mailsecurity.models.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class EmailDaoJdbsImpl implements EmailDao{
+@Repository
+public class EmailRepositoryJdbcImpl implements EmailRepository {
 
-    @Autowired
     private final JdbcTemplate jdbcTemplate;
 
-    public EmailDaoJdbsImpl(JdbcTemplate jdbcTemplate) {
+    public EmailRepositoryJdbcImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -59,14 +59,14 @@ public class EmailDaoJdbsImpl implements EmailDao{
     }
 
     @Override
-    public List<Email> findById(int id) {
+    public Email findById(int id) {
         String SQL_FIND_BY_ID = "SELECT * FROM emails WHERE id=?";
-        return jdbcTemplate.query(SQL_FIND_BY_ID, emailRowMapper, id);
+        return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, emailRowMapper, id);
     }
 
     @Override
     public void delete(Email email) {
-        String SQL_DELETE = "DELETE FROM mails WHERE id=?";
+        String SQL_DELETE = "DELETE FROM emails WHERE id=?";
         jdbcTemplate.update(SQL_DELETE, email.getId());
     }
 

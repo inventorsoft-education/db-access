@@ -1,26 +1,29 @@
 package co.inventorsoft.mailsecurity.controllers;
 
 import co.inventorsoft.mailsecurity.models.Email;
-import co.inventorsoft.mailsecurity.repositories.EmailDao;
-import org.springframework.beans.factory.annotation.Autowired;
+import co.inventorsoft.mailsecurity.repositories.EmailRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
 @Controller
 public class MailController {
 
-    @Autowired
-    EmailDao emailDao;
+    final
+    EmailRepository emailRepository;
+
+    public MailController(EmailRepository emailRepository) {
+        this.emailRepository = emailRepository;
+    }
 
     @GetMapping("/")
-    public String getMailPage(ModelMap model, Authentication authentication) {
+    @ResponseStatus(HttpStatus.OK)
+    public String getMailPage(Authentication authentication) {
         if (authentication == null) {
             return "redirect:/login";
         }
@@ -28,18 +31,25 @@ public class MailController {
     }
 
     @GetMapping("/mail")
+    @ResponseStatus(HttpStatus.OK)
     public String createMail(Authentication authentication) {
         if (authentication == null) {
             return "redirect:/login";
         }
-        return "mailForm";
+        return "mail";
     }
 
     @PostMapping("/mail")
-    public String saveMail(@RequestParam String recipient, @RequestParam String subject,
-                             @RequestParam String body, @RequestParam LocalDateTime date, Model model) {
+    @ResponseStatus(HttpStatus.OK)
+    public String saveMail(@ModelAttribute("email") Email email) {
+        emailRepository.saveMail(email);
+        return "redirect:/";
+    }
 
-        emailDao.saveMail(new Email(recipient, subject, body, date));
-        return "redirect:/mail";
+    @DeleteMapping("mail/delete/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public String deleteMail(@PathVariable int id) {
+        emailRepository.delete(emailRepository.findById(id));
+        return "redirect:/";
     }
 }

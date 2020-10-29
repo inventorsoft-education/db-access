@@ -3,6 +3,7 @@ package co.inventorsoft.mailsecurity.models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +15,8 @@ public class Email {
     private String recipient;
     private String subject;
     private String body;
+
+    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime date;
 
     public Email(String recipient, String subject, String body, LocalDateTime date) {
