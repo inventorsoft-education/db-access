@@ -1,7 +1,7 @@
 package com.paskar.email.application.controller;
 
 import com.paskar.email.application.model.Email;
-import com.paskar.email.application.repositiory.hibernate.EmailRepoForHibernate;
+import com.paskar.email.application.repositiory.hibernate.CustomRepositoryForProject;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MainController {
 
-    EmailRepoForHibernate emailRepository;
+    CustomRepositoryForProject customRepositoryForProject;
 
 
     @GetMapping("/main")
@@ -34,7 +34,7 @@ public class MainController {
     @PreAuthorize("hasAnyAuthority('read','delete')")
     @ResponseStatus(HttpStatus.OK)
     public String showAllEmails(Model model) {
-        model.addAttribute("emails", emailRepository.findAll());
+        model.addAttribute("emails", customRepositoryForProject.findAll());
         return "emails";
     }
 
@@ -49,7 +49,7 @@ public class MainController {
     @PreAuthorize("hasAnyAuthority('write')")
     @ResponseStatus(HttpStatus.CREATED)
     public String createNewEmail(@ModelAttribute("email") Email email) {
-        emailRepository.save(email);
+        customRepositoryForProject.save(email);
         return "redirect:/main";
     }
 
@@ -62,7 +62,7 @@ public class MainController {
     @PreAuthorize("hasAnyAuthority('read','delete')")
     @ResponseStatus(HttpStatus.OK)
     public String getEmailById(@PathVariable() Long id, Model model) {
-        model.addAttribute("email", emailRepository.findById(id));
+        model.addAttribute("email", customRepositoryForProject.findById(id));
         return "show_email_by_id";
     }
 
@@ -70,7 +70,7 @@ public class MainController {
     @PreAuthorize("hasAnyAuthority('read','delete')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public String deleteByEmailById(@PathVariable Long id) {
-        emailRepository.deleteById(id);
+        customRepositoryForProject.deleteById(id);
         return "redirect:/main";
     }
 }
