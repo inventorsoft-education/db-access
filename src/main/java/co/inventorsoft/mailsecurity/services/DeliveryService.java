@@ -2,6 +2,7 @@ package co.inventorsoft.mailsecurity.services;
 
 import co.inventorsoft.mailsecurity.models.Email;
 import co.inventorsoft.mailsecurity.repositories.EmailRepository;
+import co.inventorsoft.mailsecurity.repositories.EmailRepositoryImpl;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,16 +14,10 @@ import java.util.logging.Logger;
 @Service
 public class DeliveryService {
 
-    private final EmailRepository emailRepository;
-
-    private final JavaMailSender mailSender;
+    EmailRepositoryImpl emailRepository;
+    JavaMailSender mailSender;
 
     Logger logger = Logger.getLogger(DeliveryService.class.getName());
-
-    public DeliveryService(EmailRepository emailRepository, JavaMailSender mailSender) {
-        this.emailRepository = emailRepository;
-        this.mailSender = mailSender;
-    }
 
     @Scheduled(fixedRate  = 60000)
     private void sendEmail() {

@@ -1,19 +1,22 @@
 package co.inventorsoft.mailsecurity.controllers;
 
 import co.inventorsoft.mailsecurity.models.Email;
-import co.inventorsoft.mailsecurity.repositories.EmailRepository;
+import co.inventorsoft.mailsecurity.repositories.EmailRepositoryImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.Access;
+
 @Controller
 public class MailController {
 
     final
-    EmailRepository emailRepository;
+    EmailRepositoryImpl emailRepository;
 
-    public MailController(EmailRepository emailRepository) {
+    public MailController(EmailRepositoryImpl emailRepository) {
         this.emailRepository = emailRepository;
     }
 
@@ -38,14 +41,14 @@ public class MailController {
     @PostMapping("/mail")
     @ResponseStatus(HttpStatus.OK)
     public String saveMail(@ModelAttribute("email") Email email) {
-        emailRepository.saveMail(email);
+        emailRepository.save(email);
         return "redirect:/";
     }
 
     @DeleteMapping("mail/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public String deleteMail(@PathVariable int id) {
-        emailRepository.delete(emailRepository.findById(id));
+    public String deleteMail(@PathVariable Long id) {
+        emailRepository.deleteById(id);
         return "redirect:/";
     }
 }

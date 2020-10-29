@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
+@EnableJpaRepositories
 @ComponentScan("co.inventorsoft")
 public class MailSecurityApplication {
     public static void main(String[] args) {

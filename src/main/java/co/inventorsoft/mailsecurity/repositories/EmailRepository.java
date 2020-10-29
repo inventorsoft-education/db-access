@@ -1,14 +1,9 @@
 package co.inventorsoft.mailsecurity.repositories;
 
 import co.inventorsoft.mailsecurity.models.Email;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-public interface EmailRepository {
-    List<Email> findAll();
-    void saveMail(Email email);
-    void delete(Email email);
-    void update(Email email);
-    Email findById(int id);
-    List<Email> mailsToSend();
+@Repository
+public interface EmailRepository extends JpaRepository<Email, Long> {
 }
