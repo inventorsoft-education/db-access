@@ -23,5 +23,4 @@ public class MailSecurityApplication {
     public static void main(String[] args) {
         SpringApplication.run(MailSecurityApplication.class, args);
     }
-
 }
