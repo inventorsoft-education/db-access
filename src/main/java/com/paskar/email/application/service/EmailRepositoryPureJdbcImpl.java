@@ -4,7 +4,7 @@ import com.paskar.email.application.model.Email;
 import com.paskar.email.application.repositiory.EmailRepository;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Repository
+@Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class EmailRepositoryPureJdbcImpl implements EmailRepository {
     static String DB_URL = "jdbc:mysql://localhost:3306/academy_jdbc_homework";
@@ -78,7 +78,7 @@ public class EmailRepositoryPureJdbcImpl implements EmailRepository {
     @Override
     public List<Email> findAll() {
         List<Email> list = new ArrayList<>();
-        String sql = "SELECT * FROM first_homework_with_jdbc";
+        String sql = "SELECT `id`,`recipient`, `subject`, `body`, `date` FROM first_homework_with_jdbc";
         try (Connection connection = DriverManager.getConnection(DB_URL, USER_LOGIN, USER_PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -143,7 +143,16 @@ public class EmailRepositoryPureJdbcImpl implements EmailRepository {
 
     @Override
     public List<Email> findEmailsNearDeliveryDate() throws IOException {
-        return null;
+        LocalDate time = LocalDate.now();
+        List<Email> emailList = findAll();
+        List<Email> result = new ArrayList<>();
+
+        for (Email email : emailList) {
+            if (time.equals(email.getDate())) {
+                result.add(email);
+            }
+        }
+        return result;
     }
 
 

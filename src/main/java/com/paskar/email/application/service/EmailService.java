@@ -2,8 +2,9 @@ package com.paskar.email.application.service;
 
 
 import com.paskar.email.application.model.Email;
+import com.paskar.email.application.repositiory.EmailRepository;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,20 +14,20 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
 public class EmailService {
     static Logger LOG = LoggerFactory.getLogger(EmailService.class);
 
     JavaMailSender emailSender;
-    EmailRepositoryJdbcImpl emailRepositoryJdbc;
-
+    EmailRepository emailRepositoryJdbc;
 
     @Scheduled(fixedRate = 60000) //1 min
-    public void sendSimpleEmail() throws MailException {
+    public void sendSimpleEmail() throws MailException, IOException {
         List<Email> emailsNearDeliveryDate = emailRepositoryJdbc.findEmailsNearDeliveryDate();
         for (Email emails : emailsNearDeliveryDate) {
 
