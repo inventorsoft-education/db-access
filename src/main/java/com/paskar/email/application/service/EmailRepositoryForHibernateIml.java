@@ -16,27 +16,31 @@ import java.util.List;
 @Repository
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
-@Transactional
 public class EmailRepositoryForHibernateIml implements CustomRepositoryForProject {
 
     EmailRepoForHibernate emailRepository;
 
+    @Transactional
     public void save(Email email) {
         emailRepository.save(email);
     }
 
+    @Transactional(readOnly = true)
     public Email findById(Long id) {
         return emailRepository.getOne(id);
     }
 
+    @Transactional(readOnly = true)
     public List<Email> findAll() {
         return emailRepository.findAll();
     }
 
+    @Transactional
     public void deleteById(Long id) {
         emailRepository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     public List<Email> findEmailsNearDeliveryDate() {
         LocalDate time = LocalDate.now();
         List<Email> emailList = findAll();

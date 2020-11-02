@@ -4,8 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -18,26 +16,10 @@ public class HibernateConfig {
 
 
     @Bean
-    public PlatformTransactionManager transactionManager() {
-        JpaTransactionManager tm =
-                new JpaTransactionManager();
-        tm.setEntityManagerFactory(entityManagerFactory());
+    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+        var tm = new JpaTransactionManager();
+        tm.setEntityManagerFactory(entityManagerFactory);
         return tm;
-    }
-
-    @Bean
-    public EntityManagerFactory entityManagerFactory() {
-
-        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        vendorAdapter.setGenerateDdl(true);
-
-        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-        factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("com.paskar.email.application");
-        factory.setDataSource(getDataSource());
-        factory.afterPropertiesSet();
-
-        return factory.getObject();
     }
 
     @Bean
