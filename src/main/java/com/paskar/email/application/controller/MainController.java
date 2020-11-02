@@ -61,7 +61,7 @@ public class MainController {
     @GetMapping("/email/{id}")
     @PreAuthorize("hasAnyAuthority('read','delete')")
     @ResponseStatus(HttpStatus.OK)
-    public String getEmailById(@PathVariable() Long id, Model model) {
+    public String getEmailById(@PathVariable Long id, Model model) {
         model.addAttribute("email", customRepositoryForProject.findById(id));
         return "show_email_by_id";
     }

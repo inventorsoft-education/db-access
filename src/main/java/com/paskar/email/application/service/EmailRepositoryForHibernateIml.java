@@ -6,31 +6,38 @@ import com.paskar.email.application.repositiory.hibernate.EmailRepoForHibernate;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Repository
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class EmailRepositoryForHibernateIml implements CustomRepositoryForProject {
 
     EmailRepoForHibernate emailRepository;
 
+    @Transactional
     public void save(Email email) {
         emailRepository.save(email);
     }
+
     public Email findById(Long id) {
         return emailRepository.getOne(id);
     }
+
     public List<Email> findAll() {
         return emailRepository.findAll();
     }
+
+    @Transactional
     public void deleteById(Long id) {
         emailRepository.deleteById(id);
     }
+
     public List<Email> findEmailsNearDeliveryDate() {
         LocalDate time = LocalDate.now();
         List<Email> emailList = findAll();
