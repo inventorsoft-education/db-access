@@ -16,11 +16,11 @@ import java.util.List;
 @Repository
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
+@Transactional
 public class EmailRepositoryForHibernateIml implements CustomRepositoryForProject {
 
     EmailRepoForHibernate emailRepository;
 
-    @Transactional
     public void save(Email email) {
         emailRepository.save(email);
     }
@@ -33,7 +33,6 @@ public class EmailRepositoryForHibernateIml implements CustomRepositoryForProjec
         return emailRepository.findAll();
     }
 
-    @Transactional
     public void deleteById(Long id) {
         emailRepository.deleteById(id);
     }
