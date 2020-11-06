@@ -1,6 +1,6 @@
-package co.inventorsoft.mailsecurity.repositories;
+package co.inventorsoft.dbaccessjpa.repository;
 
-import co.inventorsoft.mailsecurity.models.Email;
+import co.inventorsoft.dbaccessjpa.model.Email;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
