@@ -2,7 +2,7 @@ package com.hometask.task_security.service;
 
 
 import com.hometask.task_security.model.Email;
-import com.hometask.task_security.repository.EmailRepoImpl;
+import com.hometask.task_security.repository.EmailRepo;
 import com.hometask.task_security.repository.db_repo.JDBCRepoImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,14 +22,14 @@ public class EmailService {
     private static final Logger LOG = LoggerFactory.getLogger(EmailService.class);
 
     private final JavaMailSender emailSender;
-    private final EmailRepoImpl repo;
-    public final JDBCRepoImpl crudOperationImpl;
+    private final EmailRepo repo;
+
 
     @Autowired
-    public EmailService(@Qualifier("getJavaMailSender") JavaMailSender emailSender, EmailRepoImpl repo, JDBCRepoImpl crudOperationImpl) {
+    public EmailService(@Qualifier("getJavaMailSender") JavaMailSender emailSender, JDBCRepoImpl repo) {
         this.emailSender = emailSender;
         this.repo = repo;
-        this.crudOperationImpl = crudOperationImpl;
+
     }
 
     @Scheduled(fixedRate = 60000) //1 min
@@ -43,9 +43,9 @@ public class EmailService {
             message.setSubject(emails.getSubject());
             message.setText(emails.getSubject());
 
-            LOG.info("All information about your email {}:", emails.toString());
+            LOG.info("Emails information {}:", emails.toString());
             this.emailSender.send(message);
         }
-        crudOperationImpl.deleteById();
+        repo.deleteById();
     }
 }

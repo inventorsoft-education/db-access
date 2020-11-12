@@ -1,8 +1,9 @@
 package com.hometask.task_security.controller;
 
 import com.hometask.task_security.model.Email;
-import com.hometask.task_security.repository.EmailRepoImpl;
+import com.hometask.task_security.repository.db_repo.JDBCRepoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -21,10 +23,10 @@ import java.time.LocalDateTime;
 @RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 public class EmailController {
 
-    private final EmailRepoImpl repo;
+    private final JDBCRepoImpl repo;
 
     @Autowired
-    public EmailController(EmailRepoImpl repo) {
+    public EmailController(JDBCRepoImpl repo) {
         this.repo = repo;
     }
 
@@ -36,20 +38,21 @@ public class EmailController {
 
     @GetMapping("/mails")
     @PreAuthorize("hasAnyAuthority('read','delete')")
-    public String showAllEmails(Model model) throws IOException {
+    public String showAll(Model model) throws IOException {
         model.addAttribute("emails", repo.findAllEmails());
         return "emails";
     }
 
     @GetMapping("/newEmail")
     @PreAuthorize("hasAnyAuthority('edit')")
-    public String createEmail(Model model) {
-        model.addAttribute("email", new Email());
+    @ResponseStatus(HttpStatus.OK)
+    public String createEmail(@ModelAttribute("email") Email email){
         return "newEmail";
     }
 
     @PostMapping("/newEmail")
     @PreAuthorize("hasAnyAuthority('edit')")
+    @ResponseStatus(HttpStatus.CREATED)
     public String createNewEmail(@ModelAttribute("email") Email email) throws IOException {
         repo.createEmail(email);
         return "redirect:/index";
@@ -57,7 +60,7 @@ public class EmailController {
 
     @DeleteMapping("/delete/email/{time}")
     @PreAuthorize("hasAnyAuthority('read','delete')")
-    public void deleteByEmailByDate(@PathVariable LocalDateTime time) throws IOException {
+    public void deleteEmailByDate(@PathVariable LocalDateTime time) throws IOException {
         repo.deleteEmailByDate(time);
     }
 

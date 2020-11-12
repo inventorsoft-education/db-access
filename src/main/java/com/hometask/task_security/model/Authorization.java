@@ -7,7 +7,6 @@ public enum Authorization {
     READ("read"),
     DELETE("delete");
 
-
     @Getter
     private final String authorization;
 

@@ -1,119 +1,140 @@
 package com.hometask.task_security.repository.db_repo;
 
 import com.hometask.task_security.model.Email;
-import com.hometask.task_security.model.SqlRequestMessages;
-import lombok.SneakyThrows;
-import org.springframework.stereotype.Repository;
-
+import com.hometask.task_security.repository.EmailRepo;
+import org.springframework.stereotype.Service;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-@Repository
-public class JDBCRepoImpl implements JDBCRepo {
+@Service
+public class JDBCRepoImpl implements EmailRepo {
 
-    private Connection dbConnection;
-    private static final String URL ="jdbc:mysql://localhost:3306/db_access";
+    private static final String URL = "jdbc:mysql://localhost:3306/db_access";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
-    @SneakyThrows
-    private Connection getDbConnection() {
-        Class.forName("com.mysql.jdbc.Driver");
-        this.dbConnection = DriverManager.getConnection(URL,USERNAME,PASSWORD);
-        this.dbConnection.setAutoCommit(false);
-        return this.dbConnection;
+    private LocalDate convertToLocalDateViaSqlDate(Date dateToConvert) {
+        return new java.sql.Date(dateToConvert.getTime()).toLocalDate();
     }
 
-    public JDBCRepoImpl() throws SQLException {
+    private java.sql.Date convertToDateViaLocalDate(LocalDate dateToConvert) {
+        return java.sql.Date.valueOf(String.valueOf(dateToConvert));
     }
 
+    private void setParams(Email email, PreparedStatement preparedStatement) throws SQLException {
+        preparedStatement.setString(1, email.getRecipient());
+        preparedStatement.setString(2, email.getSubject());
+        preparedStatement.setString(3, email.getBody());
+        preparedStatement.setDate(4, convertToDateViaLocalDate(email.getDate()));
+    }
 
-    @SneakyThrows
     @Override
-    public List<Email> findAllEmails() {
-            List<Email> emails = new ArrayList();
-            PreparedStatement statement = this.getDbConnection().prepareStatement(SqlRequestMessages.SQL_SELECT_ALL.getRequest());
-            ResultSet resultSet = statement.executeQuery();
+    public void createEmail(Email email) throws IOException {
 
-            while (resultSet.next()) {
-                Email email = new Email();
-                email.setId((int) resultSet.getLong("id"));
-                email.setRecipient(resultSet.getString("recipient"));
-                email.setSubject(resultSet.getString("subject"));
-                email.setBody(resultSet.getString("body"));
-                email.setDate(resultSet.getDate("date"));
+    }
 
-                emails.add(email);
-            }
-
-            return emails;
-        }
-    @SneakyThrows
     @Override
     public void save(Email email) {
-            PreparedStatement statement = this.getDbConnection().prepareStatement(SqlRequestMessages.SQL_INSERT.getRequest());
-            statement.setString(1, email.getRecipient());
-            statement.setString(2, email.getSubject());
-            statement.setString(3, email.getBody());
-            statement.setString(4, email.getDate());
-
-            statement.executeUpdate();
-
-        }
-
-
-
-    @SneakyThrows
-    @Override
-    public Email getById(int id) {
-
-            Email email = new Email();
-            PreparedStatement statement = this.getDbConnection().prepareStatement(SqlRequestMessages.SQL_SELECT_MESSAGE_ID.getRequest());
-            statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                email.setRecipient();resultSet.getInt("recipient"));
-                email.setSubject(resultSet.getString("subject"));
-                email.setBody(resultSet.getString("body"));
-                email.setDate(resultSet.getDate("email_text"));
-
-            }
-
-            return email;
-
-        }
-
-    @Override
-    @SneakyThrows
-    public void update(int id) {
-
-            PreparedStatement preparedStatement = this.getDbConnection().prepareStatement(SqlRequestMessages.SQL_UPDATE_TIME.getRequest());
-            preparedStatement.setInt(1,3);
+        String sql = "INSERT INTO db_access (recipient, subject, body, date) VALUES (?,?,?,?)";
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            setParams(email, preparedStatement);
 
             preparedStatement.executeUpdate();
 
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
+    }
 
+    @Override
+    public Email getById(int id) {
+        Email email = null;
+        String sql = "SELECT `recipient`, `subject`, `body`, `date` FROM db_access WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-    @SneakyThrows
+            while (resultSet.next()) {
+                String recipient = resultSet.getString("recipient");
+                String subject = resultSet.getString("subject");
+                String body = resultSet.getString("body");
+                LocalDate date = convertToLocalDateViaSqlDate(resultSet.getDate("date"));
+                email = new Email(id, recipient, subject, body, date);
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+        return email;
+    }
+
+    @Override
+    public void save(List<Email> email) {
+        String sql = "INSERT INTO db_access (recipient, subject, body, date) VALUES (?,?,?,?)";
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            setParams((Email) email, preparedStatement);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<Email> findAllEmails() throws IOException {
+        List<Email> list = new ArrayList<>();
+        String sql = "SELECT `id`,`recipient`, `subject`, `body`, `date` FROM db_access";
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String recipient = resultSet.getString("recipient");
+                String subject = resultSet.getString("subject");
+                String body = resultSet.getString("body");
+                LocalDate localDate = convertToLocalDateViaSqlDate(resultSet.getDate("date"));
+                list.add(new Email(id, recipient, subject, body, localDate));
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+        return list;
+    }
+
     @Override
     public void deleteById(int id) {
+        String sql = "DELETE FROM db_access WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
 
-            PreparedStatement statement = this.getDbConnection().prepareStatement(SqlRequestMessages.SQL_DELETE_MESSAGE_ID.getRequest());
-            statement.setLong(1, id);
-            statement.execute();
-
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
+    }
 
     @Override
-    public List<Email> emailsForSending() {
+    public void deleteById() {
+
+    }
+
+    @Override
+    public List<Email> findEmailsForSending() throws IOException {
         LocalDate time = LocalDate.now();
         List<Email> emailList = findAllEmails();
         List<Email> result = new ArrayList<>();
@@ -125,4 +146,19 @@ public class JDBCRepoImpl implements JDBCRepo {
         }
         return result;
     }
+
+    @Override
+    public void deleteEmailByDate(LocalDateTime time) throws IOException {
+        String sql = "DELETE FROM db_access WHERE date = ?";
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setDate(4, convertToDateViaLocalDate(time.toLocalDate()));
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+
+    }
+
 }

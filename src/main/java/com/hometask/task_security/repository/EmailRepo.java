@@ -11,7 +11,9 @@ import java.util.List;
 
         void createEmail(Email email) throws IOException;
 
-        void save(List<Email> email) throws IOException;
+        void save(Email email) throws IOException;
+
+        public void save(List<Email> email) throws IOException;
 
         List<Email> findAllEmails() throws IOException;
 
@@ -19,8 +21,10 @@ import java.util.List;
 
         void deleteEmailByDate(LocalDateTime time) throws IOException;
 
-        void deleteSentEmails() throws IOException;
+        void deleteById(int id);
 
+        void deleteById();
 
+         Email getById(int id);
     }
 
