@@ -11,19 +11,19 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
+
 @Configuration
 public class Driver {
 
     public static Statement createStatement() {
-        try{
+        try {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            try (Connection conn = getConnection()){
+            try (Connection conn = getConnection()) {
 
                 System.out.println("Connection to Store DB succesfull!");
             }
             return getConnection().createStatement();
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println("Connection failed...");
 
             System.out.println(ex);
@@ -34,7 +34,7 @@ public class Driver {
     public static Connection getConnection() throws SQLException, IOException {
 
         Properties props = new Properties();
-        try(InputStream in = Files.newInputStream(Paths.get("database.properties"))){
+        try (InputStream in = Files.newInputStream(Paths.get("database.properties"))) {
             props.load(in);
         }
         String url = props.getProperty("url");
