@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>co.inventrosoft</groupId>
-    <artifactId>spring-boot-task</artifactId>
+    <artifactId>jdbc-task</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring-boot-task</name>
-    <description>Demo project for Spring Boot</description>
+    <name>jdbc-task</name>
+    <description>Demo project for JDBC</description>
     <properties>
         <java.version>16</java.version>
 
