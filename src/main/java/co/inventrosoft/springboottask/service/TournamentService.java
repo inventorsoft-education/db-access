@@ -42,7 +42,7 @@ public class TournamentService {
 
             // teamCount / (2 ^ (round+1))
             // this is code of round. e.g code == 2 -> round name = 1/2
-            int numOfMatchesInRound = (int)(teamCount / (Math.pow(2, round+1)));
+            int numOfMatchesInRound = (int)(teamCount / (Math.pow(2, round + 1)));
 
             for (int matchOrder = 0; matchOrder < numOfMatchesInRound; matchOrder++) {
                 Match match = new Match(numOfMatchesInRound, matchOrder, id);
@@ -90,6 +90,7 @@ public class TournamentService {
             }
         } while (winner == null);
         consoleParser.printWinner(winner);
+        consoleParser.close();
         matchService.writeAllToCsv(tournamentId);
 
     }

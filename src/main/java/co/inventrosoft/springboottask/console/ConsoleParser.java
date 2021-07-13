@@ -2,25 +2,27 @@ package co.inventrosoft.springboottask.console;
 
 import co.inventrosoft.springboottask.model.Match;
 import co.inventrosoft.springboottask.model.Team;
-import co.inventrosoft.springboottask.service.TeamService;
+
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 
 @Component
 public class ConsoleParser {
-    private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    private final TeamService teamService;
-    public ConsoleParser(TeamService teamService) {
-        this.teamService = teamService;
-    }
+    private final BufferedReader reader;
 
+    public ConsoleParser() {
+        this.reader = new BufferedReader(new InputStreamReader(System.in));
+    }
+    public void close() throws IOException {
+        reader.close();
+    }
     public List<Team> getTeams() throws IOException {
         ArrayList<Team> teams = new ArrayList<>();
         int teamCount = getTeamCount();
@@ -28,7 +30,9 @@ public class ConsoleParser {
             while(true) {
                 Team team = getTeam();
                 // check if this team in list
-                boolean isTeamNotInTeamList = teams.stream().noneMatch(teami -> teami.getName().equals(team.getName()));
+                boolean isTeamNotInTeamList = teams.stream()
+                        .map(Team::getName)
+                        .noneMatch(teamName -> teamName.equals(team.getName()));
 
                 if (isTeamNotInTeamList) {
                     teams.add(team);
@@ -67,8 +71,9 @@ public class ConsoleParser {
     }
 
     /**
-     * parses data from console by format {name} {capitan} {coach}
-     * creates new team if team with this name does not exist
+     * Parses data from console by format: {name} {capitan} {coach}.
+     * {@link Team}
+     * Creates new team if team with this name does not exist.
      * @return created team
      */
     public Team getTeam() throws IOException {
@@ -93,8 +98,9 @@ public class ConsoleParser {
     }
 
     /**
-     * parses result of match from console by format {team1 name} vs {team2 name} {score}
-     * score format: {result of team1}:{result of team2}
+     * Parses result of match from console by format: {team1 name} vs {team2 name} {score}.
+     * {@link MatchResult}
+     * Score format: {result of team1}:{result of team2}.
      * @return map, with keys: firstTeamName, secondTeamName, score
      */
     public MatchResult getResultOfMatch() throws IOException {
@@ -136,7 +142,7 @@ public class ConsoleParser {
     }
 
     public void printTournament(List<Match> matches) {
-        for(Match match: matches) {
+        for (Match match: matches) {
             System.out.println(match);
         }
         System.out.println();
