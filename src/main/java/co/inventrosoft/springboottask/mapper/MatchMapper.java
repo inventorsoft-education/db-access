@@ -1,11 +1,12 @@
 package co.inventrosoft.springboottask.mapper;
 
+
 import co.inventrosoft.springboottask.model.Match;
 import co.inventrosoft.springboottask.model.Team;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Optional;
+
 
 public class MatchMapper {
     public static Match fromResultSetToMatch(ResultSet resultSet) throws SQLException {
@@ -14,16 +15,18 @@ public class MatchMapper {
         match.setId(resultSet.getInt("match_id"));
         match.setTournamentId(resultSet.getInt("tournament_id"));
 
-        String firstTeamName = resultSet.getString("t1_name");
-        if (firstTeamName != null) {
+        int firstTeamId = resultSet.getInt("t1_id");
+        if (firstTeamId != 0) {
             match.setFirstTeam(
-                new Team(firstTeamName, resultSet.getString("t1_capitan"), resultSet.getString("t1_coach"))
+                    new Team(firstTeamId, resultSet.getString("t1_name"),
+                            resultSet.getString("t1_capitan"), resultSet.getString("t1_coach"))
             );
         }
-        String secondTeamName = resultSet.getString("t2_name");
-        if (secondTeamName != null) {
+        int secondTeamId = resultSet.getInt("t2_id");
+        if (secondTeamId != 0) {
             match.setSecondTeam(
-                new Team(secondTeamName, resultSet.getString("t2_capitan"), resultSet.getString("t2_coach"))
+                    new Team(secondTeamId, resultSet.getString("t2_name"),
+                            resultSet.getString("t2_capitan"), resultSet.getString("t2_coach"))
             );
         }
         match.setFirstTeamResult(resultSet.getInt("first_team_result"));

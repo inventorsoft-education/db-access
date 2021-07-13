@@ -54,6 +54,13 @@ public class MatchRepositoryJdbcImpl implements MatchRepository{
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(jdbcConfig.getUrl(), jdbcConfig.getUsername(), jdbcConfig.getPassword());
     }
+    private void setIdOrNull(int order, int id, PreparedStatement preparedStatement) throws SQLException {
+        if (id != 0) {
+            preparedStatement.setInt(order, id);
+        } else {
+            preparedStatement.setNull(order, java.sql.Types.INTEGER);
+        }
+    }
 
     @Override
     public void save(List<Match> matches) {
@@ -61,8 +68,10 @@ public class MatchRepositoryJdbcImpl implements MatchRepository{
             for (Match match: matches) {
                 PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY);
                 preparedStatement.setInt(1, match.getTournamentId());
-                preparedStatement.setString(2, match.getFirstTeamName());
-                preparedStatement.setString(3, match.getSecondTeamName());
+
+                setIdOrNull(2, match.getFirstTeamId(), preparedStatement);
+                setIdOrNull(3, match.getSecondTeamId(), preparedStatement);
+
                 preparedStatement.setInt(4, match.getFirstTeamResult());
                 preparedStatement.setInt(5, match.getSecondTeamResult());
                 preparedStatement.setBoolean(6, match.getPlayed());
@@ -84,7 +93,7 @@ public class MatchRepositoryJdbcImpl implements MatchRepository{
             PreparedStatement preparedStatement = connection.prepareStatement(GET_QUERY + "ORDER BY round_code DESC, match_order");
             preparedStatement.setInt(1, tournamentId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 matches.add(MatchMapper.fromResultSetToMatch(resultSet));
             }
 
@@ -99,9 +108,10 @@ public class MatchRepositoryJdbcImpl implements MatchRepository{
         Match match = null;
         try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(GET_BY_TEAM_NAMES_QUERY);
+            preparedStatement.setInt(1, tournamentId);
             preparedStatement.setString(2, firstTeamName);
             preparedStatement.setString(3, secondTeamName);
-            preparedStatement.setInt(1, tournamentId);
+
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 match = MatchMapper.fromResultSetToMatch(resultSet);
@@ -117,9 +127,10 @@ public class MatchRepositoryJdbcImpl implements MatchRepository{
         Match match = null;
         try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(GET_BY_ROUND_CODE_AND_ORDER_QUERY);
+            preparedStatement.setInt(1, tournamentId);
             preparedStatement.setInt(2, roundCode);
             preparedStatement.setInt(3, order);
-            preparedStatement.setInt(1, tournamentId);
+
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 match = MatchMapper.fromResultSetToMatch(resultSet);
@@ -134,18 +145,19 @@ public class MatchRepositoryJdbcImpl implements MatchRepository{
     public void update(Match match) {
         try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY);
-            preparedStatement.setInt(9, match.getId());
             preparedStatement.setInt(1, match.getTournamentId());
 
-            preparedStatement.setString(2, match.getFirstTeamName());
-            preparedStatement.setString(3, match.getSecondTeamName());
+            setIdOrNull(2, match.getFirstTeamId(), preparedStatement);
+            setIdOrNull(3, match.getSecondTeamId(), preparedStatement);
 
             preparedStatement.setInt(4, match.getFirstTeamResult());
             preparedStatement.setInt(5, match.getSecondTeamResult());
 
+
             preparedStatement.setBoolean(6, match.getPlayed());
             preparedStatement.setInt(7, match.getRoundCode());
             preparedStatement.setInt(8, match.getOrder());
+            preparedStatement.setInt(9, match.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

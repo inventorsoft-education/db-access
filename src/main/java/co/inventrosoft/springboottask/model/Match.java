@@ -62,6 +62,20 @@ public class Match {
         return null;
     }
     @JsonIgnore
+    public int getFirstTeamId() {
+        if (firstTeam != null) {
+            return firstTeam.getId();
+        }
+        return 0;
+    }
+    @JsonIgnore
+    public int getSecondTeamId() {
+        if (secondTeam != null) {
+            return secondTeam.getId();
+        }
+        return 0;
+    }
+    @JsonIgnore
     public String getScore() {
         String score = null;
         if (this.played) {
