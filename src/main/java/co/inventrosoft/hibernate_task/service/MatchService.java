@@ -1,0 +1,100 @@
+package co.inventrosoft.hibernate_task.service;
+
+import co.inventrosoft.hibernate_task.console.MatchResult;
+import co.inventrosoft.hibernate_task.model.Match;
+import co.inventrosoft.hibernate_task.model.Team;
+import co.inventrosoft.hibernate_task.repository.hibernate.MatchRepository;
+import org.springframework.stereotype.Service;
+
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class MatchService {
+
+    private final MatchRepository matchRepository;
+
+    public MatchService(MatchRepository matchRepository) {
+        this.matchRepository = matchRepository;
+    }
+
+    /**
+     * Finds and sets match's score by MatchResult object.
+     * @param matchResult stores score and team names
+     * @param match is a match to be updated
+     */
+    public void updateMatchResults(MatchResult matchResult, Match match, int tournamentId) {
+        match.setFirstTeamResult(matchResult.getFirstTeamResult());
+        match.setSecondTeamResult(matchResult.getSecondTeamResult());
+        match.setPlayed(true);
+        matchRepository.save(match);
+
+        int roundCode = match.getRoundCode();
+        int order = match.getOrder();
+
+        if (!match.isFinal()) {
+            Team winner = match.getWinner();
+            // find match where winner should be placed
+            Optional<Match> nextMatchOpt = matchRepository.findByRoundCodeAndOrderAndTournamentId(
+                    roundCode / 2, order / 2, tournamentId
+            );
+            if (nextMatchOpt.isPresent()) {
+                Match nextMatch = nextMatchOpt.get();
+                nextMatch.setTeamByOrder(order, winner);
+                matchRepository.save(nextMatch);
+            }
+        }
+    }
+
+
+
+    /**
+     * Finds in storage match by MatchResult object.
+     * Swaps values in matchResult if match was not found.
+     * @param matchResult stores score and team names
+     */
+    public Match getMatchByResult(MatchResult matchResult, int tournamentId) {
+        Match match = matchRepository.getByTeamNamesAndTournamentId(
+                matchResult.getFirstTeamName(), matchResult.getSecondTeamName(), tournamentId
+        );
+        if (match == null) {
+            matchResult.swap();
+            match = matchRepository.getByTeamNamesAndTournamentId(
+                    matchResult.getFirstTeamName(), matchResult.getSecondTeamName(), tournamentId
+            );
+        }
+        return match;
+    }
+
+    public List<Match> findAllByTournamentId(int tournamentId) {
+        return matchRepository.findAllByTournamentId(tournamentId);
+    }
+    public void saveAll(List<Match> matches) {
+        matchRepository.saveAll(matches);
+    }
+    public String toCsv(Match match) {
+        String str = null;
+        if (match.getPlayed()) {
+            str = "1/" + match.getRoundCode() + "," + match.getFirstTeam().getName() + ",";
+            str += match.getSecondTeam().getName() + "," + match.getScore() + "\n";
+        }
+        return str;
+    }
+
+    public void writeAllToCsv(int tournamentId) {
+        List<Match> matches = matchRepository.findAllByTournamentId(tournamentId);
+        try (PrintWriter writer = new PrintWriter("result.csv")) {
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("Round,Team 1,Team 2,Score\n");
+            for (Match match: matches) {
+                sb.append(toCsv(match));
+            }
+            writer.write(sb.toString());
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
