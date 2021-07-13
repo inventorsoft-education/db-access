@@ -1,5 +1,6 @@
 package co.inventrosoft.springboottask.service;
 
+import co.inventrosoft.springboottask.console.MatchResult;
 import co.inventrosoft.springboottask.model.Team;
 import co.inventrosoft.springboottask.repository.TeamRepository;
 import org.springframework.stereotype.Service;
@@ -21,5 +22,9 @@ public class TeamService {
 
     public boolean isTeamExist(String teamName) {
         return teamRepository.isExist(teamName);
+    }
+
+    public boolean areTeamsInMatchResultExists(MatchResult matchResult) {
+        return isTeamExist(matchResult.getFirstTeamName()) && isTeamExist(matchResult.getSecondTeamName());
     }
 }

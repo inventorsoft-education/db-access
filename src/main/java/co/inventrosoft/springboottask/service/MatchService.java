@@ -13,17 +13,15 @@ import java.util.List;
 
 @Service
 public class MatchService {
-    private final TeamService teamService;
 
     private final MatchRepository matchRepository;
 
-    public MatchService(MatchRepository matchRepository, TeamService teamService) {
+    public MatchService(MatchRepository matchRepository) {
         this.matchRepository = matchRepository;
-        this.teamService = teamService;
     }
 
     /**
-     * finds and sets match's score by MatchResult object
+     * Finds and sets match's score by MatchResult object.
      * @param matchResult stores score and team names
      * @param match is a match to be updated
      */
@@ -54,8 +52,8 @@ public class MatchService {
     }
 
     /**
-     * finds in storage match by MatchResult object
-     * swaps values in matchResult if match was not found
+     * Finds in storage match by MatchResult object.
+     * Swaps values in matchResult if match was not found.
      * @param matchResult stores score and team names
      */
     public Match getMatchByResult(MatchResult matchResult, int tournamentId) {
@@ -89,9 +87,5 @@ public class MatchService {
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    public boolean areTeamsInMatchResultExists(MatchResult matchResult) {
-        return teamService.isTeamExist(matchResult.getFirstTeamName()) && teamService.isTeamExist(matchResult.getSecondTeamName());
     }
 }

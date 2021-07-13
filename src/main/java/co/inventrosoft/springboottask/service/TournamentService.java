@@ -70,7 +70,7 @@ public class TournamentService {
             consoleParser.printTournament(matchService.getTournament(tournamentId));
 
             MatchResult matchResult = consoleParser.getResultOfMatch();
-            if (!matchService.areTeamsInMatchResultExists(matchResult)) {
+            if (!teamService.areTeamsInMatchResultExists(matchResult)) {
                 consoleParser.printLine("Teams are wrong!");
                 continue;
             }
