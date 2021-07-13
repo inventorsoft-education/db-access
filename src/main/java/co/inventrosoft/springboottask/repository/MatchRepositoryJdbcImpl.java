@@ -14,36 +14,40 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Primary
 @Repository
 public class MatchRepositoryJdbcImpl implements MatchRepository{
-    private static final String UPDATE_QUERY = "UPDATE matches SET tournament_id=?, " +
-            "first_team_name=?, second_team_name=?, " +
-            "first_team_result=?, second_team_result=?, " +
-            "is_played=?, round_code=?, match_order=? " +
-            "WHERE match_id=?";
+    private static final String UPDATE_QUERY = """
+        UPDATE matches SET tournament_id=?,
+        first_team_id=?, second_team_id=?,
+        first_team_result=?, second_team_result=?,
+        is_played=?, round_code=?, match_order=? WHERE match_id=?
+    """;
 
-    private static final String GET_QUERY = "SELECT " +
-            "m.match_id, m.tournament_id, m.first_team_result, m.second_team_result, " +
-            "m.is_played, m.round_code, m.match_order, " +
-            "t1.name AS t1_name, t1.capitan AS t1_capitan, t1.coach AS t1_coach, " +
-            "t2.name AS t2_name, t2.capitan AS t2_capitan, t2.coach AS t2_coach " +
-            "FROM matches AS m " +
-            "LEFT JOIN teams AS t1 ON m.first_team_name = t1.name " +
-            "LEFT JOIN teams AS t2 ON m.second_team_name = t2.name " +
-            "WHERE tournament_id=?  ";
+    private static final String GET_QUERY = """
+        SELECT m.match_id, m.tournament_id, m.first_team_result, m.second_team_result,
+        m.is_played, m.round_code, m.match_order,
+        t1.team_id AS t1_id, t1.name AS t1_name, t1.capitan AS t1_capitan, t1.coach AS t1_coach,
+        t2.team_id AS t2_id, t2.name AS t2_name, t2.capitan AS t2_capitan, t2.coach AS t2_coach
+        FROM matches AS m
+            LEFT JOIN teams AS t1 ON m.first_team_id = t1.team_id
+            LEFT JOIN teams AS t2 ON m.second_team_id = t2.team_id
+        WHERE tournament_id=?
+    """;
 
     public static final String GET_BY_ROUND_CODE_AND_ORDER_QUERY = GET_QUERY +
             "AND round_code=? AND match_order=?";
 
     private static final String GET_BY_TEAM_NAMES_QUERY = GET_QUERY +
-            "AND first_team_name=? AND second_team_name=?";
+            "AND t1.name=? AND t2.name=?";
 
-    private static final String INSERT_QUERY = "INSERT INTO matches " +
-            "(tournament_id, first_team_name, second_team_name, first_team_result, " +
-            "second_team_result, is_played, round_code, match_order) VALUES " +
-            "(?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String INSERT_QUERY = """
+        INSERT INTO matches (tournament_id, first_team_id, second_team_id, first_team_result,
+            second_team_result, is_played, round_code, match_order)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    """;
 
     private final JdbcConfig jdbcConfig;
 
