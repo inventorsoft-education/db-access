@@ -5,6 +5,7 @@ import co.inventrosoft.springboottask.console.MatchResult;
 import co.inventrosoft.springboottask.model.Match;
 import co.inventrosoft.springboottask.model.Team;
 import co.inventrosoft.springboottask.repository.TournamentRepositoryJdbcImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -12,7 +13,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
 @Service
+@AllArgsConstructor
 public class TournamentService {
     private final MatchService matchService;
     private final TeamService teamService;
@@ -21,15 +24,8 @@ public class TournamentService {
 
     private final ConsoleParser consoleParser;
 
-    public TournamentService(MatchService matchService, TeamService teamService, ConsoleParser consoleParser, TournamentRepositoryJdbcImpl tournamentRepository) {
-        this.matchService = matchService;
-        this.teamService = teamService;
-        this.tournamentRepository = tournamentRepository;
-        this.consoleParser = consoleParser;
-    }
-
     /**
-     * creates a tournament with matches,
+     * Creates a tournament with matches,
      * where teams in first round stores teams from list, the rest stores null
      */
     public int createEmptyTournament(List<Team> teams) {
