@@ -20,14 +20,16 @@ public class ConsoleParser {
     public ConsoleParser() {
         this.reader = new BufferedReader(new InputStreamReader(System.in));
     }
+
     public void close() throws IOException {
         reader.close();
     }
+
     public List<Team> getTeams() throws IOException {
         ArrayList<Team> teams = new ArrayList<>();
         int teamCount = getTeamCount();
         for (int i = 0; i < teamCount; i++) {
-            while(true) {
+            while (true) {
                 Team team = getTeam();
                 // check if this team in list
                 boolean isTeamNotInTeamList = teams.stream()
@@ -141,11 +143,8 @@ public class ConsoleParser {
         return matchResult;
     }
 
-    public void printTournament(List<Match> matches) {
-        for (Match match: matches) {
-            System.out.println(match);
-        }
-        System.out.println();
+    public void printMatch(Match match) {
+        System.out.println(match);
     }
 
     public void printLine(String text) {

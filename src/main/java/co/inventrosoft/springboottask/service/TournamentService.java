@@ -67,7 +67,9 @@ public class TournamentService {
         int tournamentId = createEmptyTournament(teams);
         Team winner = null;
         do {
-            consoleParser.printTournament(matchService.getTournament(tournamentId));
+            for (Match match : matchService.getTournament(tournamentId)) {
+                consoleParser.printMatch(match);
+            }
 
             MatchResult matchResult = consoleParser.getResultOfMatch();
             if (!teamService.areTeamsInMatchResultExists(matchResult)) {
