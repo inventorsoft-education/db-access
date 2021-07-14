@@ -6,6 +6,7 @@ import co.inventrosoft.hibernate_task.model.Match;
 import co.inventrosoft.hibernate_task.model.Team;
 import co.inventrosoft.hibernate_task.model.Tournament;
 import co.inventrosoft.hibernate_task.repository.TournamentRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -14,23 +15,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
 @Service
+@AllArgsConstructor
 public class TournamentService {
     private final MatchService matchService;
     private final TeamService teamService;
 
-    //private final co.inventrosoft.hibernate_task.repository.TournamentRepository tournamentRepository1;
-
     private final TournamentRepository tournamentRepository;
 
     private final ConsoleParser consoleParser;
-
-    public TournamentService(MatchService matchService, TeamService teamService, ConsoleParser consoleParser, TournamentRepository tournamentRepository) {
-        this.matchService = matchService;
-        this.teamService = teamService;
-        this.tournamentRepository = tournamentRepository;
-        this.consoleParser = consoleParser;
-    }
 
     /**
      * creates a tournament with matches,
@@ -76,7 +70,9 @@ public class TournamentService {
         Tournament tournament = createEmptyTournament(teams);
         Team winner = null;
         do {
-            consoleParser.printTournament(matchService.findAllByTournamentId(tournament.getId()));
+            for (Match match : matchService.findAllByTournamentId(tournament.getId())) {
+                consoleParser.printMatch(match);
+            }
 
             MatchResult matchResult = consoleParser.getResultOfMatch();
             if (!teamService.areTeamsInMatchResultExists(matchResult)) {
@@ -100,7 +96,5 @@ public class TournamentService {
         } while (winner == null);
         consoleParser.printWinner(winner);
         consoleParser.close();
-        //matchService.writeAllToCsv(tournamentId);
-
     }
 }

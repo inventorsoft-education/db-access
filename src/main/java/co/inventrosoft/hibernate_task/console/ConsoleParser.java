@@ -143,11 +143,9 @@ public class ConsoleParser {
         return matchResult;
     }
 
-    public void printTournament(List<Match> matches) {
-        for (Match match: matches) {
-            System.out.println(MatchMapper.fromObjectToString(match));
-        }
-        System.out.println();
+
+    public void printMatch(Match match) {
+        System.out.println(MatchMapper.fromObjectToString(match));
     }
 
     public void printLine(String text) {
