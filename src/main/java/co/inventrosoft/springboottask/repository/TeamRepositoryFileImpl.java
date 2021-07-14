@@ -65,7 +65,8 @@ public class TeamRepositoryFileImpl implements TeamRepository{
 
     @Override
     public boolean isExist(String teamName) {
-        List<Team> teams = findAll();
-        return teams.stream().anyMatch(team -> team.getName().equals(teamName));
+        return findAll().stream()
+                .map(Team::getName)
+                .anyMatch(otherTeamName -> otherTeamName.equals(teamName));
     }
 }
