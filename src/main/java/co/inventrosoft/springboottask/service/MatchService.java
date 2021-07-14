@@ -3,20 +3,19 @@ package co.inventrosoft.springboottask.service;
 import co.inventrosoft.springboottask.console.MatchResult;
 import co.inventrosoft.springboottask.model.Match;
 import co.inventrosoft.springboottask.model.Team;
-import co.inventrosoft.springboottask.repository.MatchRepository;
+import co.inventrosoft.springboottask.repository.MatchRepositoryJdbcImpl;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
 @Service
 public class MatchService {
 
-    private final MatchRepository matchRepository;
+    private final MatchRepositoryJdbcImpl matchRepository;
 
-    public MatchService(MatchRepository matchRepository) {
+    public MatchService(MatchRepositoryJdbcImpl matchRepository) {
         this.matchRepository = matchRepository;
     }
 

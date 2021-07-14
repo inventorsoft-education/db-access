@@ -4,7 +4,7 @@ import co.inventrosoft.springboottask.console.ConsoleParser;
 import co.inventrosoft.springboottask.console.MatchResult;
 import co.inventrosoft.springboottask.model.Match;
 import co.inventrosoft.springboottask.model.Team;
-import co.inventrosoft.springboottask.repository.TournamentRepository;
+import co.inventrosoft.springboottask.repository.TournamentRepositoryJdbcImpl;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -17,11 +17,11 @@ public class TournamentService {
     private final MatchService matchService;
     private final TeamService teamService;
 
-    private final TournamentRepository tournamentRepository;
+    private final TournamentRepositoryJdbcImpl tournamentRepository;
 
     private final ConsoleParser consoleParser;
 
-    public TournamentService(MatchService matchService, TeamService teamService, ConsoleParser consoleParser, TournamentRepository tournamentRepository) {
+    public TournamentService(MatchService matchService, TeamService teamService, ConsoleParser consoleParser, TournamentRepositoryJdbcImpl tournamentRepository) {
         this.matchService = matchService;
         this.teamService = teamService;
         this.tournamentRepository = tournamentRepository;

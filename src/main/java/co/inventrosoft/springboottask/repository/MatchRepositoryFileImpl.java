@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@Qualifier
+
 @Repository
 public class MatchRepositoryFileImpl implements MatchRepository {
     private final static String matchesFile = "matches.json";
@@ -80,8 +80,5 @@ public class MatchRepositoryFileImpl implements MatchRepository {
                 break;
             }
         }
-
     }
-
-
 }

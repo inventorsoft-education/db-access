@@ -2,7 +2,7 @@ package co.inventrosoft.springboottask.service;
 
 import co.inventrosoft.springboottask.console.MatchResult;
 import co.inventrosoft.springboottask.model.Team;
-import co.inventrosoft.springboottask.repository.TeamRepository;
+import co.inventrosoft.springboottask.repository.TeamRepositoryJdbcImpl;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -10,9 +10,9 @@ import java.util.List;
 
 @Service
 public class TeamService {
-    private final TeamRepository teamRepository;
+    private final TeamRepositoryJdbcImpl teamRepository;
 
-    public TeamService(TeamRepository teamRepository) {
+    public TeamService(TeamRepositoryJdbcImpl teamRepository) {
         this.teamRepository = teamRepository;
     }
 

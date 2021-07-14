@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@Qualifier
+
 @Repository
 public class TeamRepositoryFileImpl implements TeamRepository{
     private final static String teamsFile = "teams.json";
@@ -62,9 +62,6 @@ public class TeamRepositoryFileImpl implements TeamRepository{
         }
         save(teams);
     }
-
-
-
 
     @Override
     public boolean isExist(String teamName) {
