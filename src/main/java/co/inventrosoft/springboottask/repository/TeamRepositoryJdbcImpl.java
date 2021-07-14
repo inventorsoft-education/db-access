@@ -16,9 +16,27 @@ import java.util.List;
 @Primary
 @Repository
 public class TeamRepositoryJdbcImpl implements TeamRepository{
-    private static final String INSERT_QUERY = "INSERT INTO teams (name, capitan, coach) VALUES (?, ?, ?) RETURNING team_id";
-    private static final String UPDATE_BY_NAME_QUERY = "UPDATE teams SET capitan=?, coach=? WHERE name=? RETURNING team_id";
-    private static final String IS_EXIST_QUERY = "SELECT EXISTS(SELECT name FROM teams WHERE name=?)";
+    private static final String INSERT_QUERY = """
+        INSERT INTO teams 
+            (name, capitan, coach) 
+        VALUES 
+            (?, ?, ?) 
+        RETURNING team_id
+    """;
+    private static final String UPDATE_BY_NAME_QUERY = """
+        UPDATE teams 
+        SET capitan=?, 
+            coach=? 
+        WHERE name=? 
+        RETURNING team_id
+    """;
+    private static final String IS_EXIST_QUERY = """
+        SELECT EXISTS (
+            SELECT name 
+            FROM teams 
+            WHERE name=?
+        )
+    """;
     private final JdbcConfig jdbcConfig;
 
     public TeamRepositoryJdbcImpl(JdbcConfig jdbcConfig) {

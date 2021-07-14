@@ -15,7 +15,11 @@ import java.sql.ResultSet;
 @Primary
 @Repository
 public class TournamentRepositoryJdbcImpl implements TournamentRepository {
-    private static final String CREATE_QUERY = "INSERT INTO tournaments DEFAULT VALUES RETURNING tournament_id";
+    private static final String CREATE_QUERY = """
+        INSERT INTO tournaments 
+        DEFAULT VALUES 
+        RETURNING tournament_id
+    """;
 
     private final JdbcConfig jdbcConfig;
 

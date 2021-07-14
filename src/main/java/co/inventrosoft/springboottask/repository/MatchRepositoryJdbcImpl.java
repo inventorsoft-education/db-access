@@ -20,17 +20,24 @@ import java.util.Optional;
 @Repository
 public class MatchRepositoryJdbcImpl implements MatchRepository{
     private static final String UPDATE_QUERY = """
-        UPDATE matches SET tournament_id=?,
-        first_team_id=?, second_team_id=?,
-        first_team_result=?, second_team_result=?,
-        is_played=?, round_code=?, match_order=? WHERE match_id=?
+        UPDATE matches 
+        SET tournament_id=?,
+            first_team_id=?, 
+            second_team_id=?,
+            first_team_result=?, 
+            second_team_result=?,
+            is_played=?, 
+            round_code=?, 
+            match_order=? 
+        WHERE match_id=?
     """;
 
     private static final String GET_QUERY = """
-        SELECT m.match_id, m.tournament_id, m.first_team_result, m.second_team_result,
-        m.is_played, m.round_code, m.match_order,
-        t1.team_id AS t1_id, t1.name AS t1_name, t1.capitan AS t1_capitan, t1.coach AS t1_coach,
-        t2.team_id AS t2_id, t2.name AS t2_name, t2.capitan AS t2_capitan, t2.coach AS t2_coach
+        SELECT 
+            m.match_id, m.tournament_id, m.first_team_result, 
+            m.second_team_result, m.is_played, m.round_code, m.match_order,
+            t1.team_id AS t1_id, t1.name AS t1_name, t1.capitan AS t1_capitan, t1.coach AS t1_coach,
+            t2.team_id AS t2_id, t2.name AS t2_name, t2.capitan AS t2_capitan, t2.coach AS t2_coach
         FROM matches AS m
             LEFT JOIN teams AS t1 ON m.first_team_id = t1.team_id
             LEFT JOIN teams AS t2 ON m.second_team_id = t2.team_id
@@ -44,9 +51,13 @@ public class MatchRepositoryJdbcImpl implements MatchRepository{
             "AND t1.name=? AND t2.name=?";
 
     private static final String INSERT_QUERY = """
-        INSERT INTO matches (tournament_id, first_team_id, second_team_id, first_team_result,
-            second_team_result, is_played, round_code, match_order)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO matches (
+            tournament_id, first_team_id, second_team_id, first_team_result,
+            second_team_result, is_played, round_code, match_order
+        )
+        VALUES (
+            ?, ?, ?, ?, ?, ?, ?, ?
+        )
     """;
 
     private final JdbcConfig jdbcConfig;
