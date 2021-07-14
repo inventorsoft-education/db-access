@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Optional;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -47,34 +49,34 @@ public class Match {
 
         return str;
     }
+
     @JsonIgnore
     public String getFirstTeamName() {
-        if (firstTeam != null) {
-            return firstTeam.getName();
-        }
-        return null;
+        return Optional.ofNullable(firstTeam)
+                .map(Team::getName)
+                .orElse(null);
     }
+
     @JsonIgnore
     public String getSecondTeamName() {
-        if (secondTeam != null) {
-            return secondTeam.getName();
-        }
-        return null;
+        return Optional.ofNullable(secondTeam)
+                .map(Team::getName)
+                .orElse(null);
     }
     @JsonIgnore
     public int getFirstTeamId() {
-        if (firstTeam != null) {
-            return firstTeam.getId();
-        }
-        return 0;
+        return Optional.ofNullable(firstTeam)
+                .map(Team::getId)
+                .orElse(0);
     }
+
     @JsonIgnore
     public int getSecondTeamId() {
-        if (secondTeam != null) {
-            return secondTeam.getId();
-        }
-        return 0;
+        return Optional.ofNullable(secondTeam)
+                .map(Team::getId)
+                .orElse(0);
     }
+
     @JsonIgnore
     public String getScore() {
         String score = null;
