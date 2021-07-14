@@ -1,12 +1,10 @@
 package co.inventrosoft.hibernate_task.repository;
 
 import co.inventrosoft.hibernate_task.model.Team;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-public interface TeamRepository {
-    void save(List<Team> teams);
-    void add(Team team);
-    void update(Team team);
-    boolean isExist(String teamName);
+@Repository
+public interface TeamRepository extends JpaRepository<Team, Integer> {
+    boolean existsByName(String name);
 }

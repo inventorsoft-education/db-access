@@ -5,7 +5,7 @@ import co.inventrosoft.hibernate_task.console.MatchResult;
 import co.inventrosoft.hibernate_task.model.Match;
 import co.inventrosoft.hibernate_task.model.Team;
 import co.inventrosoft.hibernate_task.model.Tournament;
-import co.inventrosoft.hibernate_task.repository.hibernate.TournamentRepository;
+import co.inventrosoft.hibernate_task.repository.TournamentRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
