@@ -23,7 +23,6 @@ public class Match {
     //  1/round - name of round. e.g roundCode = 8 -> round name = 1/8
     //  roundCode == number of matches in current round
     //  if roundCode == 1 - this round is final
-    @Column
     int roundCode;
 
     //  for resolving to which match carry the winner
