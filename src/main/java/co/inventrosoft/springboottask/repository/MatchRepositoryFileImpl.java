@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -43,17 +44,11 @@ public class MatchRepositoryFileImpl implements MatchRepository {
 
     @Override
     public Match getByTeamNames(String firstTeamName, String secondTeamName, int tournamentId) {
-        List<Match> matches = findByTournament(tournamentId);
-        Match resultMatch = null;
-        for (Match match: matches) {
-            boolean checkIfTeamsNotNulls = match.getFirstTeam() != null && match.getSecondTeam() != null;
-            if (checkIfTeamsNotNulls && match.getFirstTeam().getName().equals(firstTeamName)
-                    && match.getSecondTeam().getName().equals(secondTeamName)) {
-                resultMatch = match;
-                break;
-            }
-        }
-        return resultMatch;
+        return findByTournament(tournamentId).stream()
+                .filter(match -> firstTeamName.equals(match.getFirstTeamName())
+                        && secondTeamName.equals(match.getFirstTeamName()))
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
