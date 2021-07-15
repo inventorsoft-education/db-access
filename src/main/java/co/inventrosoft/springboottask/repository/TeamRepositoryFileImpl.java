@@ -58,7 +58,7 @@ public class TeamRepositoryFileImpl implements TeamRepository{
                 .ifPresent(team -> {
                     team.setName(teamData.getName());
                     team.setCoach(teamData.getCoach());
-                    team.setCapitan(teamData.getCapitan());
+                    team.setCaptain(teamData.getCaptain());
 
                     save(teams);
                 });

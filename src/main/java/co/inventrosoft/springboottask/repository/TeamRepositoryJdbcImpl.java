@@ -4,7 +4,6 @@ package co.inventrosoft.springboottask.repository;
 import co.inventrosoft.springboottask.configuration.JdbcConfig;
 import co.inventrosoft.springboottask.model.Team;
 import lombok.AllArgsConstructor;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -52,14 +51,14 @@ public class TeamRepositoryJdbcImpl implements TeamRepository{
                 PreparedStatement preparedStatement;
                 if (isExist(team.getName())) {
                     preparedStatement = connection.prepareStatement(UPDATE_BY_NAME_QUERY);
-                    preparedStatement.setString(1, team.getCapitan());
+                    preparedStatement.setString(1, team.getCaptain());
                     preparedStatement.setString(2, team.getCoach());
                     preparedStatement.setString(3, team.getName());
 
                 } else {
                     preparedStatement = connection.prepareStatement(INSERT_QUERY);
                     preparedStatement.setString(1, team.getName());
-                    preparedStatement.setString(2, team.getCapitan());
+                    preparedStatement.setString(2, team.getCaptain());
                     preparedStatement.setString(3, team.getCoach());
                 }
                 ResultSet resultSet = preparedStatement.executeQuery();
@@ -76,7 +75,7 @@ public class TeamRepositoryJdbcImpl implements TeamRepository{
         try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY);
             preparedStatement.setString(1, team.getName());
-            preparedStatement.setString(2, team.getCapitan());
+            preparedStatement.setString(2, team.getCaptain());
             preparedStatement.setString(3, team.getCoach());
 
             preparedStatement.executeUpdate();
@@ -90,7 +89,7 @@ public class TeamRepositoryJdbcImpl implements TeamRepository{
         try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BY_NAME_QUERY);
 
-            preparedStatement.setString(1, team.getCapitan());
+            preparedStatement.setString(1, team.getCaptain());
             preparedStatement.setString(2, team.getCoach());
             preparedStatement.setString(3, team.getName());
             preparedStatement.executeUpdate();

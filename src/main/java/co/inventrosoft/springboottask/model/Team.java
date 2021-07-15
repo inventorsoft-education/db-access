@@ -10,17 +10,17 @@ import lombok.NoArgsConstructor;
 public class Team {
     int id;
     String name;
-    String capitan;
+    String captain;
     String coach;
 
-    public Team(String name, String capitan, String coach) {
+    public Team(String name, String captain, String coach) {
         this.name = name;
-        this.capitan = capitan;
+        this.captain = captain;
         this.coach = coach;
     }
 
     @Override
     public String toString() {
-        return this.name + ". Capitan - " + this.capitan + ", coach - " + this.coach;
+        return this.name + ". Capitan - " + this.captain + ", coach - " + this.coach;
     }
 }
