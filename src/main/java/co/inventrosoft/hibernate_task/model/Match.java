@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.Optional;
 
 
 @Entity
@@ -65,31 +66,27 @@ public class Match {
 
     @JsonIgnore
     public String getFirstTeamName() {
-        if (firstTeam != null) {
-            return firstTeam.getName();
-        }
-        return null;
+        return Optional.ofNullable(firstTeam)
+                .map(Team::getName)
+                .orElse(null);
     }
     @JsonIgnore
     public String getSecondTeamName() {
-        if (secondTeam != null) {
-            return secondTeam.getName();
-        }
-        return null;
+        return Optional.ofNullable(secondTeam)
+                .map(Team::getName)
+                .orElse(null);
     }
     @JsonIgnore
     public int getFirstTeamId() {
-        if (firstTeam != null) {
-            return firstTeam.getId();
-        }
-        return 0;
+        return Optional.ofNullable(firstTeam)
+                .map(Team::getId)
+                .orElse(0);
     }
     @JsonIgnore
     public int getSecondTeamId() {
-        if (secondTeam != null) {
-            return secondTeam.getId();
-        }
-        return 0;
+        return Optional.ofNullable(secondTeam)
+                .map(Team::getId)
+                .orElse(0);
     }
     @JsonIgnore
     public String getScore() {
