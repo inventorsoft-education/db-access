@@ -29,12 +29,12 @@ public class ConsoleParser {
         ArrayList<Team> teams = new ArrayList<>();
         int teamCount = getTeamCount();
         for (int i = 0; i < teamCount; i++) {
-            while(true) {
+            while (true) {
                 Team team = getTeam();
                 // check if this team in list
                 boolean isTeamNotInTeamList = teams.stream()
                         .map(Team::getName)
-                        .noneMatch(teamName -> teamName.equals(team.getName()));
+                        .noneMatch(team.getName()::equals);
 
                 if (isTeamNotInTeamList) {
                     teams.add(team);
@@ -56,7 +56,7 @@ public class ConsoleParser {
 
                 // check if power of 2
                 double log2 = Math.log(teamCount) / Math.log(2); // log base 2
-                boolean isPowerOfTwo = (int)Math.ceil(log2) == (int)Math.floor(log2);
+                boolean isPowerOfTwo = (int) Math.ceil(log2) == (int) Math.floor(log2);
 
                 if (teamCount < 4 || !isPowerOfTwo) {
                     System.out.println("Number of teams should be at least 4 and power of 2!");
