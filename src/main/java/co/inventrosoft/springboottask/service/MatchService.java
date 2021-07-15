@@ -44,7 +44,7 @@ public class MatchService {
     }
 
     public List<Match> getTournament(int tournamentId) {
-        return matchRepository.findAll(tournamentId);
+        return matchRepository.findByTournament(tournamentId);
     }
     public void saveAll(List<Match> matches) {
         matchRepository.save(matches);
@@ -74,7 +74,7 @@ public class MatchService {
     }
 
     public void writeAllToCsv(int tournamentId) {
-        List<Match> matches = matchRepository.findAll(tournamentId);
+        List<Match> matches = matchRepository.findByTournament(tournamentId);
         try (PrintWriter writer = new PrintWriter("result.csv")) {
 
             StringBuilder sb = new StringBuilder();

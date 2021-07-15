@@ -101,7 +101,7 @@ public class MatchRepositoryJdbcImpl implements MatchRepository{
     }
 
     @Override
-    public List<Match> findAll(int tournamentId) {
+    public List<Match> findByTournament(int tournamentId) {
         List<Match> matches = new ArrayList<>();
 
         try (Connection connection = getConnection()) {
