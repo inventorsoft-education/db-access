@@ -14,7 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 @Primary
 @Repository
@@ -33,14 +33,24 @@ public class MatchRepositoryJdbcImpl implements MatchRepository{
     """;
 
     private static final String GET_QUERY = """
-        SELECT 
-            m.match_id, m.tournament_id, m.first_team_result, 
-            m.second_team_result, m.is_played, m.round_code, m.match_order,
-            t1.team_id AS t1_id, t1.name AS t1_name, t1.capitan AS t1_capitan, t1.coach AS t1_coach,
-            t2.team_id AS t2_id, t2.name AS t2_name, t2.capitan AS t2_capitan, t2.coach AS t2_coach
+        SELECT m.match_id, 
+               m.tournament_id, 
+               m.first_team_result, 
+               m.second_team_result, 
+               m.is_played, 
+               m.round_code, 
+               m.match_order,
+               t1.team_id AS t1_id, 
+               t1.name AS t1_name, 
+               t1.capitan AS t1_capitan, 
+               t1.coach AS t1_coach,
+               t2.team_id AS t2_id, 
+               t2.name AS t2_name, 
+               t2.capitan AS t2_capitan, 
+               t2.coach AS t2_coach
         FROM matches AS m
-            LEFT JOIN teams AS t1 ON m.first_team_id = t1.team_id
-            LEFT JOIN teams AS t2 ON m.second_team_id = t2.team_id
+                LEFT JOIN teams AS t1 ON m.first_team_id = t1.team_id
+                LEFT JOIN teams AS t2 ON m.second_team_id = t2.team_id
         WHERE tournament_id=?
     """;
 
