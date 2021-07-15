@@ -32,7 +32,7 @@ public class TournamentService {
         int teamCount = teams.size();
         int roundCount = (int)(Math.log(teamCount) / Math.log(2)); // log base 2
         int id = tournamentRepository.create();
-        ArrayList<Match> matches = new ArrayList<>();
+        List<Match> matches = new ArrayList<>();
 
         for (int round = 0; round < roundCount; round++) {
 
