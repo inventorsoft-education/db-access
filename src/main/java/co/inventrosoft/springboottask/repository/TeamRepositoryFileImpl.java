@@ -59,8 +59,9 @@ public class TeamRepositoryFileImpl implements TeamRepository{
                     team.setName(teamData.getName());
                     team.setCoach(teamData.getCoach());
                     team.setCapitan(teamData.getCapitan());
+
+                    save(teams);
                 });
-        save(teams);
     }
 
     @Override

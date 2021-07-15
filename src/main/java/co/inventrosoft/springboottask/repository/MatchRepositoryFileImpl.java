@@ -58,26 +58,31 @@ public class MatchRepositoryFileImpl implements MatchRepository {
 
     @Override
     public Match getByRoundCodeAndOrder(int roundCode, int order, int tournamentId) {
-        List<Match> matches = findByTournament(tournamentId);
-        Match resultMatch = null;
-        for (Match match: matches) {
-            if (match.getRoundCode() == roundCode && match.getOrder() == order) {
-                resultMatch = match;
-                break;
-            }
-        }
-        return resultMatch;
+        return findByTournament(tournamentId).stream()
+                .filter(match -> match.getRoundCode() == roundCode && match.getOrder() == order)
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
-    public void update(Match match) {
-        List<Match> matches = findByTournament(0);
-        for (int i = 0; i < matches.size(); i++) {
-            if (matches.get(i).getRoundCode() == match.getRoundCode() && matches.get(i).getOrder() == match.getOrder()) {
-                matches.set(i, match);
-                save(matches);
-                break;
-            }
-        }
+    public void update(Match matchData) {
+        List<Match> matches = findByTournament(matchData.getTournamentId());
+        matches.stream()
+                .filter(match -> matchData.getRoundCode() == match.getRoundCode()
+                        && matchData.getOrder() == match.getOrder())
+                .findFirst()
+                .ifPresent(match -> {
+                    match.setTournamentId(matchData.getTournamentId());
+                    match.setRoundCode(matchData.getRoundCode());
+                    match.setOrder(matchData.getOrder());
+                    match.setFirstTeam(matchData.getFirstTeam());
+                    match.setSecondTeam(matchData.getSecondTeam());
+                    match.setFirstTeamResult(matchData.getFirstTeamResult());
+                    match.setSecondTeamResult(matchData.getSecondTeamResult());
+                    match.setPlayed(matchData.getPlayed());
+
+                    save(matches);
+                });
+
     }
 }
