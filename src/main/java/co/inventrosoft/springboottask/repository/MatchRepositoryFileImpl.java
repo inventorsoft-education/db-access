@@ -3,6 +3,7 @@ package co.inventrosoft.springboottask.repository;
 import co.inventrosoft.springboottask.model.Match;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedWriter;
@@ -15,13 +16,11 @@ import java.util.List;
 
 
 @Repository
+@AllArgsConstructor
 public class MatchRepositoryFileImpl implements MatchRepository {
     private static final String MATCHES_FILE = "matches.json";
     private final ObjectMapper mapper;
 
-    public MatchRepositoryFileImpl(ObjectMapper mapper) {
-        this.mapper = mapper;
-    }
     @Override
     public void save(List<Match> matches) {
         try (PrintWriter out = new PrintWriter(new BufferedWriter(

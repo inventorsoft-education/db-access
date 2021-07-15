@@ -1,10 +1,10 @@
 package co.inventrosoft.springboottask.repository;
 
-import co.inventrosoft.springboottask.model.Match;
-import co.inventrosoft.springboottask.model.Team;
 
-import java.io.IOException;
+import co.inventrosoft.springboottask.model.Match;
+
 import java.util.List;
+
 
 public interface MatchRepository {
     List<Match> findByTournament(int tournamentId);

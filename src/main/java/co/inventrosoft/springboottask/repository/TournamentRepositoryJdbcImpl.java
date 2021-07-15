@@ -2,7 +2,7 @@ package co.inventrosoft.springboottask.repository;
 
 
 import co.inventrosoft.springboottask.configuration.JdbcConfig;
-import org.springframework.context.annotation.Primary;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -12,8 +12,9 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 
 
-@Primary
+
 @Repository
+@AllArgsConstructor
 public class TournamentRepositoryJdbcImpl implements TournamentRepository {
     private static final String CREATE_QUERY = """
         INSERT INTO tournaments 
@@ -22,10 +23,6 @@ public class TournamentRepositoryJdbcImpl implements TournamentRepository {
     """;
 
     private final JdbcConfig jdbcConfig;
-
-    public TournamentRepositoryJdbcImpl(JdbcConfig jdbcConfig) {
-        this.jdbcConfig = jdbcConfig;
-    }
 
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(jdbcConfig.getUrl(), jdbcConfig.getUsername(), jdbcConfig.getPassword());

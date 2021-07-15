@@ -3,6 +3,7 @@ package co.inventrosoft.springboottask.repository;
 
 import co.inventrosoft.springboottask.configuration.JdbcConfig;
 import co.inventrosoft.springboottask.model.Team;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -13,8 +14,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-@Primary
+
 @Repository
+@AllArgsConstructor
 public class TeamRepositoryJdbcImpl implements TeamRepository{
     private static final String INSERT_QUERY = """
         INSERT INTO teams 
@@ -38,10 +40,6 @@ public class TeamRepositoryJdbcImpl implements TeamRepository{
         )
     """;
     private final JdbcConfig jdbcConfig;
-
-    public TeamRepositoryJdbcImpl(JdbcConfig jdbcConfig) {
-        this.jdbcConfig = jdbcConfig;
-    }
 
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(jdbcConfig.getUrl(), jdbcConfig.getUsername(), jdbcConfig.getPassword());

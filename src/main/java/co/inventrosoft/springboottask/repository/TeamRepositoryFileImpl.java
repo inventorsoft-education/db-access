@@ -4,6 +4,7 @@ package co.inventrosoft.springboottask.repository;
 import co.inventrosoft.springboottask.model.Team;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedWriter;
@@ -16,13 +17,10 @@ import java.util.List;
 
 
 @Repository
+@AllArgsConstructor
 public class TeamRepositoryFileImpl implements TeamRepository{
     private static final String TEAMS_FILE = "teams.json";
     private final ObjectMapper mapper;
-
-    public TeamRepositoryFileImpl(ObjectMapper mapper) {
-        this.mapper = mapper;
-    }
 
     private List<Team> findAll() {
         List<Team> teams = new ArrayList<>();

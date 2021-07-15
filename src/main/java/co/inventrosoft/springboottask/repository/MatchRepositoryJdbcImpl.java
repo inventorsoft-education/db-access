@@ -4,7 +4,7 @@ package co.inventrosoft.springboottask.repository;
 import co.inventrosoft.springboottask.configuration.JdbcConfig;
 import co.inventrosoft.springboottask.mapper.MatchMapper;
 import co.inventrosoft.springboottask.model.Match;
-import org.springframework.context.annotation.Primary;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -16,8 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Primary
+
 @Repository
+@AllArgsConstructor
 public class MatchRepositoryJdbcImpl implements MatchRepository{
     private static final String UPDATE_QUERY = """
         UPDATE matches 
@@ -71,10 +72,6 @@ public class MatchRepositoryJdbcImpl implements MatchRepository{
     """;
 
     private final JdbcConfig jdbcConfig;
-
-    public MatchRepositoryJdbcImpl(JdbcConfig jdbcConfig) {
-        this.jdbcConfig = jdbcConfig;
-    }
 
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(jdbcConfig.getUrl(), jdbcConfig.getUsername(), jdbcConfig.getPassword());

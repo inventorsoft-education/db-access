@@ -3,18 +3,17 @@ package co.inventrosoft.springboottask.service;
 import co.inventrosoft.springboottask.console.MatchResult;
 import co.inventrosoft.springboottask.model.Team;
 import co.inventrosoft.springboottask.repository.TeamRepositoryJdbcImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
 
+
 @Service
+@AllArgsConstructor
 public class TeamService {
     private final TeamRepositoryJdbcImpl teamRepository;
-
-    public TeamService(TeamRepositoryJdbcImpl teamRepository) {
-        this.teamRepository = teamRepository;
-    }
 
     public void save(List<Team> teams) throws IOException {
         teamRepository.save(teams);

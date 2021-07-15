@@ -1,7 +1,6 @@
 package co.inventrosoft.springboottask.repository;
 
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 

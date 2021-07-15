@@ -4,20 +4,19 @@ import co.inventrosoft.springboottask.console.MatchResult;
 import co.inventrosoft.springboottask.model.Match;
 import co.inventrosoft.springboottask.model.Team;
 import co.inventrosoft.springboottask.repository.MatchRepositoryJdbcImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.List;
 
+
 @Service
+@AllArgsConstructor
 public class MatchService {
 
     private final MatchRepositoryJdbcImpl matchRepository;
-
-    public MatchService(MatchRepositoryJdbcImpl matchRepository) {
-        this.matchRepository = matchRepository;
-    }
 
     /**
      * Finds and sets match's score by MatchResult object.
