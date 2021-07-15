@@ -50,14 +50,16 @@ public class TeamRepositoryFileImpl implements TeamRepository{
     }
 
     @Override
-    public void update(Team team) {
+    public void update(Team teamData) {
         List<Team> teams = findAll();
-        for (Team team1: teams) {
-            if (team1.getName().equals(team.getName())) {
-                team1.setCapitan(team.getCapitan());
-                team1.setCoach(team.getCoach());
-            }
-        }
+        teams.stream()
+                .filter(team -> teamData.getName().equals(team.getName()))
+                .findFirst()
+                .ifPresent(team -> {
+                    team.setName(teamData.getName());
+                    team.setCoach(teamData.getCoach());
+                    team.setCapitan(teamData.getCapitan());
+                });
         save(teams);
     }
 
