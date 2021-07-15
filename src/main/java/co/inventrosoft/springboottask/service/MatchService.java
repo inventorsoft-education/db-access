@@ -45,6 +45,7 @@ public class MatchService {
     public List<Match> getTournament(int tournamentId) {
         return matchRepository.findByTournament(tournamentId);
     }
+
     public void saveAll(List<Match> matches) {
         matchRepository.save(matches);
     }
