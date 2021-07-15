@@ -4,7 +4,6 @@ package co.inventrosoft.springboottask.repository;
 import co.inventrosoft.springboottask.model.Team;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedWriter;
@@ -12,12 +11,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 
 @Repository
 public class TeamRepositoryFileImpl implements TeamRepository{
-    private final static String teamsFile = "teams.json";
+    private static final String TEAMS_FILE = "teams.json";
     private final ObjectMapper mapper;
 
     public TeamRepositoryFileImpl(ObjectMapper mapper) {
@@ -25,9 +25,9 @@ public class TeamRepositoryFileImpl implements TeamRepository{
     }
 
     private List<Team> findAll() {
-        List<Team> teams = null;
+        List<Team> teams = new ArrayList<>();
         try {
-            teams = mapper.readValue(new File(teamsFile), new TypeReference<>() {});
+            teams = mapper.readValue(new File(TEAMS_FILE), new TypeReference<>() {});
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -37,7 +37,7 @@ public class TeamRepositoryFileImpl implements TeamRepository{
     @Override
     public void save(List<Team> teams) {
         try (PrintWriter out = new PrintWriter(new BufferedWriter(
-                new FileWriter(teamsFile, false)))) {
+                new FileWriter(TEAMS_FILE, false)))) {
             mapper.writeValue(out, teams);
         } catch (IOException e) {
             e.printStackTrace();

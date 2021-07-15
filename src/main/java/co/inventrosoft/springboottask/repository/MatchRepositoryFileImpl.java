@@ -10,12 +10,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 
 @Repository
 public class MatchRepositoryFileImpl implements MatchRepository {
-    private final static String matchesFile = "matches.json";
+    private static final String MATCHES_FILE = "matches.json";
     private final ObjectMapper mapper;
 
     public MatchRepositoryFileImpl(ObjectMapper mapper) {
@@ -24,7 +25,7 @@ public class MatchRepositoryFileImpl implements MatchRepository {
     @Override
     public void save(List<Match> matches) {
         try (PrintWriter out = new PrintWriter(new BufferedWriter(
-                new FileWriter(matchesFile, false)))) {
+                new FileWriter(MATCHES_FILE, false)))) {
             mapper.writeValue(out, matches);
         } catch (IOException e) {
             e.printStackTrace();
@@ -32,9 +33,9 @@ public class MatchRepositoryFileImpl implements MatchRepository {
     }
     @Override
     public List<Match> findByTournament(int tournamentId) {
-        List<Match> matches = null;
+        List<Match> matches = new ArrayList<>();
         try {
-            matches = mapper.readValue(new File(matchesFile), new TypeReference<>() {});
+            matches = mapper.readValue(new File(MATCHES_FILE), new TypeReference<>() {});
         } catch (IOException e) {
             e.printStackTrace();
         }
