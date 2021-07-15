@@ -59,6 +59,7 @@ public class TournamentService {
 
         return tournamentRepository.save(tournament);
     }
+
     @Transactional
     public void start() throws IOException {
         // step 1: get teams
