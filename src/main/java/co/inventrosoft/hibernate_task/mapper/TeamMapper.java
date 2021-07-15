@@ -6,7 +6,7 @@ public class TeamMapper {
     public static String fromObjectToString(Team team) {
         String str = "undefined";
         if (team != null) {
-            str = team.getName() + ". Capitan - " + team.getCapitan() + ", coach - " + team.getCoach();
+            str = team.getName() + ". Capitan - " + team.getCaptain() + ", coach - " + team.getCoach();
         }
         return str;
     }

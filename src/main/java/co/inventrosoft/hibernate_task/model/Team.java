@@ -1,5 +1,6 @@
 package co.inventrosoft.hibernate_task.model;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 
 @Entity
 @Data
@@ -28,19 +30,14 @@ public class Team {
     String name;
 
     @Column(nullable = false)
-    String capitan;
+    String captain;
 
     @Column(nullable = false)
     String coach;
 
-    public Team(String name, String capitan, String coach) {
+    public Team(String name, String captain, String coach) {
         this.name = name;
-        this.capitan = capitan;
+        this.captain = captain;
         this.coach = coach;
     }
-
-//    @Override
-//    public String toString() {
-//        return this.name + ". Capitan - " + this.capitan + ", coach - " + this.coach;
-//    }
 }
