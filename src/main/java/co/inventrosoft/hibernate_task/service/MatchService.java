@@ -34,14 +34,11 @@ public class MatchService {
         if (!match.isFinal()) {
             Team winner = match.getWinner();
             // find match where winner should be placed
-            Optional<Match> nextMatchOpt = matchRepository.findByRoundCodeAndOrderAndTournamentId(
-                    roundCode / 2, order / 2, tournamentId
-            );
-            if (nextMatchOpt.isPresent()) {
-                Match nextMatch = nextMatchOpt.get();
-                nextMatch.setTeamByOrder(order, winner);
-                matchRepository.save(nextMatch);
-            }
+            matchRepository.findByRoundCodeAndOrderAndTournamentId(roundCode / 2, order / 2, tournamentId)
+                    .ifPresent(nextMatch -> {
+                        nextMatch.setTeamByOrder(order, winner);
+                        matchRepository.save(nextMatch);
+                    });
         }
     }
 
