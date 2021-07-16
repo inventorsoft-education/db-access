@@ -1,10 +1,10 @@
 package co.inventrosoft.springboottask.console;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class MatchResult {
     String firstTeamName;
     String secondTeamName;

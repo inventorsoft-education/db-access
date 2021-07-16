@@ -1,4 +1,4 @@
-package co.inventrosoft.springboottask.configuration;
+package co.inventrosoft.springboottask.config;
 
 import lombok.Getter;
 import lombok.Setter;

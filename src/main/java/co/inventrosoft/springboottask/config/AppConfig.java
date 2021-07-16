@@ -1,4 +1,4 @@
-package co.inventrosoft.springboottask.configuration;
+package co.inventrosoft.springboottask.config;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,7 +9,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 @Configuration
-public class AppConfiguration {
+public class AppConfig {
     @Bean
     public ObjectMapper mapper() {
         return new ObjectMapper();

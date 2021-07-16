@@ -18,9 +18,9 @@ public class MatchService {
     private final MatchRepositoryJdbcImpl matchRepository;
 
     /**
-     * Finds and sets match's score by MatchResult object.
-     * @param matchResult stores score and team names
-     * @param match is a match to be updated
+     * Finds and sets match's score by {@link MatchResult} object.
+     * @param matchResult {@link MatchResult} stores score and team names
+     * @param match {@link Match} is a match to be updated
      */
     public void updateMatchResults(MatchResult matchResult, Match match) {
         match.setFirstTeamResult(matchResult.getFirstTeamResult());
@@ -74,9 +74,9 @@ public class MatchService {
     }
 
     /**
-     * Finds in storage match by MatchResult object.
+     * Finds in storage match by {@link MatchResult} object.
      * Swaps values in matchResult if match was not found.
-     * @param matchResult stores score and team names
+     * @param matchResult {@link MatchResult} stores score and team names
      */
     public Match getMatchByResult(MatchResult matchResult, int tournamentId) {
         Match match = matchRepository.getByTeamNames(matchResult.getFirstTeamName(), matchResult.getSecondTeamName(), tournamentId);

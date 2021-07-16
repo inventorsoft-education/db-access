@@ -1,6 +1,6 @@
 package co.inventrosoft.springboottask.repository;
 
-import co.inventrosoft.springboottask.configuration.JdbcConfig;
+import co.inventrosoft.springboottask.config.JdbcConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

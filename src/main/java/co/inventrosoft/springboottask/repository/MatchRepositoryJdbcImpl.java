@@ -1,6 +1,6 @@
 package co.inventrosoft.springboottask.repository;
 
-import co.inventrosoft.springboottask.configuration.JdbcConfig;
+import co.inventrosoft.springboottask.config.JdbcConfig;
 import co.inventrosoft.springboottask.mapper.MatchMapper;
 import co.inventrosoft.springboottask.model.Match;
 import lombok.RequiredArgsConstructor;
