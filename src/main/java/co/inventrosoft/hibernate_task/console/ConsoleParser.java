@@ -5,6 +5,7 @@ import co.inventrosoft.hibernate_task.mapper.TeamMapper;
 import co.inventrosoft.hibernate_task.model.Match;
 import co.inventrosoft.hibernate_task.model.Team;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -16,12 +17,9 @@ import java.util.List;
 
 
 @Component
+@RequiredArgsConstructor
 public class ConsoleParser {
     private final BufferedReader reader;
-
-    public ConsoleParser() {
-        this.reader = new BufferedReader(new InputStreamReader(System.in));
-    }
 
     public void close() throws IOException {
         reader.close();

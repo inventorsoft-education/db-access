@@ -1,12 +1,10 @@
 package co.inventrosoft.hibernate_task.mapper;
 
-
 import co.inventrosoft.hibernate_task.model.Match;
 import co.inventrosoft.hibernate_task.model.Team;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 
 public class MatchMapper {
     public static Match fromResultSetToMatch(ResultSet resultSet) throws SQLException {

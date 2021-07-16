@@ -5,7 +5,7 @@ import co.inventrosoft.hibernate_task.model.Match;
 import co.inventrosoft.hibernate_task.model.Team;
 import co.inventrosoft.hibernate_task.model.Tournament;
 import co.inventrosoft.hibernate_task.repository.MatchRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MatchService {
     private final MatchRepository matchRepository;
 

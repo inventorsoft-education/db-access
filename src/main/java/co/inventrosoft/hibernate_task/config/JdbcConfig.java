@@ -1,4 +1,4 @@
-package co.inventrosoft.hibernate_task.configuration;
+package co.inventrosoft.hibernate_task.config;
 
 import lombok.Getter;
 import lombok.Setter;
