@@ -15,7 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.util.Optional;
 
 
 @Entity
@@ -28,17 +27,17 @@ public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
-    int id;
+    Integer id;
 
     //  1/round - name of round. e.g roundCode = 8 -> round name = 1/8
     //  roundCode == number of matches in current round
     //  if roundCode == 1 - this round is final
-    int roundCode;
+    Integer roundCode;
 
     //  for resolving to which match carry the winner
     //  order == sequence number of match in current round
     @Column(name = "match_order")
-    int order;
+    Integer order;
 
     @ManyToOne(fetch = FetchType.LAZY)
     Team firstTeam;
@@ -47,13 +46,11 @@ public class Match {
     Team secondTeam;
 
     @Column(nullable = false)
-    boolean played = false;
+    Boolean played = false;
 
-    @Column(nullable = true)
-    int firstTeamResult;
+    Integer firstTeamResult;
 
-    @Column(nullable = true)
-    int secondTeamResult;
+    Integer secondTeamResult;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     Tournament tournament;
@@ -65,30 +62,6 @@ public class Match {
     }
 
     @JsonIgnore
-    public String getFirstTeamName() {
-        return Optional.ofNullable(firstTeam)
-                .map(Team::getName)
-                .orElse(null);
-    }
-    @JsonIgnore
-    public String getSecondTeamName() {
-        return Optional.ofNullable(secondTeam)
-                .map(Team::getName)
-                .orElse(null);
-    }
-    @JsonIgnore
-    public int getFirstTeamId() {
-        return Optional.ofNullable(firstTeam)
-                .map(Team::getId)
-                .orElse(0);
-    }
-    @JsonIgnore
-    public int getSecondTeamId() {
-        return Optional.ofNullable(secondTeam)
-                .map(Team::getId)
-                .orElse(0);
-    }
-    @JsonIgnore
     public String getScore() {
         String score = null;
         if (this.played) {
@@ -97,7 +70,7 @@ public class Match {
         return score;
     }
     // lombok is broken here idk
-    public boolean getPlayed() {
+    public Boolean getPlayed() {
         return this.played;
     }
 
@@ -124,5 +97,4 @@ public class Match {
     public boolean isFinal() {
         return this.roundCode == 1;
     }
-
 }

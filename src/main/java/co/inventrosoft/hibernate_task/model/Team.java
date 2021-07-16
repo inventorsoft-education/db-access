@@ -22,7 +22,7 @@ public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
-    int id;
+    Integer id;
 
     @Column(nullable = false)
     String name;
