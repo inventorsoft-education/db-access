@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 
 @Service
 @AllArgsConstructor
 public class MatchService {
-
     private final MatchRepositoryJdbcImpl matchRepository;
 
     /**
@@ -48,6 +48,30 @@ public class MatchService {
 
     public void saveAll(List<Match> matches) {
         matchRepository.save(matches);
+    }
+
+    public void createMatchesInTournament(int tournamentId, List<Team> teams) {
+        int teamCount = teams.size();
+        int roundCount = (int)(Math.log(teamCount) / Math.log(2)); // log base 2
+        List<Match> matches = new ArrayList<>();
+
+        for (int round = 0; round < roundCount; round++) {
+
+            // teamCount / (2 ^ (round+1))
+            // this is code of round. e.g code == 2 -> round name = 1/2
+            int numOfMatchesInRound = (int)(teamCount / (Math.pow(2, round + 1)));
+
+            for (int matchOrder = 0; matchOrder < numOfMatchesInRound; matchOrder++) {
+                Match match = new Match(numOfMatchesInRound, matchOrder, tournamentId);
+                // if first round set teams to matches
+                if (round == 0) {
+                    match.setFirstTeam(teams.get(matchOrder * 2));
+                    match.setSecondTeam(teams.get(matchOrder * 2 + 1));
+                }
+                matches.add(match);
+            }
+        }
+        saveAll(matches);
     }
 
     /**

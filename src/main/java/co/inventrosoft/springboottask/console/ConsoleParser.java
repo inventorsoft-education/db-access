@@ -150,6 +150,7 @@ public class ConsoleParser {
     public void printLine(String text) {
         System.out.println(text);
     }
+
     public void printWinner(Team team) {
         System.out.println("Winner:\n" + team);
     }
