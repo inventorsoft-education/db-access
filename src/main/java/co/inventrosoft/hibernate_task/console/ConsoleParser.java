@@ -22,9 +22,11 @@ public class ConsoleParser {
     public ConsoleParser() {
         this.reader = new BufferedReader(new InputStreamReader(System.in));
     }
+
     public void close() throws IOException {
         reader.close();
     }
+
     public List<Team> getTeams() throws IOException {
         ArrayList<Team> teams = new ArrayList<>();
         int teamCount = getTeamCount();
@@ -43,9 +45,9 @@ public class ConsoleParser {
                 System.out.println("Team with name \"" + team.getName() + "\" already exists");
             }
         }
-
         return teams;
     }
+
     public int getTeamCount() throws IOException {
         int teamCount = 0;
         boolean valid = false;
@@ -58,7 +60,7 @@ public class ConsoleParser {
                 double log2 = Math.log(teamCount) / Math.log(2); // log base 2
                 boolean isPowerOfTwo = (int) Math.ceil(log2) == (int) Math.floor(log2);
 
-                if (teamCount < 4 || !isPowerOfTwo) {
+                if (teamCount < 2 || !isPowerOfTwo) {
                     System.out.println("Number of teams should be at least 4 and power of 2!");
                 }
                 else {
@@ -151,6 +153,7 @@ public class ConsoleParser {
     public void printLine(String text) {
         System.out.println(text);
     }
+
     public void printWinner(Team team) {
         System.out.println("Winner:\n" + TeamMapper.fromObjectToString(team));
     }

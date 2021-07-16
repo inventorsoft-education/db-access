@@ -11,8 +11,13 @@ import java.util.Optional;
 
 @Repository
 public interface MatchRepository extends JpaRepository<Match, Integer> {
+    /**
+     * I joining teams, because i using them outside of service
+     */
     @Query("""
         select m from Match m 
+            left join fetch m.firstTeam
+            left join fetch m.secondTeam
         where m.tournament.id = ?1 
         order by m.roundCode desc, 
                  m.order
@@ -23,6 +28,8 @@ public interface MatchRepository extends JpaRepository<Match, Integer> {
 
     @Query("""
         select m from Match m 
+            left join fetch m.firstTeam
+            left join fetch m.secondTeam
         where m.firstTeam.name = ?1 and 
               m.secondTeam.name = ?2 and 
               m.tournament.id = ?3

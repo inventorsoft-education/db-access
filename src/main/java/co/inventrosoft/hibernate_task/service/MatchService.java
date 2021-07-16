@@ -3,25 +3,57 @@ package co.inventrosoft.hibernate_task.service;
 import co.inventrosoft.hibernate_task.console.MatchResult;
 import co.inventrosoft.hibernate_task.model.Match;
 import co.inventrosoft.hibernate_task.model.Team;
+import co.inventrosoft.hibernate_task.model.Tournament;
 import co.inventrosoft.hibernate_task.repository.MatchRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 
 @Service
 @AllArgsConstructor
 public class MatchService {
-
     private final MatchRepository matchRepository;
+
+    /**
+     * creates a matches for tournament,
+     * where teams in first round stores teams from list, the rest stores null
+     */
+    @Transactional
+    public void createMatchesInTournament(int tournamentId, List<Team> teams) {
+        Tournament tournament = new Tournament(tournamentId);
+
+        int teamCount = teams.size();
+        int roundCount = (int)(Math.log(teamCount) / Math.log(2)); // log base 2
+
+        List<Match> matches = new ArrayList<>();
+
+        for (int round = 0; round < roundCount; round++) {
+            // teamCount / (2 ^ (round+1))
+            // this is code of round. e.g code == 2 -> round name = 1/2
+            int numOfMatchesInRound = (int)(teamCount / (Math.pow(2, round + 1)));
+
+            for (int matchOrder = 0; matchOrder < numOfMatchesInRound; matchOrder++) {
+                Match match = new Match(numOfMatchesInRound, matchOrder, tournament);
+                // if first round set teams to matches
+                if (round == 0) {
+                    match.setFirstTeam(teams.get(matchOrder * 2));
+                    match.setSecondTeam(teams.get(matchOrder * 2 + 1));
+                }
+                matches.add(match);
+            }
+        }
+        saveAll(matches);
+    }
 
     /**
      * Finds and sets match's score by MatchResult object.
      * @param matchResult stores score and team names
      * @param match is a match to be updated
      */
+    @Transactional
     public void updateMatchResults(MatchResult matchResult, Match match, int tournamentId) {
         match.setFirstTeamResult(matchResult.getFirstTeamResult());
         match.setSecondTeamResult(matchResult.getSecondTeamResult());
@@ -60,10 +92,13 @@ public class MatchService {
         return match;
     }
 
+    @Transactional
     public List<Match> findAllByTournamentId(int tournamentId) {
+
         return matchRepository.findAllByTournamentId(tournamentId);
     }
 
+    @Transactional
     public void saveAll(List<Match> matches) {
         matchRepository.saveAll(matches);
     }
