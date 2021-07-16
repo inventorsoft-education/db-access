@@ -18,7 +18,7 @@ public class MatchService {
     private final MatchRepository matchRepository;
 
     /**
-     * creates a matches for tournament,
+     * creates a matches {@link Match} for tournament {@link Tournament},
      * where teams in first round stores teams from list, the rest stores null
      */
     @Transactional
@@ -49,9 +49,9 @@ public class MatchService {
     }
 
     /**
-     * Finds and sets match's score by MatchResult object.
-     * @param matchResult stores score and team names
-     * @param match is a match to be updated
+     * Finds and sets match's score by {@link MatchResult} object.
+     * @param matchResult {@link MatchResult}  stores score and team names
+     * @param match {@link Match}  is a match to be updated
      */
     @Transactional
     public void updateMatchResults(MatchResult matchResult, Match match, int tournamentId) {
@@ -75,9 +75,9 @@ public class MatchService {
     }
 
     /**
-     * Finds in storage match by MatchResult object.
+     * Finds in storage match by {@link MatchResult}  object.
      * Swaps values in matchResult if match was not found.
-     * @param matchResult stores score and team names
+     * @param matchResult {@link MatchResult} stores score and team names
      */
     public Match getMatchByResult(MatchResult matchResult, int tournamentId) {
         Match match = matchRepository.getByTeamNamesAndTournamentId(
@@ -94,7 +94,6 @@ public class MatchService {
 
     @Transactional
     public List<Match> findAllByTournamentId(int tournamentId) {
-
         return matchRepository.findAllByTournamentId(tournamentId);
     }
 

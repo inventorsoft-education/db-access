@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -74,9 +73,8 @@ public class ConsoleParser {
 
     /**
      * Parses data from console by format: {name} {capitan} {coach}.
-     * {@link Team}
-     * Creates new team if team with this name does not exist.
-     * @return created team
+     * Creates new {@link Team} object if team with this name does not exist.
+     * @return created {@link Team} object
      */
     public Team getTeam() throws IOException {
         String[] teamData;
@@ -100,8 +98,7 @@ public class ConsoleParser {
     }
 
     /**
-     * Parses result of match from console by format: {team1 name} vs {team2 name} {score}.
-     * {@link MatchResult}
+     * Parses result of match {@link MatchResult} from console by format: {team1 name} vs {team2 name} {score}.
      * Score format: {result of team1}:{result of team2}.
      * @return map, with keys: firstTeamName, secondTeamName, score
      */
