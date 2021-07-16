@@ -3,23 +3,18 @@ package co.inventrosoft.springboottask.console;
 import co.inventrosoft.springboottask.model.Match;
 import co.inventrosoft.springboottask.model.Team;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-
 import java.util.List;
 
-
 @Component
+@RequiredArgsConstructor
 public class ConsoleParser {
     private final BufferedReader reader;
-
-    public ConsoleParser() {
-        this.reader = new BufferedReader(new InputStreamReader(System.in));
-    }
 
     public void close() throws IOException {
         reader.close();
@@ -43,9 +38,9 @@ public class ConsoleParser {
                 System.out.println("Team with name \"" + team.getName() + "\" already exists");
             }
         }
-
         return teams;
     }
+
     public int getTeamCount() throws IOException {
         int teamCount = 0;
         boolean valid = false;
