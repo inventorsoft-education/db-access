@@ -1,10 +1,9 @@
 package co.inventrosoft.springboottask.repository;
 
-
 import co.inventrosoft.springboottask.configuration.JdbcConfig;
 import co.inventrosoft.springboottask.mapper.MatchMapper;
 import co.inventrosoft.springboottask.model.Match;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -15,10 +14,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 @Repository
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MatchRepositoryJdbcImpl implements MatchRepository{
     private static final String UPDATE_QUERY = """
         UPDATE matches 

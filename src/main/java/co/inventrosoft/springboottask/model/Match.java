@@ -1,14 +1,14 @@
 package co.inventrosoft.springboottask.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 
 @Data
-@AllArgsConstructor
+@RequiredArgsConstructor
 @NoArgsConstructor
 public class Match {
     int id;

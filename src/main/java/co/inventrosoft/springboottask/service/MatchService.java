@@ -4,7 +4,7 @@ import co.inventrosoft.springboottask.console.MatchResult;
 import co.inventrosoft.springboottask.model.Match;
 import co.inventrosoft.springboottask.model.Team;
 import co.inventrosoft.springboottask.repository.MatchRepositoryJdbcImpl;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
@@ -12,9 +12,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MatchService {
     private final MatchRepositoryJdbcImpl matchRepository;
 

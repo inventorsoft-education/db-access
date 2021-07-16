@@ -1,12 +1,10 @@
 package co.inventrosoft.springboottask.mapper;
 
-
 import co.inventrosoft.springboottask.model.Match;
 import co.inventrosoft.springboottask.model.Team;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 
 public class MatchMapper {
     public static Match fromResultSetToMatch(ResultSet resultSet) throws SQLException {

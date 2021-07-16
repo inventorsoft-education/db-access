@@ -1,9 +1,8 @@
 package co.inventrosoft.springboottask.repository;
 
-
 import co.inventrosoft.springboottask.configuration.JdbcConfig;
 import co.inventrosoft.springboottask.model.Team;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -13,9 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-
 @Repository
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TeamRepositoryJdbcImpl implements TeamRepository{
     private static final String INSERT_QUERY = """
         INSERT INTO teams 

@@ -1,8 +1,7 @@
 package co.inventrosoft.springboottask.repository;
 
-
 import co.inventrosoft.springboottask.configuration.JdbcConfig;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -11,10 +10,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
-
-
 @Repository
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TournamentRepositoryJdbcImpl implements TournamentRepository {
     private static final String CREATE_QUERY = """
         INSERT INTO tournaments 
