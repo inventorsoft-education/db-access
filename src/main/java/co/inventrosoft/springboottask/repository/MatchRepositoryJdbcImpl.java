@@ -16,7 +16,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class MatchRepositoryJdbcImpl implements MatchRepository{
+public class MatchRepositoryJdbcImpl implements MatchRepository {
     private static final String UPDATE_QUERY = """
         UPDATE matches 
         SET tournament_id=?,

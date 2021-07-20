@@ -16,7 +16,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class TeamRepositoryFileImpl implements TeamRepository{
+public class TeamRepositoryFileImpl implements TeamRepository {
     private static final String TEAMS_FILE = "teams.json";
     private final ObjectMapper mapper;
 

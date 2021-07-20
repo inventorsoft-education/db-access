@@ -14,7 +14,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class TeamRepositoryJdbcImpl implements TeamRepository{
+public class TeamRepositoryJdbcImpl implements TeamRepository {
     private static final String INSERT_QUERY = """
         INSERT INTO teams 
             (name, capitan, coach) 
