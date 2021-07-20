@@ -4,32 +4,22 @@ import co.inventrosoft.hibernate_task.mapper.MatchMapper;
 import co.inventrosoft.hibernate_task.mapper.TeamMapper;
 import co.inventrosoft.hibernate_task.model.Match;
 import co.inventrosoft.hibernate_task.model.Team;
-
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import java.util.List;
 
-
 @Component
-@RequiredArgsConstructor
 public class ConsoleParser {
-    private final BufferedReader reader;
 
-    public void close() throws IOException {
-        reader.close();
-    }
-
-    public List<Team> getTeams() throws IOException {
+    public List<Team> getTeams(BufferedReader reader) throws IOException {
         ArrayList<Team> teams = new ArrayList<>();
-        int teamCount = getTeamCount();
+        int teamCount = getTeamCount(reader);
         for (int i = 0; i < teamCount; i++) {
             while (true) {
-                Team team = getTeam();
+                Team team = getTeam(reader);
                 // check if this team in list
                 boolean isTeamNotInTeamList = teams.stream()
                         .map(Team::getName)
@@ -45,7 +35,7 @@ public class ConsoleParser {
         return teams;
     }
 
-    public int getTeamCount() throws IOException {
+    public int getTeamCount(BufferedReader reader) throws IOException {
         int teamCount = 0;
         boolean valid = false;
         do {
@@ -76,7 +66,7 @@ public class ConsoleParser {
      * Creates new {@link Team} object if team with this name does not exist.
      * @return created {@link Team} object
      */
-    public Team getTeam() throws IOException {
+    public Team getTeam(BufferedReader reader) throws IOException {
         String[] teamData;
         boolean valid = false;
 
@@ -102,7 +92,7 @@ public class ConsoleParser {
      * Score format: {result of team1}:{result of team2}.
      * @return map, with keys: firstTeamName, secondTeamName, score
      */
-    public MatchResult getResultOfMatch() throws IOException {
+    public MatchResult getResultOfMatch(BufferedReader reader) throws IOException {
         MatchResult matchResult;
         String scoreRegex = "^(\\d+):(\\d+)$";
         do {

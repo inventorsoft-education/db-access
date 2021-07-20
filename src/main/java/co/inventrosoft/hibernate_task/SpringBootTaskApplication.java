@@ -14,7 +14,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,7 +31,8 @@ public class SpringBootTaskApplication implements CommandLineRunner {
 
     private void start() throws IOException {
         // step 1: get teams
-        List<Team> teams = consoleParser.getTeams();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        List<Team> teams = consoleParser.getTeams(reader);
         teamService.save(teams);
         Collections.shuffle(teams);
 
@@ -42,7 +45,7 @@ public class SpringBootTaskApplication implements CommandLineRunner {
                 consoleParser.printMatch(match);
             }
 
-            MatchResult matchResult = consoleParser.getResultOfMatch();
+            MatchResult matchResult = consoleParser.getResultOfMatch(reader);
             if (!teamService.areTeamsInMatchResultExists(matchResult)) {
                 consoleParser.printLine("Teams are wrong!");
                 continue;
@@ -63,7 +66,7 @@ public class SpringBootTaskApplication implements CommandLineRunner {
             }
         } while (winner == null);
         consoleParser.printWinner(winner);
-        consoleParser.close();
+        reader.close();
     }
 
     @Override
