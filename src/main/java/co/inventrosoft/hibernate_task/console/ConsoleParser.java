@@ -4,6 +4,8 @@ import co.inventrosoft.hibernate_task.mapper.MatchMapper;
 import co.inventrosoft.hibernate_task.mapper.TeamMapper;
 import co.inventrosoft.hibernate_task.model.Match;
 import co.inventrosoft.hibernate_task.model.Team;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -13,6 +15,7 @@ import java.util.List;
 
 @Component
 public class ConsoleParser {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConsoleParser.class);
 
     public List<Team> getTeams(BufferedReader reader) throws IOException {
         ArrayList<Team> teams = new ArrayList<>();
@@ -29,7 +32,7 @@ public class ConsoleParser {
                     teams.add(team);
                     break;
                 }
-                System.out.println("Team with name \"" + team.getName() + "\" already exists");
+                LOGGER.error("Team with name \"" + team.getName() + "\" already exists");
             }
         }
         return teams;
@@ -39,7 +42,7 @@ public class ConsoleParser {
         int teamCount = 0;
         boolean valid = false;
         do {
-            System.out.print("Enter number of teams: ");
+            LOGGER.info("Enter number of teams: ");
             try {
                 teamCount = Integer.parseInt(reader.readLine());
 
@@ -48,13 +51,13 @@ public class ConsoleParser {
                 boolean isPowerOfTwo = (int) Math.ceil(log2) == (int) Math.floor(log2);
 
                 if (teamCount < 2 || !isPowerOfTwo) {
-                    System.out.println("Number of teams should be at least 4 and power of 2!");
+                    LOGGER.error("Number of teams should be at least 4 and power of 2!");
                 }
                 else {
                     valid = true;
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Please, use only digits!");
+                LOGGER.error("Please, use only digits!");
             }
         }
         while (!valid);
@@ -71,19 +74,19 @@ public class ConsoleParser {
         boolean valid = false;
 
         do {
-            System.out.println("Enter a team by format (team fields can't have spaces!):\n{name} {capitan} {coach}");
-            System.out.println("Every field should contain more than 2 letters");
+            LOGGER.info("Enter a team by format (team fields can't have spaces!):\n{name} {capitan} {coach}");
+            LOGGER.info("Every field should contain more than 2 letters");
             teamData = reader.readLine().split(" ");
 
             if (teamData.length == 3 && teamData[0].length() > 2 && teamData[1].length() > 2 && teamData[2].length() > 2) {
                 valid = true;
             }
             else {
-                System.out.println("Please, follow the format!");
+                LOGGER.error("Please, follow the format!");
             }
         }
         while (!valid);
-        System.out.println("Team with name \"" + teamData[0] + "\" was added.\n");
+        LOGGER.info("Team with name \"" + teamData[0] + "\" was added.\n");
         return new Team(teamData[0], teamData[1], teamData[2]);
     }
 
@@ -96,12 +99,12 @@ public class ConsoleParser {
         MatchResult matchResult;
         String scoreRegex = "^(\\d+):(\\d+)$";
         do {
-            System.out.println("Enter a result of match by format:");
-            System.out.println("{team1 name} vs {team2 name} {team1 result}:{team2 result}");
+            LOGGER.info("Enter a result of match by format:");
+            LOGGER.info("{team1 name} vs {team2 name} {team1 result}:{team2 result}");
             String[] rawResult = reader.readLine().split(" ");
 
             if (rawResult.length != 4 || !rawResult[1].equals("vs") || !rawResult[3].matches(scoreRegex)) {
-                System.out.println("Please, follow the format!");
+                LOGGER.error("Please, follow the format!");
                 continue;
             }
 
@@ -112,15 +115,15 @@ public class ConsoleParser {
             int secondTeamResult = Integer.parseInt(score[1]);
 
             if (firstTeam.length() < 3 || secondTeam.length() < 3) {
-                System.out.println("Team names should have more than 2 symbols!");
+                LOGGER.error("Team names should have more than 2 symbols!");
                 continue;
             }
             if (firstTeam.equals(secondTeam)) {
-                System.out.println("Team names should be different!");
+                LOGGER.error("Team names should be different!");
                 continue;
             }
             if (firstTeamResult == secondTeamResult) {
-                System.out.println("There should be no draw!");
+                LOGGER.error("There should be no draw!");
                 continue;
             }
             matchResult = new MatchResult(firstTeam, secondTeam, firstTeamResult, secondTeamResult);
@@ -130,16 +133,15 @@ public class ConsoleParser {
         return matchResult;
     }
 
-
     public void printMatch(Match match) {
-        System.out.println(MatchMapper.fromObjectToString(match));
+        LOGGER.info(MatchMapper.fromObjectToString(match));
     }
 
     public void printLine(String text) {
-        System.out.println(text);
+        LOGGER.info(text);
     }
 
     public void printWinner(Team team) {
-        System.out.println("Winner:\n" + TeamMapper.fromObjectToString(team));
+        LOGGER.info("Winner:\n "+ TeamMapper.fromObjectToString(team));
     }
 }
