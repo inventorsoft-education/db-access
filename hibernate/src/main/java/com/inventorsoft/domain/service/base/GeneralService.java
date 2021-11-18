@@ -22,6 +22,5 @@ public class GeneralService<ENTITY, ID extends Integer> {
 
     public ENTITY getById(ID id) {
         return repository.findById(id).orElseThrow(EntityNotFoundException::new);
-
     }
 }

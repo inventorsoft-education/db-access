@@ -5,20 +5,25 @@ import com.inventorsoft.domain.model.Team;
 import com.inventorsoft.domain.model.Tournament;
 import com.inventorsoft.domain.repository.GameRepository;
 import com.inventorsoft.domain.service.base.GeneralService;
-import org.springframework.data.repository.CrudRepository;
-import com.inventorsoft.domain.model.Game;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class GameService extends GeneralService<Game, Integer> {
 
     GameRepository gameRepository;
 
-    public GameService( GameRepository gameRepository) {
+    public GameService(GameRepository gameRepository) {
         super(gameRepository);
         this.gameRepository = gameRepository;
     }
@@ -29,28 +34,16 @@ public class GameService extends GeneralService<Game, Integer> {
     }
 
     @Transactional
-    public Game createTestGame(Team t, Team t2, Tournament tournament) {
-        Game game = new Game();
-        game.setTeamFirst(t);
-        game.setTeamSecond(t2);
-        game.setResult("1/2");
-        game.setRound("final");
-        game.setTournament(tournament);
-        return gameRepository.save(game);
-    }
-
-    @Transactional
     public List<Game> createAll(List<Team> teams, Tournament tournament) {
         List<Game> games = start(teams);
-        for (Game game: games) {
+        for (Game game : games) {
             game.setTournament(tournament);
         }
         return gameRepository.saveAll(games);
     }
 
-
     private List<Game> start(List<Team> teams) throws IllegalArgumentException {
-        HashMap<String, List<Game>> listOfGames = new HashMap<>();
+        HashMap<String, List<Game>> gamesMap = new HashMap<>();
         List<Team> ttemp = new ArrayList<>(teams);
 
         Game gtemp;
@@ -67,23 +60,24 @@ public class GameService extends GeneralService<Game, Integer> {
                 } while (one <= two);
 
                 gtemp = new Game();
-                        gtemp.setTeamFirst(ttemp.get(one));
-                        gtemp.setTeamSecond(ttemp.get(two));
-                        gtemp.setRound(i != 1 ? "1/" + i : "final");
-                        gtemp.setResult(one + ":" + two);
+                gtemp.setTeamFirst(ttemp.get(one));
+                gtemp.setTeamSecond(ttemp.get(two));
+                gtemp.setRound(i != 1 ? "1/" + i : "final");
+                gtemp.setResult(one + ":" + two);
 
-                addGame(gtemp, listOfGames);
+                addGame(gtemp, gamesMap);
                 ttemp.remove(one);
                 ttemp.remove(two);
 
             }
-            ttemp = getWinners("1/" + i, listOfGames);
+            ttemp = getWinners("1/" + i, gamesMap);
         }
+        ttemp = getWinners("final", gamesMap);
 
-        ttemp = getWinners("final", listOfGames);
+        //from map to list
         List<Game> gameList = new ArrayList<>();
-        for (String s : listOfGames.keySet())
-            gameList.addAll(listOfGames.get(s));
+        for (String s : gamesMap.keySet())
+            gameList.addAll(gamesMap.get(s));
         return gameList;
     }
 

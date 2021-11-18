@@ -1,20 +1,24 @@
 package com.inventorsoft.domain.model;
 
 import lombok.AccessLevel;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
 
-import javax.persistence.*;
-import java.util.Objects;
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter
-@Setter
+@Data
 @Table(name = "TEAMS")
+@EqualsAndHashCode
 public class Team {
 
     @Id
@@ -22,29 +26,14 @@ public class Team {
     @Column(unique = true, nullable = false)
     Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length=50)
     String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length=100)
     String captain;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length=100)
     String coach;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Team team = (Team) o;
-        return name.equals(team.name) &&
-                captain.equals(team.captain) &&
-                coach.equals(team.coach);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, captain, coach);
-    }
 
     @Override
     public String toString() {

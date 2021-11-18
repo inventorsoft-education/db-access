@@ -1,7 +1,7 @@
 package com.inventorsoft.author;
 
-import com.inventorsoft.domain.model.Game;
-import com.inventorsoft.domain.service.GameService;
+import com.inventorsoft.domain.model.Team;
+import com.inventorsoft.domain.service.TeamService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -15,19 +15,17 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class GameController {
+public class TeamController {
 
-    GameService gameService;
+    TeamService teamService;
 
-    @GetMapping(value = "/games")
-    public ResponseEntity<List<Game>> getAllGames() {
-        return ResponseEntity.ok(gameService.getAll());
+    @GetMapping(value = "/teams")
+    public ResponseEntity<List<Team>> getAllTeam() {
+        return ResponseEntity.ok(teamService.getAll());
     }
 
-    @GetMapping(value = "/games/{id}")
-    public ResponseEntity<Game> getGamesById(@PathVariable Integer id) {
-        return ResponseEntity.ok(gameService.getById(id));
+    @GetMapping(value = "/teams/{id}")
+    public ResponseEntity<Team> getTeamsById(@PathVariable Integer id) {
+        return ResponseEntity.ok(teamService.getById(id));
     }
-
-
 }

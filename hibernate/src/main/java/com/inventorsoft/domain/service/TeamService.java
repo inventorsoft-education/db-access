@@ -3,13 +3,16 @@ package com.inventorsoft.domain.service;
 import com.inventorsoft.domain.model.Team;
 import com.inventorsoft.domain.repository.TeamRepository;
 import com.inventorsoft.domain.service.base.GeneralService;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-public class TeamService extends GeneralService<Team, Integer>{
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class TeamService extends GeneralService<Team, Integer> {
 
     TeamRepository teamRepository;
 
@@ -24,20 +27,9 @@ public class TeamService extends GeneralService<Team, Integer>{
     }
 
     @Transactional
-    public Team createTestTeam() {
-        Team team = new Team();
-
-        team.setName("TestNameTeam");
-        team.setCaptain("TestCaptainNAme");
-        team.setCoach("TestCoachName");
-
-        return teamRepository.save(team);
-    }
-
-    @Transactional
     public List<Team> setAll(List<Team> teams) {
         register(teams);
-       return teamRepository.saveAll(teams);
+        return teamRepository.saveAll(teams);
     }
 
     private boolean isPowerOfTwo(int x) {

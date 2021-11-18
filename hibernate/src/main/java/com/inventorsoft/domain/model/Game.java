@@ -1,67 +1,66 @@
 package com.inventorsoft.domain.model;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
 
-import javax.persistence.*;
-import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
 @Table(name = "GAMES")
+@EqualsAndHashCode
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     Integer id;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     Team teamFirst;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     Team teamSecond;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length=50)
     String round;
-    @Column(nullable = false)
+    @Column(nullable = false, length=50)
     String result;
 
-    @ManyToOne()
+    @ManyToOne
     Tournament tournament;
 
     @Override
     public String toString() {
-        return round + " " + teamFirst.getName() +
-                " & " + teamSecond.getName() + " " + result;
+        return String.format("%x %s & %s %S", round, teamFirst.getName(), teamSecond.getName(), result);
     }
 
     public Team Winner() {
+        //result (example 2:3)
+        //in str having 2 and 3 as String
         String[] str = result.split(":");
+
+        //creating arr to storing 2 and 3 as int
         int[] ints = new int[str.length];
-        for (int i = 0; i < str.length; i++)
+
+        //cast to String -> Integer -> int
+        for (int i = 0; i < str.length; i++) {
             ints[i] = Integer.valueOf(str[i]);
-        if (ints[0] == ints[1]) return teamFirst;
+        }
+        //if 2 > 3
+        //      winner is first team
+        // another winner is second team also if 2==3
         return ints[0] > ints[1] ? teamFirst : teamSecond;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Game game = (Game) o;
-        return teamFirst.equals(game.teamFirst) &&
-                teamSecond.equals(game.teamSecond) &&
-                round.equals(game.round) &&
-                result.equals(game.result);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(teamFirst, teamSecond, round, result);
     }
 }
