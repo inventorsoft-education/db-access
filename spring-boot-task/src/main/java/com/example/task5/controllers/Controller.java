@@ -3,34 +3,32 @@ package com.example.task5.controllers;
 import com.example.task5.model.Team;
 import com.example.task5.model.Tournament;
 import com.example.task5.repository.DataStore;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 public class Controller {
 
     DataStore dataStore;
 
-    @Autowired
-    Controller(DataStore dataStore){
-        this.dataStore = dataStore;
-    }
-
     @GetMapping("/teams")
     public List<Team> teams() {
-       return  dataStore.getTeams();
+        return dataStore.getTeams();
     }
 
-
     @GetMapping("/team/{id}")
-    public ResponseEntity<List<Team>> team(@PathVariable(value = "id") Integer id) {
-
-       return ResponseEntity.status(HttpStatus.OK).body(dataStore.getTeam(id));
+    public ResponseEntity<List<Team>> team(@PathVariable Integer id) {
+        return ResponseEntity.status(HttpStatus.OK).body(dataStore.getTeam(id));
     }
 
     @GetMapping("/tournament")
@@ -44,12 +42,7 @@ public class Controller {
     }
 
     @PostMapping("/new/{name}")
-    public List<Object> createTournament(@PathVariable String name, @RequestBody ArrayList<Team> teams){
-        return dataStore.createTournament(name , teams);
+    public List<Object> createTournament(@PathVariable String name, @RequestBody ArrayList<Team> teams) {
+        return dataStore.createTournament(name, teams);
     }
-
-
-
-
-
 }

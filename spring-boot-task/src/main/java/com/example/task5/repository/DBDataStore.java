@@ -10,7 +10,6 @@ import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -39,7 +38,6 @@ public class DBDataStore implements DataStore {
     TournamentService tournamentService;
 
     @SneakyThrows
-    @Autowired
     DBDataStore(TournamentService tournamentService) {
         connection = DriverManager.getConnection(DB_URL, USER, StringUtils.EMPTY);
         statement = connection.createStatement();
@@ -54,17 +52,15 @@ public class DBDataStore implements DataStore {
 
         statement.executeQuery(initSql);
         statement.executeQuery(insertSql);
+        statement.close();
     }
 
     @SneakyThrows
     public List<Team> getTeams() {
-        PreparedStatement preparedStatement = connection.prepareStatement(PREPARED_SQL_ALL);
-
         ArrayList teams;
-        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (ResultSet resultSet = connection.prepareStatement(PREPARED_SQL_ALL).executeQuery()) {
             teams = createListTeams(resultSet);
         }
-        preparedStatement.close();
         return teams;
     }
 
@@ -75,6 +71,7 @@ public class DBDataStore implements DataStore {
         preparedStatement.setInt(1, id);
         try (ResultSet resultSet = preparedStatement.executeQuery()) {
             preparedStatement.close();
+            connection.close();
             return createListTeams(resultSet);
         }
     }
@@ -103,21 +100,23 @@ public class DBDataStore implements DataStore {
             objects.add(createListTournament(resultSet));
         }
 
-        String query = "SELECT " +
-                "t1.ID, " +
-                "t1.NAME, " +
-                "t1.CAPTAIN, " +
-                "t1.COACH, " +
-                "t2.ID, " +
-                "t2.NAME, " +
-                "t2.CAPTAIN, " +
-                "t2.COACH, " +
-                "GAMES.ROUND, " +
-                "GAMES.RESULT " +
-                "FROM GAMES " +
-                "LEFT JOIN TEAMS t1 ON GAMES.FIRST_TEAM = t1.ID " +
-                "LEFT JOIN TEAMS t2 ON GAMES.SECOND_TEAM = t2.ID " +
-                "WHERE GAMES.TOURNAMENT = ?";
+        String query = """
+                SELECT
+                t1.ID,
+                t1.NAME,
+                t1.CAPTAIN,
+                t1.COACH,
+                t2.ID,
+                t2.NAME,
+                t2.CAPTAIN,
+                t2.COACH,
+                GAMES.ROUND,
+                GAMES.RESULT
+                FROM GAMES
+                LEFT JOIN TEAMS t1 ON GAMES.FIRST_TEAM = t1.ID
+                LEFT JOIN TEAMS t2 ON GAMES.SECOND_TEAM = t2.ID 
+                WHERE GAMES.TOURNAMENT = ?
+                """;
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, id);
@@ -149,6 +148,18 @@ public class DBDataStore implements DataStore {
     @SneakyThrows
     @Override
     public List<Object> createTournament(String name, List<Team> teams) {
+        int j = insertTournament(name);
+
+        insertTeam(teams);
+
+        insertGame(teams, j);
+
+        return getTournament(j);
+
+    }
+
+    @SneakyThrows
+    private int insertTournament(String name){
         PreparedStatement preparedStatement = connection
                 .prepareStatement(
                         "INSERT INTO TOURNAMENT (NAME) VALUES (?)",
@@ -161,6 +172,12 @@ public class DBDataStore implements DataStore {
             resultSet.next();
             j = resultSet.getInt(1);
         }
+        preparedStatement.close();
+        return j;
+    }
+
+    @SneakyThrows
+    private void insertTeam(List<Team> teams){
         PreparedStatement preparedStatement1 = connection
                 .prepareStatement(
                         "INSERT INTO TEAMS (NAME, CAPTAIN, COACH) VALUES(?, ?, ?)",
@@ -176,6 +193,11 @@ public class DBDataStore implements DataStore {
                 t.setId(resultSet1.getInt(1));
             }
         }
+        preparedStatement1.close();
+    }
+
+    @SneakyThrows
+    private void insertGame(List<Team> teams, int j){
         List<Game> games = tournamentService.start(teams);
         PreparedStatement preparedStatement3 = connection
                 .prepareStatement(
@@ -191,14 +213,13 @@ public class DBDataStore implements DataStore {
             preparedStatement3.executeUpdate();
 
         }
-        preparedStatement3.close();
-        return getTournament(j);
-
     }
 
     @SneakyThrows
     private ArrayList<Team> createListTeams(ResultSet resultSet) {
-        String name = "", captain = "", coach = "";
+        String name;
+        String captain;
+        String coach;
         Integer Id;
         ArrayList<Team> teams = new ArrayList<>();
         while (resultSet.next()) {

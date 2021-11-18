@@ -1,6 +1,7 @@
 package com.example.task5.model;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -25,7 +26,6 @@ public class Game {
         this.round = round;
         this.result = result;
     }
-
 
     @Override
     public String toString() {
