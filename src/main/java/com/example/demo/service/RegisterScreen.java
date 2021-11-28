@@ -24,10 +24,10 @@ public class RegisterScreen {
         String teamName = in.nextLine();
 
 
-        System.out.print("Input captain's name: ");
+        System.out.print("Input captain's name:");
         String captainName = in.nextLine();
 
-        System.out.print("Input coach's name: ");
+        System.out.print("Input coach's name:");
         String coachName = in.nextLine();
 
 
