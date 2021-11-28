@@ -64,7 +64,7 @@ public class SQLMethods {
                 System.out.println("Place | Team | Points");
                 while (resultSet.next()) {
                     number++;
-                    System.out.println(number + ".     " + resultSet.getString("team_name") + "-" + resultSet.getString("points"));
+                    System.out.println(number + ".      " + resultSet.getString("team_name") + "-" + resultSet.getString("points"));
                 }
                 connection.close();
             }
