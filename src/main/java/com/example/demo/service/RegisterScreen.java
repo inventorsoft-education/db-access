@@ -20,7 +20,7 @@ public class RegisterScreen {
         createDB();
         Scanner in = new Scanner(System.in);
 
-        System.out.print("Input name of Team: ");
+        System.out.print("Input name of Team:");
         String teamName = in.nextLine();
 
 
