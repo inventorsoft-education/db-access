@@ -1,7 +1,6 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.Team;
-import com.example.demo.service.SQLMethods;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
