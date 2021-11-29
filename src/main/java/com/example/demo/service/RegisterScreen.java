@@ -14,10 +14,9 @@ import java.util.Scanner;
 @FieldDefaults(level =  AccessLevel.PRIVATE)
 public class RegisterScreen {
     TeamsList teamsList ;
-    SQLMethods sqlMethods;
 
     public void register() {
-        createDB();
+
         Scanner in = new Scanner(System.in);
 
         System.out.print("Input name of Team:");
@@ -31,19 +30,10 @@ public class RegisterScreen {
         String coachName = in.nextLine();
 
 
-        sqlMethods.teamRegister(teamName,coachName,captainName);
+
         teamsList.add(new Team(teamName,captainName,coachName));
         teamsList.madeList();
 
 
-    }
-    public void createDB(){
-        sqlMethods.teamRegister("Monday","M","N");
-        sqlMethods.teamRegister("Tuesday","T","E");
-        sqlMethods.teamRegister("Wednesday","W","D");
-        sqlMethods.teamRegister("Thursday","H","R");
-        sqlMethods.teamRegister("Friday","F","I");
-        sqlMethods.teamRegister("Saturday","S","R");
-        sqlMethods.teamRegister("Sunday","S","N");
     }
 }
