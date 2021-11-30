@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.repository.FileRider;
+import com.example.demo.repository.ClassForWorkingWithFile;
 import com.example.demo.repository.TeamsList;
 import com.example.demo.repository.Tournament;
 import lombok.AccessLevel;
@@ -14,12 +14,12 @@ import java.io.InputStreamReader;
 
 @Service
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class TournamentScreen {
     TeamsList teamsList;
     Tournament tournament;
     LastScreen lastScreen;
-    FileRider fileRider;
+    ClassForWorkingWithFile classForWorkingWithFile;
 
     public void round() {
         teamsList.warning();
@@ -28,7 +28,7 @@ public class TournamentScreen {
             case 2:
                 String finalResult = tournament.getWinner(teamsList.getTeamByIndex(0), teamsList.getTeamByIndex(1), "Final");
                 System.out.println(finalResult);
-                fileRider.writer(finalResult);
+                classForWorkingWithFile.writer(finalResult);
                 lastScreen.winnerOfTournament();
                 break;
             case 4:
@@ -36,7 +36,7 @@ public class TournamentScreen {
                 String halfFinal2 = tournament.getWinner(teamsList.getTeamByIndex(1), teamsList.getTeamByIndex(0), "1/2");
                 System.out.println(halfFinal1);
                 System.out.println(halfFinal2);
-                fileRider.writer(halfFinal1 + "\n" + halfFinal2);
+                classForWorkingWithFile.writer(halfFinal1 + "\n" + halfFinal2);
                 break;
             case 8:
                 String quarterFinal1 = tournament.getWinner(teamsList.getTeamByIndex(6), teamsList.getTeamByIndex(7), "1/4");
@@ -47,8 +47,10 @@ public class TournamentScreen {
                 System.out.println(quarterFinal2);
                 System.out.println(quarterFinal3);
                 System.out.println(quarterFinal4);
-                fileRider.writer(quarterFinal1 + "\n" + quarterFinal2 + "\n" + quarterFinal3 + "\n" + quarterFinal4);
+                classForWorkingWithFile.writer(quarterFinal1 + "\n" + quarterFinal2 + "\n" + quarterFinal3 + "\n" + quarterFinal4);
                 break;
+            default:
+                System.out.println("The tournament has not started yet");
         }
         System.out.println("\n Please choose number of option:\n" +
                 " 1. Next round \n" +

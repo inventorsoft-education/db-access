@@ -11,12 +11,12 @@ import java.io.InputStreamReader;
 
 @Service
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MainScreen {
     TournamentScreen tournamentScreen;
     RegisterScreen registerScreen;
 
-    public void mainScreen() throws IOException {
+    public void mainScreen() {
         System.out.println("\n                                                   Welcome");
         System.out.println("                         Please register your team to participate in the our tournament");
         registerScreen.register();
