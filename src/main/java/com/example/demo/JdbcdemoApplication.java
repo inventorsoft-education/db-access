@@ -1,16 +1,15 @@
-package com.example.jdbcdemo;
+package com.example.demo;
 
-import com.example.jdbcdemo.component.ConsoleReadWrite;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
-@AllArgsConstructor
+@SpringBootApplication(proxyBeanMethods = false)
+@RequiredArgsConstructor
 public class JdbcdemoApplication implements CommandLineRunner {
 
-    private ConsoleReadWrite consoleReadWrite;
+    private final ConsoleReadWrite consoleReadWrite;
 
     public static void main(String[] args) {
         SpringApplication.run(JdbcdemoApplication.class, args);

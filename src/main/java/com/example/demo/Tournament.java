@@ -1,49 +1,56 @@
-package com.example.jdbcdemo.component;
+package com.example.demo;
 
-import com.example.jdbcdemo.configuration.JdbcConfig;
-import com.example.jdbcdemo.model.Match;
-import com.example.jdbcdemo.model.Team;
-import com.example.jdbcdemo.repository.MatchList;
-import com.example.jdbcdemo.repository.TeamList;
+import com.example.demo.model.Match;
+import com.example.demo.model.Team;
+import com.example.demo.service.MatchService;
+import com.example.demo.service.TeamService;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 @Getter
+@Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Tournament {
 
-    TeamList teamList;
-    MatchList matchList;
+    TeamService teamService;
+    MatchService matchService;
     Team winner;
 
-    Tournament(TeamList teamList, MatchList matchList) {
-        this.teamList = teamList;
-        this.matchList = matchList;
+    Tournament(TeamService teamService, MatchService matchService) {
+        this.teamService = teamService;
+        this.matchService = matchService;
     }
 
     public void generateMatches() {
-        int teamListSize = teamList.getSize();
+        List<Team> teams = teamService.teamsToList();
+        List<Match> matches = new ArrayList<>();
+        int teamListSize = teams.size();
         int round = teamListSize / 2;
         if(isPowerOfTwo(teamListSize)) {
             int roundCount = countMatches(teamListSize);
             for (int i = 0; i < roundCount; i++) {
                 int teamCount = 0;
                 for (int j = 0; j < round; j++) {
-                    Match currentMatch = new Match(round, teamList.getTeamList().get(teamCount), teamList.getTeamList().get(teamCount + 1));
+                    Match currentMatch = new Match(round, teams.get(teamCount), teams.get(teamCount + 1));
                     teamCount++;
                     Team winner = currentMatch.getWinner();
                     String score = currentMatch.getScore();
-                    matchList.getMatchList().add(currentMatch);
-                    teamList.getTeamList().remove(winner);
+                    matches.add(currentMatch);
+                    teams.remove(winner);
                 }
                 round /= 2;
             }
         }
-        winner = teamList.getTeamList().get(0);
-        JdbcConfig.saveMatches(matchList.getMatchList());
+        winner = teams.get(0);
+        matchService.saveMatches(matches);
     }
 
     int countMatches(int teamListSize) {
@@ -60,7 +67,4 @@ public class Tournament {
                 == (int)(Math.floor(((Math.log(number) / Math.log(2)))));
     }
 
-    public Team getWinner() {
-        return winner;
-    }
 }

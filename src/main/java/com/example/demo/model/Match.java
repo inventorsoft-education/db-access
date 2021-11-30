@@ -1,18 +1,39 @@
-package com.example.jdbcdemo.model;
+package com.example.demo.model;
 
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@Entity
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Table(name = "MATCHES")
 public class Match {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int id;
+
+    @Column(nullable = false)
     int round;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     Team team1;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     Team team2;
+
     String score;
 
     public Match(int round, Team team1, Team team2) {
@@ -33,17 +54,9 @@ public class Match {
         return winner;
     }
 
-    public String getScore() {
-        return score;
-    }
-
-    public void setScore(String score) {
-        this.score = score;
-    }
-
     @Override
     public String toString() {
-        return "1/" + round + ", " + team1.getName() + ", " + team2.getName() + ", " + score;
+        return String.format("1/%d, %s, %s, %s", round, team1.getName(), team2.getName(), score);
     }
 
 }
