@@ -1,4 +1,4 @@
-package sql.src.main.java.model;
+package sql.model;
 
 
 public class Player{

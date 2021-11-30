@@ -1,4 +1,4 @@
-package sql.src.main.java;
+package sql;
 
 import additional.DataOperations;
 import additional.DatabaseConnector;
