@@ -1,6 +1,6 @@
-package com.example.tournament.repository;
+package hibernate.tournament.repository;
 
-import com.example.tournament.model.Team;
+import hibernate.tournament.model.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

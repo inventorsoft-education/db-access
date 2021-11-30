@@ -1,8 +1,8 @@
-package com.example.tournament.service;
+package hibernate.tournament.service;
 
-import com.example.tournament.model.MatchDto;
-import com.example.tournament.model.Team;
-import com.example.tournament.repository.MatchRepository;
+import hibernate.tournament.model.MatchDto;
+import hibernate.tournament.model.Team;
+import hibernate.tournament.repository.MatchRepository;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;

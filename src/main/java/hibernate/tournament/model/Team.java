@@ -1,4 +1,4 @@
-package com.example.tournament.model;
+package hibernate.tournament.model;
 
 
 import lombok.AccessLevel;

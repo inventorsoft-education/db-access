@@ -1,11 +1,9 @@
-package com.example.tournament.controller;
+package hibernate.tournament.controller;
 
-import com.example.tournament.model.Team;
-import com.example.tournament.repository.TeamRepository;
-import com.example.tournament.service.TeamService;
-import com.example.tournament.service.TournamentService;
+import hibernate.tournament.model.Team;
+import hibernate.tournament.repository.TeamRepository;
+import hibernate.tournament.service.TournamentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

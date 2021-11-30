@@ -1,9 +1,9 @@
-package com.example.tournament.service;
+package hibernate.tournament.service;
 
-import com.example.tournament.model.Team;
-import com.example.tournament.model.Tournament;
-import com.example.tournament.repository.TeamRepository;
-import com.example.tournament.repository.TournamentRepository;
+import hibernate.tournament.model.Team;
+import hibernate.tournament.model.Tournament;
+import hibernate.tournament.repository.TeamRepository;
+import hibernate.tournament.repository.TournamentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
