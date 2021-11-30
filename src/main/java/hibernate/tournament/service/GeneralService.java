@@ -1,4 +1,4 @@
-package com.example.tournament.service;
+package hibernate.tournament.service;
 
 import org.springframework.data.repository.CrudRepository;
 
