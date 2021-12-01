@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Scanner;
@@ -34,14 +35,14 @@ public class ConsoleInOut {
         }
     }
 
+    @Transactional(readOnly = true)
     public void outMatchList() {
         System.out.println("List of matches:\n");
-        for (Match match : tournament.getMatchList()) {
-
-/*            System.out.println("First team name: " + match.getFirstTeam().getName());
+        for (Match match : tournament.getFullMatchList()) {
+            System.out.println("First team name: " + match.getFirstTeam().getName());
             System.out.println("Second team name: " + match.getSecondTeam().getName());
             System.out.println("Round: " + match.getRound());
-            System.out.println("Score: " + match.getScore());*/
+            System.out.println("Score: " + match.getScore());
         }
     }
 
