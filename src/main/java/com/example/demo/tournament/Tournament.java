@@ -6,8 +6,8 @@ import com.example.demo.service.MatchService;
 import com.example.demo.service.TeamService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,14 +16,12 @@ import java.util.List;
 import java.util.Random;
 
 @Component
-@Getter
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Tournament {
     MatchService matchService;
     TeamService teamService;
 
-    @Transactional
     public boolean createAndSaveMatchesBasedOnListOfTeams(List<Team> teams) {
         List<Match> matches = new ArrayList<>();
 
@@ -99,14 +97,27 @@ public class Tournament {
         }
         return arr;
     }
-
-    @Transactional(readOnly = true)
+@Transactional(readOnly = true)
     public Team getWinner() {
         List<Match> matches = matchService.getAll();
-        return getMatchService().getWinner(matches.get(matches.size() - 1));
+        Team teamWinner = matchService.getWinner(matches.get(matches.size() - 1));
+        Hibernate.initialize(teamWinner);
+        return teamWinner;
     }
 
     public Team getWinner(Match match) {
-        return getMatchService().getWinner(match);
+        return matchService.getWinner(match);
+    }
+
+    public List<Team> getTeamList() {
+        return teamService.getAll();
+    }
+
+    public List<Match> getMatchList() {
+        return matchService.getAll();
+    }
+
+    public void saveAllTeams(List<Team> teamList) {
+        teamService.saveAll(teamList);
     }
 }
