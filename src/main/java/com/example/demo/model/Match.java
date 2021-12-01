@@ -27,10 +27,10 @@ public class Match {
     @Column(unique = true, nullable = false)
     Integer id;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     Team firstTeam;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     Team secondTeam;
 
     @Column(nullable = false)
