@@ -5,12 +5,10 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Scanner;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class CustomConfig {
-
     @Bean
     public Scanner createScanner() {
         return new Scanner(System.in);
     }
 }
-
