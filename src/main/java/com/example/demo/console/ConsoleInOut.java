@@ -5,10 +5,8 @@ import com.example.demo.model.Team;
 import com.example.demo.tournament.Tournament;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Scanner;
@@ -17,7 +15,6 @@ import java.util.Scanner;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ConsoleInOut {
-    @Getter
     Tournament tournament;
     Scanner in;
 
@@ -37,14 +34,14 @@ public class ConsoleInOut {
         }
     }
 
-    @Transactional(readOnly = true)
     public void outMatchList() {
         System.out.println("List of matches:\n");
-        for (Match match : tournament.getMatchService().getAll()) {
-            System.out.println("First team name: " + match.getFirstTeam().getName());
+        for (Match match : tournament.getMatchList()) {
+
+/*            System.out.println("First team name: " + match.getFirstTeam().getName());
             System.out.println("Second team name: " + match.getSecondTeam().getName());
             System.out.println("Round: " + match.getRound());
-            System.out.println("Score: " + match.getScore());
+            System.out.println("Score: " + match.getScore());*/
         }
     }
 
