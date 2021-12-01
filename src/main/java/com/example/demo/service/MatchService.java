@@ -7,7 +7,9 @@ import com.example.demo.service.base.GeneralService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -18,6 +20,11 @@ public class MatchService extends GeneralService<Match, Integer> {
     public MatchService(MatchRepository repository) {
         super(repository);
         this.matchRepository = repository;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Match> getFullMatches(){
+        return matchRepository.getFullList();
     }
 
     public String generateScore() {
