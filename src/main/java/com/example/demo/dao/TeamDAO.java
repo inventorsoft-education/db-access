@@ -2,7 +2,7 @@ package com.example.demo.dao;
 
 import com.example.demo.configuration.DBConfig;
 import com.example.demo.model.Team;
-import lombok.experimental.FieldDefaults;
+import org.springframework.stereotype.Component;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,13 +10,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@FieldDefaults(makeFinal = true)
-public class TeamDAO{
-
-    public static void save(List<Team> teams) {
+@Component
+public class TeamDAO {
+    public void save(List<Team> teams) {
         try {
             PreparedStatement preparedStatement =
-                    DBConfig.getConnection().prepareStatement("insert into teams values(?,?,?,?)");
+                    DBConfig.getConnection().prepareStatement("INSERT INTO teams VALUES(?,?,?,?)");
 
             for (int i = 0; i < teams.size(); i++) {
                 preparedStatement.setInt(1, i + 1);
@@ -26,18 +25,17 @@ public class TeamDAO{
 
                 preparedStatement.executeUpdate();
             }
-        } catch (
-                SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static List<Team> getList() {
+    public List<Team> getList() {
         List<Team> teams = null;
 
         try {
             PreparedStatement preparedStatement =
-                    DBConfig.getConnection().prepareStatement("select * from teams");
+                    DBConfig.getConnection().prepareStatement("SELECT * FROM teams");
 
             ResultSet resultSet = preparedStatement.executeQuery();
             teams = new ArrayList<>();
@@ -55,13 +53,13 @@ public class TeamDAO{
         return teams;
     }
 
-    public static Team getTeamByName(String name) {
+    public Team getTeamByName(String name) {
         Team team = null;
         try {
             PreparedStatement preparedStatement =
                     DBConfig.getConnection().prepareStatement(
-                            "select teams.name, teams.capitan, teams.coach " +
-                                    "from teams where name = ? fetch first row only");
+                            "SELECT teams.name, teams.captain, teams.coach " +
+                                    "FROM teams WHERE name = ? FETCH FIRST ROW ONLY");
             preparedStatement.setString(1, name);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -77,6 +75,4 @@ public class TeamDAO{
         }
         return team;
     }
-
-
 }
