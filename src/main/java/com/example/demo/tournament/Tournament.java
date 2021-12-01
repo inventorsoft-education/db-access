@@ -97,7 +97,8 @@ public class Tournament {
         }
         return arr;
     }
-@Transactional(readOnly = true)
+
+    @Transactional(readOnly = true)
     public Team getWinner() {
         List<Match> matches = matchService.getAll();
         Team teamWinner = matchService.getWinner(matches.get(matches.size() - 1));
@@ -115,6 +116,11 @@ public class Tournament {
 
     public List<Match> getMatchList() {
         return matchService.getAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Match> getFullMatchList() {
+        return matchService.getFullMatches();
     }
 
     public void saveAllTeams(List<Team> teamList) {
