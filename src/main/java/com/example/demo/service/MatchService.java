@@ -3,7 +3,6 @@ package com.example.demo.service;
 import com.example.demo.model.Match;
 import com.example.demo.model.Team;
 import com.example.demo.repository.MatchRepository;
-import com.example.demo.repository.TeamRepository;
 import com.example.demo.service.base.GeneralService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
