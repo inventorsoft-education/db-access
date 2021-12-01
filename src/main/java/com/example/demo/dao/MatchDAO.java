@@ -2,27 +2,19 @@ package com.example.demo.dao;
 
 import com.example.demo.configuration.DBConfig;
 import com.example.demo.model.Match;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
+import org.springframework.stereotype.Component;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@Component
 public class MatchDAO {
-    static int id;
-
-    static {
-        id = 1;
-    }
-
-    public static void save(List<Match> matches) {
-        try {
-            PreparedStatement preparedStatement =
-                    DBConfig.getConnection().prepareStatement("insert into matches values(?,?,?,?,?)");
+    public void save(List<Match> matches) {
+        try (PreparedStatement preparedStatement =
+                     DBConfig.getConnection().prepareStatement("INSERT INTO matches VALUES(?,?,?,?,?)")) {
 
             for (int i = 0; i < matches.size(); i++) {
                 preparedStatement.setInt(1, i + 1);
@@ -38,21 +30,21 @@ public class MatchDAO {
         }
     }
 
-    public static List<Match> getList() {
+    public List<Match> getList() {
         List<Match> matches = null;
         try {
             PreparedStatement preparedStatement =
-                    DBConfig.getConnection().prepareStatement("select * from matches");
+                    DBConfig.getConnection().prepareStatement("SELECT first_team, second_team, round, score FROM matches");
 
             ResultSet resultSet = preparedStatement.executeQuery();
             matches = new ArrayList<>();
 
             while (resultSet.next()) {
                 matches.add(new Match(
+                        resultSet.getString(1),
                         resultSet.getString(2),
                         resultSet.getString(3),
-                        resultSet.getString(4),
-                        resultSet.getString(5)
+                        resultSet.getString(4)
                 ));
             }
         } catch (SQLException e) {
