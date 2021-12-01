@@ -1,24 +1,42 @@
 package com.example.demo.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Component;
 
-@Data
-//@Setter
-//@Getter
+import javax.persistence.*;
 
+@Entity
+@Getter
+@Setter
+@Table(name = "teams")
+@Component
 public class Team {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
+    private Integer id;
+
+    @Column(nullable = false)
     private String teamName;
-    private String captain;
+
+    @Column(nullable = false)
     private String coach;
-    private Integer points = (int) (Math.random() * 10);
 
-  //  public Team() {
-    //}
+    @Column(nullable = false)
+    private String captain;
 
-    public Team(String teamName, String captain, String coach) {
+    @Column(nullable = false)
+    public Integer points = 0;
+
+    private Integer goals = (int) (Math.random() * 10);
+
+    public Team() {
+    }
+
+    public Team(String teamName, String coach, String captain) {
         this.teamName = teamName;
-        this.captain = captain;
         this.coach = coach;
+        this.captain = captain;
     }
 }
-

@@ -4,7 +4,6 @@ import com.example.demo.entity.Team;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TeamsList {
     List<Team> teams = new ArrayList<>();
-    SQLMethods sqlMethods;
 
     Team Monday = new Team("Monday", "M", "N");
     Team Tuesday = new Team("Tuesday", "T", "E");
@@ -32,7 +30,11 @@ public class TeamsList {
         teams.add(Sunday);
     }
 
-    public Boolean add(Team team) {
+    public List<Team> teams() {
+        return teams;
+    }
+
+    public boolean add(Team team) {
         return teams.add(team);
     }
 
@@ -40,7 +42,7 @@ public class TeamsList {
         return teams.size();
     }
 
-    public Team getTeamByIndex(Integer num) {
+    public Team getTeamByIndex(int num) {
         return teams.get(num);
     }
 
@@ -55,6 +57,5 @@ public class TeamsList {
     public void deleteTeam(Team team) {
         teams.remove(team);
     }
-
 }
 

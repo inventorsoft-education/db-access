@@ -11,17 +11,16 @@ import java.util.Scanner;
 
 @AllArgsConstructor
 @Service
-@FieldDefaults(level =  AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class RegisterScreen {
-    TeamsList teamsList ;
+    TeamsList teamsList;
+    DB_Service db;
 
     public void register() {
-
         Scanner in = new Scanner(System.in);
 
         System.out.print("Input name of Team:");
         String teamName = in.nextLine();
-
 
         System.out.print("Input captain's name:");
         String captainName = in.nextLine();
@@ -29,11 +28,8 @@ public class RegisterScreen {
         System.out.print("Input coach's name:");
         String coachName = in.nextLine();
 
-
-
-        teamsList.add(new Team(teamName,captainName,coachName));
+        teamsList.add(new Team(teamName, captainName, coachName));
         teamsList.madeList();
-
-
+        db.setTeams(teamsList.teams());
     }
 }
