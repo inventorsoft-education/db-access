@@ -10,22 +10,13 @@ import java.sql.SQLException;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class DBConfig {
-    static String URL;
-    static String USERNAME;
-    static String PASSWORD;
+    static String URL = "jdbc:postgresql://localhost:5432/tournament";
+    static String USERNAME = "postgres";
+    static String PASSWORD = "postgres";
     @Getter
     static Connection connection;
 
     static {
-        URL = "jdbc:postgresql://localhost:5432/tournament";
-        USERNAME = "postgres";
-        PASSWORD = "postgres";
-
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
         try {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (SQLException e) {
