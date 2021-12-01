@@ -1,8 +1,8 @@
 package com.example.demo;
 
 import com.example.demo.console.ConsoleInOut;
-import com.example.demo.repository.TeamRepository;
 import com.example.demo.model.Team;
+import com.example.demo.tournament.Tournament;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -15,6 +15,7 @@ import java.util.List;
 public class DemoApplication implements CommandLineRunner {
 
     private final ConsoleInOut console;
+    private final Tournament tournament;
 
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
@@ -22,7 +23,7 @@ public class DemoApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        console.getTournament().getTeamService().saveAll(List.of(
+        tournament.saveAllTeams(List.of(
                 new Team("name1", "capitan1", "coach1"),
                 new Team("name2", "capitan2", "coach2"),
                 new Team("name3", "capitan3", "coach3"),
@@ -33,7 +34,7 @@ public class DemoApplication implements CommandLineRunner {
                 new Team("name8", "capitan8", "coach8")
         ));
 
-        console.getTournament().createAndSaveMatchesBasedOnListOfTeams(console.getTournament().getTeamService().getAll());
+        tournament.createAndSaveMatchesBasedOnListOfTeams(tournament.getTeamList());
         console.outMatchList();
         console.outWinner();
     }
