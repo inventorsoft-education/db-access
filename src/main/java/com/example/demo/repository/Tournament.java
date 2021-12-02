@@ -1,7 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.Team;
-import com.example.demo.service.ClassForWorkingWithBD;
+import com.example.demo.service.BDService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -9,20 +9,20 @@ import org.springframework.stereotype.Repository;
 @AllArgsConstructor
 public class Tournament {
     private TeamsList teamsList;
-    ClassForWorkingWithBD classForWorkingWithBD;
+    BDService BDService;
 
     public String getWinner(Team teamFirst, Team teamSecond, String round) {
 
         String result = round + ", " + teamFirst.getTeamName() + ",  " + teamSecond.getTeamName() + ", " + teamFirst.getPoints() + " : " + teamSecond.getPoints();
         if (teamFirst.getPoints() == teamSecond.getPoints()) {
-            classForWorkingWithBD.drawPoints(teamFirst);
-            classForWorkingWithBD.drawPoints(teamSecond);
+            BDService.drawPoints(teamFirst);
+            BDService.drawPoints(teamSecond);
             teamsList.deleteTeam(teamFirst);
         } else if (teamFirst.getPoints() > teamSecond.getPoints()) {
-            classForWorkingWithBD.pointForWinner(teamFirst);
+            BDService.pointForWinner(teamFirst);
             teamsList.deleteTeam(teamSecond);
         } else if (teamFirst.getPoints() < teamSecond.getPoints()) {
-            classForWorkingWithBD.pointForWinner(teamSecond);
+            BDService.pointForWinner(teamSecond);
             teamsList.deleteTeam(teamFirst);
         }
         return result;

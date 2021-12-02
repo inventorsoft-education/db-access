@@ -14,7 +14,7 @@ import java.util.Scanner;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RegisterScreen {
     TeamsList teamsList;
-    ClassForWorkingWithBD classForWorkingWithBD;
+    BDService BDService;
 
     public void register() {
         createDB();
@@ -29,18 +29,18 @@ public class RegisterScreen {
         System.out.print("Input coach's name:");
         String coachName = in.nextLine();
 
-        classForWorkingWithBD.teamRegister(teamName, coachName, captainName);
+        BDService.teamRegister(teamName, coachName, captainName);
         teamsList.add(new Team(teamName, captainName, coachName));
         teamsList.madeList();
     }
 
     public void createDB() {
-        classForWorkingWithBD.teamRegister("Monday", "M", "N");
-        classForWorkingWithBD.teamRegister("Tuesday", "T", "E");
-        classForWorkingWithBD.teamRegister("Wednesday", "W", "D");
-        classForWorkingWithBD.teamRegister("Thursday", "H", "R");
-        classForWorkingWithBD.teamRegister("Friday", "F", "I");
-        classForWorkingWithBD.teamRegister("Saturday", "S", "R");
-        classForWorkingWithBD.teamRegister("Sunday", "S", "N");
+        BDService.teamRegister("Monday", "M", "N");
+        BDService.teamRegister("Tuesday", "T", "E");
+        BDService.teamRegister("Wednesday", "W", "D");
+        BDService.teamRegister("Thursday", "H", "R");
+        BDService.teamRegister("Friday", "F", "I");
+        BDService.teamRegister("Saturday", "S", "R");
+        BDService.teamRegister("Sunday", "S", "N");
     }
 }

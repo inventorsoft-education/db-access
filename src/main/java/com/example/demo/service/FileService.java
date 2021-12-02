@@ -1,12 +1,12 @@
-package com.example.demo.repository;
+package com.example.demo.service;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-@Repository
-public class ClassForWorkingWithFile {
+@Service
+public class FileService {
     public void writer(String str) {
         try (BufferedWriter writer = new BufferedWriter(new java.io.FileWriter("dataFile", true))) {
             writer.write("\nRound, Team1, Team2, Score");

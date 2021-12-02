@@ -10,14 +10,14 @@ import org.springframework.stereotype.Service;
 public class LastScreen {
 
     private final TeamsList teamsList;
-    private final ClassForWorkingWithBD classForWorkingWithBD;
+    private final BDService BDService;
 
     public void winnerOfTournament() {
         String winner = teamsList.getTeamByIndex(0).getTeamName();
         System.out.println("\n____________The Winner of out tournament is " + winner);
-        classForWorkingWithBD.showTournamentTable();
+        BDService.showTournamentTable();
         System.out.println("\nGood bye");
-        classForWorkingWithBD.delete();
+        BDService.delete();
         System.exit(0);
     }
 }
