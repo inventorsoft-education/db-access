@@ -1,7 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.Team;
-import com.example.demo.service.DB_Service;
+import com.example.demo.service.DBService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -9,10 +9,9 @@ import org.springframework.stereotype.Repository;
 @AllArgsConstructor
 public class Tournament {
     private TeamsList teamsList;
-    DB_Service dbService;
+    DBService dbService;
 
     public String getWinner(Team teamFirst, Team teamSecond, String round) {
-
         String result = round + ", " + teamFirst.getTeamName() + ",  " + teamSecond.getTeamName() + ", " + teamFirst.getGoals() + " : " + teamSecond.getGoals();
         if (teamFirst.getGoals() == teamSecond.getGoals()) {
             teamsList.deleteTeam(teamFirst);

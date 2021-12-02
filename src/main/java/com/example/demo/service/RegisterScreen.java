@@ -14,7 +14,7 @@ import java.util.Scanner;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RegisterScreen {
     TeamsList teamsList;
-    DB_Service db;
+    DBService db;
 
     public void register() {
         Scanner in = new Scanner(System.in);

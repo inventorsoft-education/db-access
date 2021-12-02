@@ -581,3 +581,136 @@ Round, Team1, Team2, Score
 
 Round, Team1, Team2, Score
 Final, Week,  Thursday, 4 : 9
+
+Round, Team1, Team2, Score
+1/4, Saturday,  Sunday, 4 : 5
+1/4, Thursday,  Friday, 2 : 6
+1/4, Wednesday,  Tuesday, 0 : 0
+1/4, Week,  Monday, 4 : 2
+
+Round, Team1, Team2, Score
+1/2, Friday,  Sunday, 6 : 5
+1/2, Tuesday,  Week, 0 : 4
+
+Round, Team1, Team2, Score
+Final, Week,  Friday, 4 : 6
+
+Round, Team1, Team2, Score
+1/4, Saturday,  Sunday, 9 : 5
+1/4, Thursday,  Friday, 7 : 1
+1/4, Wednesday,  Tuesday, 8 : 3
+1/4, Week,  Monday, 7 : 2
+
+Round, Team1, Team2, Score
+1/2, Thursday,  Saturday, 7 : 9
+1/2, Wednesday,  Week, 8 : 7
+
+Round, Team1, Team2, Score
+1/4, Saturday,  Sunday, 4 : 8
+1/4, Thursday,  Friday, 8 : 1
+1/4, Wednesday,  Tuesday, 4 : 6
+1/4, Week,  Monday, 4 : 6
+
+Round, Team1, Team2, Score
+1/2, Thursday,  Sunday, 8 : 8
+1/2, Tuesday,  Monday, 6 : 6
+
+Round, Team1, Team2, Score
+Final, Monday,  Sunday, 6 : 8
+
+Round, Team1, Team2, Score
+1/4, Saturday,  Sunday, 5 : 3
+1/4, Thursday,  Friday, 9 : 7
+1/4, Wednesday,  Tuesday, 1 : 8
+1/4, Wek,  Monday, 0 : 5
+
+Round, Team1, Team2, Score
+1/2, Thursday,  Saturday, 9 : 5
+1/2, Tuesday,  Monday, 8 : 5
+
+Round, Team1, Team2, Score
+Final, Tuesday,  Thursday, 8 : 9
+
+Round, Team1, Team2, Score
+1/4, Saturday,  Sunday, 7 : 6
+1/4, Thursday,  Friday, 9 : 8
+1/4, Wednesday,  Tuesday, 7 : 9
+1/4, Week,  Monday, 8 : 8
+
+Round, Team1, Team2, Score
+1/2, Thursday,  Saturday, 9 : 7
+1/2, Tuesday,  Monday, 9 : 8
+
+Round, Team1, Team2, Score
+Final, Tuesday,  Thursday, 9 : 9
+
+Round, Team1, Team2, Score
+1/4, Saturday,  Sunday, 7 : 1
+1/4, Thursday,  Friday, 8 : 9
+1/4, Wednesday,  Tuesday, 9 : 5
+1/4, Week,  Monday, 7 : 6
+
+Round, Team1, Team2, Score
+1/4, Saturday,  Sunday, 6 : 9
+1/4, Thursday,  Friday, 3 : 9
+1/4, Wednesday,  Tuesday, 5 : 5
+1/4, WEEK,  Monday, 9 : 1
+
+Round, Team1, Team2, Score
+1/2, Friday,  Sunday, 9 : 9
+1/2, Tuesday,  WEEK, 5 : 9
+
+Round, Team1, Team2, Score
+Final, WEEK,  Sunday, 9 : 9
+
+Round, Team1, Team2, Score
+1/4, Saturday,  Sunday, 5 : 9
+1/4, Thursday,  Friday, 1 : 5
+1/4, Wednesday,  Tuesday, 8 : 8
+1/4, WEEL,  Monday, 1 : 8
+
+Round, Team1, Team2, Score
+1/2, Friday,  Sunday, 5 : 9
+1/2, Tuesday,  Monday, 8 : 8
+
+Round, Team1, Team2, Score
+Final, Monday,  Sunday, 8 : 9
+
+Round, Team1, Team2, Score
+1/4, Saturday,  Sunday, 3 : 5
+1/4, Thursday,  Friday, 6 : 9
+1/4, Wednesday,  Tuesday, 3 : 2
+1/4, week,  Monday, 5 : 4
+
+Round, Team1, Team2, Score
+1/2, Friday,  Sunday, 9 : 5
+1/2, Wednesday,  week, 3 : 5
+
+Round, Team1, Team2, Score
+Final, week,  Friday, 5 : 9
+
+Round, Team1, Team2, Score
+1/4, Saturday,  Sunday, 2 : 1
+1/4, Thursday,  Friday, 0 : 2
+1/4, Wednesday,  Tuesday, 2 : 0
+1/4, Week,  Monday, 7 : 9
+
+Round, Team1, Team2, Score
+1/2, Friday,  Saturday, 2 : 2
+1/2, Wednesday,  Monday, 2 : 9
+
+Round, Team1, Team2, Score
+Final, Monday,  Saturday, 9 : 2
+
+Round, Team1, Team2, Score
+1/4, Saturday,  Sunday, 4 : 0
+1/4, Thursday,  Friday, 4 : 0
+1/4, Wednesday,  Tuesday, 3 : 0
+1/4, 2WW,  Monday, 7 : 1
+
+Round, Team1, Team2, Score
+1/2, Thursday,  Saturday, 4 : 4
+1/2, Wednesday,  2WW, 3 : 7
+
+Round, Team1, Team2, Score
+Final, 2WW,  Saturday, 7 : 4

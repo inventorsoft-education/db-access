@@ -1,13 +1,13 @@
 package com.example.demo;
 
 import com.example.demo.service.MainScreen;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
-@AllArgsConstructor
+@SpringBootApplication(proxyBeanMethods = false)
+@RequiredArgsConstructor
 public class Application implements CommandLineRunner {
 
     private final MainScreen mainScreen;

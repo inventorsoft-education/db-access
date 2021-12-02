@@ -1,16 +1,18 @@
 package com.example.demo.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
+
 
 @Entity
 @Getter
 @Setter
 @Table(name = "teams")
 @Component
+@NoArgsConstructor
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +33,8 @@ public class Team {
 
     private Integer goals = (int) (Math.random() * 10);
 
-    public Team() {
-    }
+//    public Team() {
+//    }
 
     public Team(String teamName, String coach, String captain) {
         this.teamName = teamName;

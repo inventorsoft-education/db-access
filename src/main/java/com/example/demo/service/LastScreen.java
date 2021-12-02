@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class LastScreen {
     private TeamsList teamsList;
-    private DB_Service db;
+    private DBService db;
 
     public void winnerOfTournament() {
         String winner = teamsList.getTeamByIndex(0).getTeamName();

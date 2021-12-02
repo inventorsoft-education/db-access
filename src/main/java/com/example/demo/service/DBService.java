@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class DB_Service {
+public class DBService {
     TeamRepository teamRepository;
     Team team;
 

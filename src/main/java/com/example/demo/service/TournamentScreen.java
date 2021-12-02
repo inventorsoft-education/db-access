@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.repository.FileRider;
 import com.example.demo.repository.TeamsList;
 import com.example.demo.repository.Tournament;
 import lombok.AccessLevel;
@@ -19,7 +18,7 @@ public class TournamentScreen {
     TeamsList teamsList;
     Tournament tournament;
     LastScreen lastScreen;
-    FileRider fileRider;
+    FileService fileService;
 
     public void round() {
         teamsList.warning();
@@ -28,7 +27,7 @@ public class TournamentScreen {
             case 2:
                 String finalResult = tournament.getWinner(teamsList.getTeamByIndex(0), teamsList.getTeamByIndex(1), "Final");
                 System.out.println(finalResult);
-                fileRider.writer(finalResult);
+                fileService.writer(finalResult);
                 lastScreen.winnerOfTournament();
                 break;
             case 4:
@@ -36,7 +35,7 @@ public class TournamentScreen {
                 String halfFinal2 = tournament.getWinner(teamsList.getTeamByIndex(1), teamsList.getTeamByIndex(0), "1/2");
                 System.out.println(halfFinal1);
                 System.out.println(halfFinal2);
-                fileRider.writer(halfFinal1 + "\n" + halfFinal2);
+                fileService.writer(halfFinal1 + "\n" + halfFinal2);
                 break;
             case 8:
                 String quarterFinal1 = tournament.getWinner(teamsList.getTeamByIndex(6), teamsList.getTeamByIndex(7), "1/4");
@@ -47,7 +46,7 @@ public class TournamentScreen {
                 System.out.println(quarterFinal2);
                 System.out.println(quarterFinal3);
                 System.out.println(quarterFinal4);
-                fileRider.writer(quarterFinal1 + "\n" + quarterFinal2 + "\n" + quarterFinal3 + "\n" + quarterFinal4);
+                fileService.writer(quarterFinal1 + "\n" + quarterFinal2 + "\n" + quarterFinal3 + "\n" + quarterFinal4);
                 break;
         }
         System.out.println("\n Please choose number of option:\n" +
