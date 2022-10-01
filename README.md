@@ -7,3 +7,18 @@ Please do not keep results in local collection field inside your implementation 
 If you need to get data from DB - do the query!
 
 Create 2 Pull Request. First one with Pure JDBC API. Second one with Hibernate.
+
+CREATE TABLE Email(
+
+        id BIGINT primary key generated always as identity,
+        
+        recipient_name varchar(100) not null,
+        
+        email_subject varchar(100) not null,
+        
+        email_body varchar(100) not nul,
+        
+        delivery_date timestamp not nul,
+        
+        is_sent boolean
+)
