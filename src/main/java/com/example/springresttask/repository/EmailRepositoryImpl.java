@@ -66,9 +66,9 @@ public class EmailRepositoryImpl implements EmailRepository {
 
     @Override
     public void deletePendingEmail(Long id) {
-        String sql = "delete from email e where e.is_sent =false  and  e.id=  ?";
+        String SQL = "delete from email e where e.is_sent =false  and  e.id=  ?";
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
