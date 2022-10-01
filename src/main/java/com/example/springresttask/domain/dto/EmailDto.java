@@ -13,6 +13,9 @@ import lombok.ToString;
 @Getter
 @Setter
 public class EmailDto {
+
+    private Long id;
+
     @Email
     private String recipientName;
 

@@ -39,12 +39,13 @@ public class EmailController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Email addNewEmailDelivery(@Valid @RequestBody EmailDto emailDto) {
+        System.out.println(emailDto);
         return emailService.createEmailDelivery(emailMapper.toEntity(emailDto));
     }
 
-    @PutMapping("/{id}")
-    public EmailDto updateDeliveryDate(@PathVariable Long id, @Valid @RequestBody EmailDto emailDto) {
-        return emailService.updateDeliveryDate(id,emailDto);
+    @PutMapping
+    public EmailDto updateDeliveryDate( @Valid @RequestBody EmailDto emailDto) {
+        return emailMapper.toDto(emailService.updateDeliveryDate(emailMapper.toEntity(emailDto)));
     }
 
     @DeleteMapping("/{id}")
