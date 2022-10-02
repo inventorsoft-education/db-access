@@ -1,14 +1,14 @@
 package co.inventorsoft.academy.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
-public class Team {
+public class Tournament {
     private String name;
-    private String pilot1;
-    private String pilot2;
+    private int match;
+    private Date date;
 }
-

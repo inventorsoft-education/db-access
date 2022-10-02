@@ -1,94 +1,92 @@
 package co.inventorsoft.academy.service;
 
-import co.inventorsoft.academy.model.Team;
+import co.inventorsoft.academy.dao.MatchDAO;
 import co.inventorsoft.academy.dao.TeamDAO;
+import co.inventorsoft.academy.dao.TournamentDAO;
+import co.inventorsoft.academy.model.Match;
+import co.inventorsoft.academy.model.Team;
+import co.inventorsoft.academy.model.Tournament;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
-import static co.inventorsoft.academy.enums.ColorText.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.Date;
+
+import static co.inventorsoft.academy.enums.ColorText.BLUE;
+import static co.inventorsoft.academy.enums.ColorText.CYAN;
+import static co.inventorsoft.academy.enums.ColorText.GREEN;
+import static co.inventorsoft.academy.enums.ColorText.PURPLE;
+import static co.inventorsoft.academy.enums.ColorText.RESET;
+import static co.inventorsoft.academy.enums.ColorText.YELLOW;
 
 @Component
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TournamentService {
     /**
-     * list with team on this tournament
+     * database of teams on tournaments
      */
-    TeamDAO teamsList;
+    TeamDAO teamDAO;
     /**
-     * file writer service
+     * database of matches on tournaments
      */
-    FileWriterService fileWriter;
+    MatchDAO matchDAO;
 
     /**
-     * This method create tournament,write result to console and data.csv file
+     * database of tournaments
+     */
+    TournamentDAO tournamentDAO;
+
+
+    /**
+     * This method create tournament,write result to console
      */
     public void start() {
-        System.out.println("*****************************************************" + GREEN.getValue() +
-                "Teams list" + RESET.getValue() + "*****************************************************" + PURPLE.getValue());
-           teamsList.displayTeams();
-        System.out.println(RESET.getValue() + "************************************************************" +
-                "********************************************************");
-        System.out.println("*****" + GREEN.getValue() + "Round" + RESET.getValue() + "************************************"
-                + GREEN.getValue() + "Team 1" + RESET.getValue() + "***************" + GREEN.getValue() + "Team 2" + RESET.getValue()
-                + "**********************************" + GREEN.getValue() + "Score" + RESET.getValue() + "****");
-        fileWriter.write("Round, Team 1, Team 2, Score");
-        while (teamsList.size() != 1) {
-            teamsList.generateNewPoints();
-            calculateResult(teamsList.size() == 2 ? "Final" : "1/" + teamsList.size() / 2);
-            System.out.println("************************************************************" +
-                    "********************************************************");
+        String nameOfTournament = "Derby-" + System.currentTimeMillis();
+        List<Team> teams = teamDAO.getTeams();
+        System.out.println("*****************************************************" + GREEN.getValue() + "Teams list" + RESET.getValue() + "*****************************************************" + PURPLE.getValue());
+        teams.forEach(System.out::println);
+        System.out.println(RESET.getValue() + "********************************************************************************************************************");
+        System.out.println("*****" + GREEN.getValue() + "Round" + RESET.getValue() + "************************************" + GREEN.getValue() + "Team 1" + RESET.getValue() + "***************" + GREEN.getValue() + "Team 2" + RESET.getValue() + "**********************************" + GREEN.getValue() + "Score" + RESET.getValue() + "****");
+        while (teams.size() != 1) {
+            Collections.shuffle(teams, new Random());
+            calculateResult(teams, nameOfTournament, teams.size() == 2 ? "Final" : "1/" + teams.size() / 2);
+            System.out.println("********************************************************************************************************************");
         }
-        /* display winner of tournament*/
         winner();
     }
 
     /**
-     * This method display and write to file all matches in current round
-     *
-     * @param round name of round
+     * This method add match and display all matches in current round
      */
-    private void calculateResult(String round) {
-        int size = teamsList.size();
+    private void calculateResult(List<Team> teams, String name, String round) {
+        int size = teams.size();
         for (int i = 0; i < size; i += 2) {
-            Team team1 = teamsList.getTeam(size - 1 - i);
-            Team team2 = teamsList.getTeam(size - 2 - i);
-            fileWriter.write(round + ", " + team1.getName() + ", " + team2.getName() + ", "
-                    + team1.getPoints() + ":" + team2.getPoints());
-            System.out.println(getWinner(teamsList.getTeam(size - 1 - i),
-                    teamsList.getTeam(size - 2 - i), round));
+            Team team1 = teams.get(size - 1 - i);
+            Team team2 = teams.get(size - 2 - i);
+            Match match = new Match(round, teamDAO.getId(team1), teamDAO.getId(team2), (int) (Math.random() * 10), (int) (Math.random() * 10));
+            tournamentDAO.addTournament(new Tournament(name, matchDAO.addMatch(match), new Date()));
+            System.out.printf("*" + BLUE.getValue() + "%8s\t" + RESET.getValue() + "   * " + YELLOW.getValue() + "%40s - %-40s" + RESET.getValue() + " * " + CYAN.getValue() + "%5s:%-5s" + RESET.getValue() + " *%n",
+                    match.getRound(), team1.getName(), team2.getName(), match.getPointsTeam1(), match.getPointsTeam2());
+            teams.remove(match.getPointsTeam1() > match.getPointsTeam2() ? team2 : team1);
         }
     }
 
     /**
-     * This method calculate winner from a pair of teams
-     *
-     * @param teamFirst  first team
-     * @param teamSecond second team
-     * @param round      actual round name
-     * @return String value of result
-     */
-    public String getWinner(Team teamFirst, Team teamSecond, String round) {
-        String result = String.format("*" + BLUE.getValue() + "%8s\t" + RESET.getValue() + "   * " + YELLOW.getValue()
-                        + "%40s - %-40s" + RESET.getValue() + " * " + CYAN.getValue() + "%5s:%-5s" + RESET.getValue() + " *",
-                round, teamFirst.getName(), teamSecond.getName(),
-                teamFirst.getPoints(), teamSecond.getPoints());
-        /* delete loser team */
-        teamsList.deleteTeam(teamFirst.getPoints() > teamSecond.getPoints() ? teamSecond : teamFirst);
-        return result;
-    }
-
-    /**
-     * This method display result of tournament
+     * This method display winner of tournament
      */
     public void winner() {
-        String winner = teamsList.getTeam(0).getName();
-        System.out.println("****************************************************" +
-                "****************************************************************");
-        System.out.println(GREEN.getValue() + "\t\t\t\t\t\t\t\tThe Winner of tournament is " + winner);
-        System.out.println(RESET.getValue() + "****************************************************" +
-                "****************************************************************");
+        Tournament tournament = tournamentDAO.getFinalMatch();
+        Match match = matchDAO.getMatch(tournament.getMatch());
+        String winner = (match.getPointsTeam1() > match.getPointsTeam2()
+                ? teamDAO.getTeam(match.getTeam1()).getName()
+                : teamDAO.getTeam(match.getTeam2()).getName());
+        System.out.println("********************************************************************************************************************");
+        System.out.println(GREEN.getValue() + "\t\t\tThe Winner of tournament " + tournament.getName() + " is " + winner + " in " + tournament.getDate());
+        System.out.println(RESET.getValue() + "********************************************************************************************************************");
     }
 }
