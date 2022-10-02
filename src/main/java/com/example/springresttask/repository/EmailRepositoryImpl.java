@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Slf4j
 public class EmailRepositoryImpl implements EmailRepository {
+    
     @Value("${spring.datasource.url}")
     private String URL;
     @Value("${spring.datasource.username}")
