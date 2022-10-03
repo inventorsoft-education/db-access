@@ -6,15 +6,12 @@ import co.inventorsoft.academy.dao.TournamentDAO;
 import co.inventorsoft.academy.model.Match;
 import co.inventorsoft.academy.model.Team;
 import co.inventorsoft.academy.model.Tournament;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-import java.util.Date;
 
 import static co.inventorsoft.academy.enums.ColorText.BLUE;
 import static co.inventorsoft.academy.enums.ColorText.CYAN;
@@ -23,23 +20,22 @@ import static co.inventorsoft.academy.enums.ColorText.PURPLE;
 import static co.inventorsoft.academy.enums.ColorText.RESET;
 import static co.inventorsoft.academy.enums.ColorText.YELLOW;
 
-@Component
-@AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@Service
+@RequiredArgsConstructor
 public class TournamentService {
     /**
      * database of teams on tournaments
      */
-    TeamDAO teamDAO;
+    private final TeamDAO teamDAO;
     /**
      * database of matches on tournaments
      */
-    MatchDAO matchDAO;
+    private final MatchDAO matchDAO;
 
     /**
      * database of tournaments
      */
-    TournamentDAO tournamentDAO;
+    private final TournamentDAO tournamentDAO;
 
 
     /**
@@ -53,7 +49,7 @@ public class TournamentService {
         System.out.println(RESET.getValue() + "********************************************************************************************************************");
         System.out.println("*****" + GREEN.getValue() + "Round" + RESET.getValue() + "************************************" + GREEN.getValue() + "Team 1" + RESET.getValue() + "***************" + GREEN.getValue() + "Team 2" + RESET.getValue() + "**********************************" + GREEN.getValue() + "Score" + RESET.getValue() + "****");
         while (teams.size() != 1) {
-            Collections.shuffle(teams, new Random());
+            Collections.shuffle(teams);
             calculateResult(teams, nameOfTournament, teams.size() == 2 ? "Final" : "1/" + teams.size() / 2);
             System.out.println("********************************************************************************************************************");
         }
@@ -69,7 +65,7 @@ public class TournamentService {
             Team team1 = teams.get(size - 1 - i);
             Team team2 = teams.get(size - 2 - i);
             Match match = new Match(round, teamDAO.getId(team1), teamDAO.getId(team2), (int) (Math.random() * 10), (int) (Math.random() * 10));
-            tournamentDAO.addTournament(new Tournament(name, matchDAO.addMatch(match), new Date()));
+            tournamentDAO.addTournament(new Tournament(name, matchDAO.addMatch(match), LocalDate.now()));
             System.out.printf("*" + BLUE.getValue() + "%8s\t" + RESET.getValue() + "   * " + YELLOW.getValue() + "%40s - %-40s" + RESET.getValue() + " * " + CYAN.getValue() + "%5s:%-5s" + RESET.getValue() + " *%n",
                     match.getRound(), team1.getName(), team2.getName(), match.getPointsTeam1(), match.getPointsTeam2());
             teams.remove(match.getPointsTeam1() > match.getPointsTeam2() ? team2 : team1);

@@ -3,34 +3,34 @@ package co.inventorsoft.academy.dao;
 import co.inventorsoft.academy.dao.intetface.TeamDAOInterface;
 import co.inventorsoft.academy.jdbc.MyJDBC;
 import co.inventorsoft.academy.model.Team;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+import static co.inventorsoft.academy.jdbc.MyJDBC.connection;
+
+@Repository
 public class TeamDAO implements TeamDAOInterface {
     private static final String INSERT_TEAM = "INSERT INTO teams (team, pilot1, pilot2) VALUES (?, ?, ?);";
     private static final String COUNT_OF_TEAMS = "SELECT COUNT(id) as count FROM teams;";
-    private static final String SELECT_TEAM_BY_ID = "SELECT teams.team,teams.pilot1,teams.pilot2 FROM teams WHERE id =?;";
-    private static final String SELECT_ID = "SELECT teams.id FROM teams WHERE team =? AND pilot1=? AND pilot2=?;";
+    private static final String SELECT_TEAM_BY_ID = "SELECT team, pilot1, pilot2 FROM teams WHERE id = ?;";
+    private static final String SELECT_ID = "SELECT id FROM teams WHERE team = ? AND pilot1= ? AND pilot2= ?;";
     private static final String DELETE_TEAM = "DELETE FROM teams WHERE id = ?;";
-    private static final String SELECT_TEAMS = "SELECT teams.team,teams.pilot1,teams.pilot2 FROM teams;";
-    private static final String UPDATE_TEAM = "UPDATE teams SET team = ?, pilot1= ?, pilot2 =? where id = ?;";
+    private static final String SELECT_TEAMS = "SELECT team, pilot1, pilot2 FROM teams;";
+    private static final String UPDATE_TEAM = "UPDATE teams SET team = ?, pilot1= ?, pilot2 = ? where id = ?;";
 
     /**
-     * This method add Team to database
+     * This method add {@link Team} to database
      *
-     * @param team input Team
+     * @param team input {@link Team}
      */
     @Override
     public void addTeam(Team team) {
-        try (Connection connection = MyJDBC.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TEAM)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TEAM)) {
             preparedStatement.setString(1, team.getName());
             preparedStatement.setString(2, team.getPilot1());
             preparedStatement.setString(3, team.getPilot2());
@@ -41,17 +41,15 @@ public class TeamDAO implements TeamDAOInterface {
     }
 
     /**
-     * This method return count of teams in database
+     * This method return count of {@link Team} in database
      *
-     * @return count od teams
+     * @return count of teams or -1 if we have error
      */
     @Override
     public int size() {
         int result = -1;
-        try (Connection connection = MyJDBC.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(COUNT_OF_TEAMS)) {
-            ResultSet rs = preparedStatement.executeQuery();
-            while(rs.next()){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(COUNT_OF_TEAMS); ResultSet rs = preparedStatement.executeQuery()) {
+            while (rs.next()) {
                 result = rs.getInt("count");
             }
         } catch (SQLException e) {
@@ -61,16 +59,15 @@ public class TeamDAO implements TeamDAOInterface {
     }
 
     /**
-     * This method get Team from database by input index
+     * This method get {@link Team} from database by input index
      *
      * @param id input index
-     * @return Team
+     * @return {@link Team}
      */
     @Override
     public Team getTeam(Integer id) {
         Team team = null;
-        try (Connection connection = MyJDBC.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TEAM_BY_ID);) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TEAM_BY_ID)) {
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -79,6 +76,7 @@ public class TeamDAO implements TeamDAOInterface {
                 String pilot2 = rs.getString("pilot2");
                 team = new Team(name, pilot1, pilot2);
             }
+            rs.close();
         } catch (SQLException e) {
             MyJDBC.printSQLException(e);
         }
@@ -86,23 +84,23 @@ public class TeamDAO implements TeamDAOInterface {
     }
 
     /**
-     * This method find id in database from input Team
+     * This method find id in database from input {@link Team}
      *
-     * @param team input Team
-     * @return id of Team
+     * @param team input {@link Team}
+     * @return id of {@link Team} or -1 if we have error
      */
     @Override
     public int getId(Team team) {
         int result = -1;
-        try (Connection connection = MyJDBC.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ID);) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ID)) {
             preparedStatement.setString(1, team.getName());
             preparedStatement.setString(2, team.getPilot1());
             preparedStatement.setString(3, team.getPilot2());
             ResultSet rs = preparedStatement.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 result = rs.getInt("id");
             }
+            rs.close();
         } catch (SQLException e) {
             MyJDBC.printSQLException(e);
         }
@@ -110,14 +108,12 @@ public class TeamDAO implements TeamDAOInterface {
     }
 
     /**
-     * This method create list of teams from database
+     * This method create list of {@link Team} from database
      */
     @Override
     public List<Team> getTeams() {
         List<Team> teams = new ArrayList<>();
-        try (Connection connection = MyJDBC.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TEAMS)) {
-            ResultSet rs = preparedStatement.executeQuery();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TEAMS); ResultSet rs = preparedStatement.executeQuery()) {
             while (rs.next()) {
                 String name = rs.getString("team");
                 String pilot1 = rs.getString("pilot1");
@@ -131,14 +127,13 @@ public class TeamDAO implements TeamDAOInterface {
     }
 
     /**
-     * This method delete Team from database
+     * This method delete {@link Team} from database
      *
-     * @param id input Team id
+     * @param id input {@link Team} id
      */
     @Override
     public void deleteTeam(Integer id) {
-        try (Connection connection = MyJDBC.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_TEAM);) {
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_TEAM)) {
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -147,15 +142,14 @@ public class TeamDAO implements TeamDAOInterface {
     }
 
     /**
-     * This method update Team by id
+     * This method update {@link Team} by id
      *
-     * @param id   input id of Team
-     * @param team new value of Team
+     * @param id   input id of {@link Team}
+     * @param team new value of {@link Team}
      */
     @Override
     public void updateTeam(Integer id, Team team) {
-        try (Connection connection = MyJDBC.getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_TEAM);) {
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_TEAM)) {
             statement.setString(1, team.getName());
             statement.setString(2, team.getPilot1());
             statement.setString(3, team.getPilot2());

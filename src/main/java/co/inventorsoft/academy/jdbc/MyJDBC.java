@@ -16,23 +16,21 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+
 @Component
 @Slf4j
 public class MyJDBC {
     private static final String jdbcURL = "jdbc:postgresql://localhost:5432/myDB";
     private static final String jdbcUsername = "postgres";
     private static final String jdbcPassword = "23081991";
+    public static Connection connection;
 
-    
-    public static Connection getConnection() {
-        Connection connection = null;
+    static {
         try {
-            Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e){
             log.error(e.getMessage());
         }
-        return connection;
     }
 
     public static void printSQLException(SQLException ex) {
@@ -52,9 +50,9 @@ public class MyJDBC {
     }
 
     @SneakyThrows
-    public static void createTables(@NonNull String filename){
+    public static void createTables(@NonNull String filename) {
         String initSql = getSqlCode(filename);
-        try (Statement statement = getConnection().createStatement()) {
+        try (Statement statement = connection.createStatement()) {
             statement.executeQuery(initSql);
         }
     }
@@ -66,11 +64,11 @@ public class MyJDBC {
         return new String(Files.readAllBytes(Paths.get(file.getPath())));
     }
 
-    public Date getSQLDate(LocalDate date) {
+    public static Date getSQLDate(LocalDate date) {
         return java.sql.Date.valueOf(date);
     }
 
-    public LocalDate getUtilDate(Date sqlDate) {
+    public static LocalDate getUtilDate(Date sqlDate) {
         return sqlDate.toLocalDate();
     }
 }

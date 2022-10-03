@@ -1,9 +1,9 @@
 package co.inventorsoft.academy.enums;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 public enum ColorText {
     RESET("\u001B[0m"),
