@@ -81,10 +81,10 @@ public class EmailRepositoryImpl implements EmailRepository {
                     AND  e.id=  ?;
                 """;
         try (Connection connection = getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setLong(1, id);
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setLong(1, id);
+                preparedStatement.executeUpdate();
+            }
         } catch (SQLException ex) {
             log.info("Deleting  is failed");
         }
