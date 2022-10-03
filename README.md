@@ -8,7 +8,7 @@ If you need to get data from DB - do the query!
 
 Create 2 Pull Request. First one with Pure JDBC API. Second one with Hibernate.
 
-CREATE TABLE Email(
+CREATE TABLE email(
 
         id BIGINT primary key generated always as identity,
         
