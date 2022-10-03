@@ -1,0 +1,32 @@
+package com.example.springresttask.domain.dto;
+
+
+import java.time.LocalDateTime;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+@Data
+@NoArgsConstructor
+public class EmailDto {
+
+    private Long id;
+
+    @Email
+    private String recipientName;
+
+    @NotBlank
+    private String emailSubject;
+
+    @NotBlank
+    private String emailBody;
+
+    @NotNull
+    private LocalDateTime deliveryDate;
+
+    @NotNull
+    private boolean isSent;
+}
