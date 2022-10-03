@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Slf4j
 public class EmailRepositoryImpl implements EmailRepository {
-    
+
     @Value("${spring.datasource.url}")
     private String URL;
     @Value("${spring.datasource.username}")
@@ -25,7 +25,6 @@ public class EmailRepositoryImpl implements EmailRepository {
     private String PASSWORD;
 
     private ResultSet resultSet;
-
 
     Connection getConnection() {
         try {
@@ -95,8 +94,6 @@ public class EmailRepositoryImpl implements EmailRepository {
 
     @Override
     public Email save(Email email) {
-//        String sql = "INSERT INTO email (recipient_name,email_subject,email_body,delivery_date,is_sent)\n" +
-//                "VALUES (?,?,?,?,?)";
 
         String sql = """
                     INSERT INTO email (recipient_name,email_subject,email_body,delivery_date,is_sent)
