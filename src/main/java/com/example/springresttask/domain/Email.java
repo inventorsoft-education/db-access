@@ -1,17 +1,10 @@
 package com.example.springresttask.domain;
 
 import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-
-@Getter
-@Setter
-@ToString
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
 
 public class Email {
@@ -26,6 +19,6 @@ public class Email {
 
     private LocalDateTime deliveryDate;
 
-    private Boolean isSent = false;
+    private boolean isSent;
 
 }

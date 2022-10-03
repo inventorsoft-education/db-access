@@ -5,13 +5,12 @@ import java.time.LocalDateTime;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@ToString
-@Getter
-@Setter
+
+@Data
+@NoArgsConstructor
 public class EmailDto {
 
     private Long id;
@@ -29,5 +28,5 @@ public class EmailDto {
     private LocalDateTime deliveryDate;
 
     @NotNull
-    private Boolean isSent = false;
+    private boolean isSent;
 }

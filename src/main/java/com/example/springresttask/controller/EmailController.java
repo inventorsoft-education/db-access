@@ -1,11 +1,9 @@
 package com.example.springresttask.controller;
 
-import com.example.springresttask.domain.Email;
 import com.example.springresttask.domain.dto.EmailDto;
 import com.example.springresttask.domain.mapper.EmailMapper;
 import com.example.springresttask.service.EmailService;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,23 +26,21 @@ public class EmailController {
     private final EmailService emailService;
     private final EmailMapper emailMapper;
 
-
     @GetMapping
     public List<EmailDto> getAllPendingEmailDeliveries() {
         return emailService.pendingEmailDeliveries().stream()
                 .map(emailMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Email addNewEmailDelivery(@Valid @RequestBody EmailDto emailDto) {
-        System.out.println(emailDto);
-        return emailService.createEmailDelivery(emailMapper.toEntity(emailDto));
+    public EmailDto addNewEmailDelivery(@Valid @RequestBody EmailDto emailDto) {
+        return emailMapper.toDto(emailService.createEmailDelivery(emailMapper.toEntity(emailDto)));
     }
 
     @PutMapping
-    public EmailDto updateDeliveryDate( @Valid @RequestBody EmailDto emailDto) {
+    public EmailDto updateDeliveryDate(@Valid @RequestBody EmailDto emailDto) {
         return emailMapper.toDto(emailService.updateDeliveryDate(emailMapper.toEntity(emailDto)));
     }
 
