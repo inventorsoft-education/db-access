@@ -1,8 +1,7 @@
 package co.inventorsoft.academy.service;
 
 import co.inventorsoft.academy.model.Team;
-import co.inventorsoft.academy.dao.TeamDAO;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
@@ -13,12 +12,16 @@ import static co.inventorsoft.academy.enums.ColorText.GREEN;
 import static co.inventorsoft.academy.enums.ColorText.BLUE;
 
 @Service
-@RequiredArgsConstructor
 public class RegistrationService {
     /**
      * list with team on this tournament
      */
-    private final TeamDAO teamDAO;
+    private final TeamService teamService;
+
+    @Autowired
+    public RegistrationService(TeamService teamService) {
+        this.teamService = teamService;
+    }
 
     /**
      * This method create teams and add pool of teams (LinkedList)
@@ -39,12 +42,12 @@ public class RegistrationService {
                         String pilot1 = in.nextLine();
                         System.out.print(GREEN.getValue() + "Input pilot #2 name: " + RESET.getValue());
                         String pilot2 = in.nextLine();
-                        teamDAO.addTeam(new Team(name, pilot1, pilot2));
+                        teamService.createTeam(new Team(name, pilot1, pilot2));
                         System.out.println("********************************************************************************************************************");
                     }
                     /* check team list and go to next step (start tournament) */
                     case "2" -> {
-                        int size = teamDAO.size();
+                        int size = teamService.getSize();
                         if (isPowerOfTwo(size) && size >= 4) {
                             exitFlag = false;
                         } else {

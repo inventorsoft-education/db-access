@@ -1,7 +1,7 @@
 package co.inventorsoft.academy;
 
 import co.inventorsoft.academy.service.RegistrationService;
-import co.inventorsoft.academy.service.TournamentService;
+import co.inventorsoft.academy.service.MainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,7 +18,7 @@ public class Application implements CommandLineRunner {
     /**
      * In this tournament service we start tournament and calculate winner
      */
-    private final TournamentService tournament;
+    private final MainService tournament;
 
     /**
      * In this registration service we add new team to tournament
