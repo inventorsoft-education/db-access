@@ -5,7 +5,6 @@ import com.example.springresttask.domain.dto.EmailDto;
 import com.example.springresttask.domain.mapper.EmailMapper;
 import com.example.springresttask.service.EmailService;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,7 +32,7 @@ public class EmailController {
     public List<EmailDto> getAllPendingEmailDeliveries() {
         return emailService.pendingEmailDeliveries().stream()
                 .map(emailMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @PostMapping
@@ -44,7 +43,7 @@ public class EmailController {
 
     @PutMapping("/{id}")
     public EmailDto updateDeliveryDate(@PathVariable Long id, @Valid @RequestBody EmailDto emailDto) {
-        return emailService.updateDeliveryDate(id,emailDto);
+        return emailService.updateDeliveryDate(id, emailDto);
     }
 
     @DeleteMapping("/{id}")

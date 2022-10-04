@@ -7,9 +7,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
-@ToString
+
 @Getter
 @Setter
 public class EmailDto {
@@ -26,5 +25,5 @@ public class EmailDto {
     private LocalDateTime deliveryDate;
 
     @NotNull
-    private Boolean isSent = false;
+    private boolean isSent;
 }
