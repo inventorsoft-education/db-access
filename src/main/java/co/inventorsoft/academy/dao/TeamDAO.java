@@ -69,14 +69,14 @@ public class TeamDAO implements TeamDAOInterface {
         Team team = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TEAM_BY_ID)) {
             preparedStatement.setInt(1, id);
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                String name = rs.getString("team");
-                String pilot1 = rs.getString("pilot1");
-                String pilot2 = rs.getString("pilot2");
-                team = new Team(name, pilot1, pilot2);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    String name = rs.getString("team");
+                    String pilot1 = rs.getString("pilot1");
+                    String pilot2 = rs.getString("pilot2");
+                    team = new Team(name, pilot1, pilot2);
+                }
             }
-            rs.close();
         } catch (SQLException e) {
             MyJDBC.printSQLException(e);
         }
@@ -96,11 +96,11 @@ public class TeamDAO implements TeamDAOInterface {
             preparedStatement.setString(1, team.getName());
             preparedStatement.setString(2, team.getPilot1());
             preparedStatement.setString(3, team.getPilot2());
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                result = rs.getInt("id");
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    result = rs.getInt("id");
+                }
             }
-            rs.close();
         } catch (SQLException e) {
             MyJDBC.printSQLException(e);
         }

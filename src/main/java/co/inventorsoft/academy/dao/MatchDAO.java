@@ -30,11 +30,11 @@ public class MatchDAO implements MatchDAOInterface {
             preparedStatement.setInt(3, match.getTeam2());
             preparedStatement.setInt(4, match.getPointsTeam1());
             preparedStatement.setInt(5, match.getPointsTeam2());
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                result = rs.getInt("id");
+            try (ResultSet rs = preparedStatement.executeQuery()){
+                while (rs.next()) {
+                    result = rs.getInt("id");
+                }
             }
-            rs.close();
         } catch (SQLException e) {
             MyJDBC.printSQLException(e);
         }
@@ -52,16 +52,16 @@ public class MatchDAO implements MatchDAOInterface {
         Match match = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MATCH_BY_ID)) {
             preparedStatement.setInt(1, id);
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                String round = rs.getString("round");
-                int team1 = rs.getInt("team1");
-                int team2 = rs.getInt("team2");
-                int score1 = rs.getInt("points_team1");
-                int score2 = rs.getInt("points_team2");
-                match = new Match(round, team1, team2, score1, score2);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    String round = rs.getString("round");
+                    int team1 = rs.getInt("team1");
+                    int team2 = rs.getInt("team2");
+                    int score1 = rs.getInt("points_team1");
+                    int score2 = rs.getInt("points_team2");
+                    match = new Match(round, team1, team2, score1, score2);
+                }
             }
-            rs.close();
         } catch (SQLException e) {
             MyJDBC.printSQLException(e);
         }
