@@ -13,5 +13,6 @@ public enum ColorText {
     PURPLE("\u001B[35m"),
     CYAN("\u001B[36m"),
     RED("\u001B[31m");
+
     private final String value;
 }

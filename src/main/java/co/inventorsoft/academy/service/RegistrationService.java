@@ -1,7 +1,11 @@
 package co.inventorsoft.academy.service;
 
 import co.inventorsoft.academy.model.Team;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
@@ -12,16 +16,16 @@ import static co.inventorsoft.academy.enums.ColorText.GREEN;
 import static co.inventorsoft.academy.enums.ColorText.BLUE;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RegistrationService {
     /**
      * list with team on this tournament
      */
-    private final TeamService teamService;
+    TeamService teamService;
 
-    @Autowired
-    public RegistrationService(TeamService teamService) {
-        this.teamService = teamService;
-    }
+    ConfigurableApplicationContext context;
+
 
     /**
      * This method create teams and add pool of teams (LinkedList)
@@ -57,7 +61,7 @@ public class RegistrationService {
                     /*  Exit of application */
                     case "3" -> {
                         System.out.println("******************************************************" + GREEN.getValue() + " Goodbye!" + RESET.getValue() + " ****************************************************");
-                        System.exit(0);
+                        System.exit(SpringApplication.exit(context));
                     }
                     /*  Wrong input case */
                     default -> {

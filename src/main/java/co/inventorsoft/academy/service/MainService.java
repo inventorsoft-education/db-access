@@ -3,7 +3,9 @@ package co.inventorsoft.academy.service;
 import co.inventorsoft.academy.model.Match;
 import co.inventorsoft.academy.model.Team;
 import co.inventorsoft.academy.model.Tournament;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,6 +20,8 @@ import static co.inventorsoft.academy.enums.ColorText.RESET;
 import static co.inventorsoft.academy.enums.ColorText.YELLOW;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MainService {
 
     TeamService teamService;
@@ -25,13 +29,6 @@ public class MainService {
     MatchService matchService;
 
     TournamentService tournamentService;
-
-    @Autowired
-    public MainService(TeamService teamService, MatchService matchService, TournamentService tournamentService) {
-        this.teamService = teamService;
-        this.matchService = matchService;
-        this.tournamentService = tournamentService;
-    }
 
     /**
      * This method create tournament,write result to console
@@ -52,7 +49,7 @@ public class MainService {
     }
 
     /**
-     * This method add match and display all matches in current round
+     * This method add {@link Match} and display all matches in current round
      */
     private void calculateResult(List<Team> teams, String name, String round) {
         int size = teams.size();
@@ -72,12 +69,9 @@ public class MainService {
      * This method display winner of tournament
      */
     public void winner() {
-        Tournament tournament = tournamentService.getLastWinner();
-        String winner = (tournament.getMatch().getPointsTeam1() > tournament.getMatch().getPointsTeam2()
-                ? tournament.getMatch().getTeam1().getName()
-                : tournament.getMatch().getTeam2().getName());
+        List<String> result = tournamentService.getLastWinner();
         System.out.println("********************************************************************************************************************");
-        System.out.println(GREEN.getValue() + "\t\t\tThe Winner of tournament " + tournament.getName() + " is " + winner + " in " + tournament.getDate());
+        System.out.println(GREEN.getValue() + "\t\t\tThe Winner of tournament " + result.get(0) + " is " + result.get(1) + " in " + result.get(2));
         System.out.println(RESET.getValue() + "********************************************************************************************************************");
     }
 }

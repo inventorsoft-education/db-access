@@ -1,8 +1,9 @@
 package co.inventorsoft.academy.model;
 
-
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,27 +19,27 @@ import javax.persistence.Table;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"id"})
 @Table(name = "teams")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
+@NoArgsConstructor
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
-    @ToString.Exclude
     Integer id;
+
+    @NonNull
     @Column(nullable = false)
     String name;
+
+    @NonNull
     @Column(nullable = false)
     String pilot1;
+
+    @NonNull
     @Column(nullable = false)
     String pilot2;
-
-    public Team(String name, String pilot1, String pilot2) {
-        this.name = name;
-        this.pilot1 = pilot1;
-        this.pilot2 = pilot2;
-    }
 }
 
