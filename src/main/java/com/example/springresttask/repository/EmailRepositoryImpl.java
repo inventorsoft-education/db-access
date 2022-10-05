@@ -4,6 +4,7 @@ import com.example.springresttask.domain.Email;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,7 @@ public class EmailRepositoryImpl implements EmailRepository {
 
     private final EntityManager entityManager;
 
+    @Transactional
     @Override
     public List<Email> findAllByPendingEmail() {
         TypedQuery<Email> q = entityManager.createQuery("""
