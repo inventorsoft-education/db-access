@@ -26,6 +26,7 @@ public class EmailRepositoryImpl implements EmailRepository {
         return q.getResultList();
     }
 
+    @Transactional
     @Override
     public void deletePendingEmail(Long id) {
         Email email = entityManager.find(Email.class, id);
@@ -36,12 +37,14 @@ public class EmailRepositoryImpl implements EmailRepository {
         entityManager.remove(email);
     }
 
+    @Transactional
     @Override
     public Email save(Email email) {
         entityManager.persist(email);
         return email;
     }
 
+    @Transactional
     public Email findById(Long id) {
         return entityManager.find(Email.class, id);
     }
