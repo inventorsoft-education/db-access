@@ -26,27 +26,21 @@ public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
-    private
     Integer id;
 
     @Column(nullable = false)
-    private
     String round;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private
     Team team1;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private
     Team team2;
 
     @Column(nullable = false)
-    private
     Integer pointsTeam1;
 
     @Column(nullable = false)
-    private
     Integer pointsTeam2;
 
     public Match() {

@@ -24,19 +24,15 @@ public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
-    private
     Integer id;
 
     @Column(nullable = false)
-    private
     String name;
 
     @Column(nullable = false)
-    private
     String pilot1;
 
     @Column(nullable = false)
-    private
     String pilot2;
 
     public Team() {

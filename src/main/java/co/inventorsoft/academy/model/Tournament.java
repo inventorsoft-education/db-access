@@ -27,19 +27,15 @@ public class Tournament {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
-    private
     Integer id;
 
     @Column(nullable = false)
-    private
     String name;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    private
     Match match;
 
     @Column(nullable = false)
-    private
     LocalDate date;
 
     public Tournament() {
