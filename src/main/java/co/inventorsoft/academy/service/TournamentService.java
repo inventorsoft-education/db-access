@@ -1,5 +1,6 @@
 package co.inventorsoft.academy.service;
 
+import co.inventorsoft.academy.model.Match;
 import co.inventorsoft.academy.model.Tournament;
 import co.inventorsoft.academy.repository.TournamentRepository;
 import lombok.AccessLevel;
@@ -29,9 +30,10 @@ public class TournamentService {
         Tournament winner = Optional.of(tournamentRepository.findFirstByOrderByIdDesc()).get();
         List<String> result = new ArrayList<>();
         result.add(winner.getName());
-        result.add(winner.getMatch().getPointsTeam1() > winner.getMatch().getPointsTeam2()
-                ? winner.getMatch().getTeam1().getName()
-                : winner.getMatch().getTeam2().getName());
+        Match match = winner.getMatch();
+        result.add(match.getPointsTeam1() > match.getPointsTeam2()
+                ? match.getTeam1().getName()
+                : match.getTeam2().getName());
         result.add(winner.getDate().toString());
         return result;
     }

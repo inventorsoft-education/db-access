@@ -59,8 +59,8 @@ public class MainService {
             Match match = new Match(round, team1, team2, (int) (Math.random() * 10), (int) (Math.random() * 10));
             matchService.createMatch(match);
             tournamentService.createTournament(new Tournament(name, match, LocalDate.now()));
-            System.out.printf("*" + BLUE.getValue() + "%8s\t" + RESET.getValue() + "   * " + YELLOW.getValue() + "%40s - %-40s" + RESET.getValue() + " * " + CYAN.getValue() + "%5s:%-5s" + RESET.getValue() + " *%n",
-                    match.getRound(), team1.getName(), team2.getName(), match.getPointsTeam1(), match.getPointsTeam2());
+            System.out.println(String.format("*" + BLUE.getValue() + "%8s\t" + RESET.getValue() + "   * " + YELLOW.getValue() + "%40s - %-40s" + RESET.getValue() + " * " + CYAN.getValue() + "%5s:%-5s" + RESET.getValue() + " *%n",
+                    match.getRound(), team1.getName(), team2.getName(), match.getPointsTeam1(), match.getPointsTeam2()));
             teams.remove(match.getPointsTeam1() > match.getPointsTeam2() ? team2 : team1);
         }
     }

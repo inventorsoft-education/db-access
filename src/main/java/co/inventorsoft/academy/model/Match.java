@@ -2,9 +2,7 @@ package co.inventorsoft.academy.model;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
@@ -23,32 +21,46 @@ import javax.persistence.Table;
 @Setter
 @ToString(of = "id")
 @Table(name = "matches")
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@RequiredArgsConstructor
-@NoArgsConstructor
+@FieldDefaults( level = AccessLevel.PRIVATE)
 public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
+    private
     Integer id;
 
-    @NonNull
     @Column(nullable = false)
+    private
     String round;
 
-    @NonNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private
     Team team1;
 
-    @NonNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private
     Team team2;
 
-    @NonNull
     @Column(nullable = false)
+    private
     Integer pointsTeam1;
 
-    @NonNull
     @Column(nullable = false)
+    private
     Integer pointsTeam2;
+
+    public Match() {
+    }
+
+    public Match(@NonNull String round,
+                 @NonNull Team team1,
+                 @NonNull Team team2,
+                 @NonNull Integer pointsTeam1,
+                 @NonNull Integer pointsTeam2) {
+        this.round = round;
+        this.team1 = team1;
+        this.team2 = team2;
+        this.pointsTeam1 = pointsTeam1;
+        this.pointsTeam2 = pointsTeam2;
+    }
 }
