@@ -2,6 +2,7 @@ package co.inventorsoft.academy.model;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
@@ -22,6 +23,7 @@ import javax.persistence.Table;
 @ToString(of = "id")
 @Table(name = "matches")
 @FieldDefaults( level = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,9 +44,6 @@ public class Match {
 
     @Column(nullable = false)
     Integer pointsTeam2;
-
-    public Match() {
-    }
 
     public Match(@NonNull String round,
                  @NonNull Team team1,

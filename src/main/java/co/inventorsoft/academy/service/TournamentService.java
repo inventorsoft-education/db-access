@@ -31,9 +31,10 @@ public class TournamentService {
         List<String> result = new ArrayList<>();
         result.add(winner.getName());
         Match match = winner.getMatch();
-        result.add(match.getPointsTeam1() > match.getPointsTeam2()
+        String winnerTeam = match.getPointsTeam1() > match.getPointsTeam2()
                 ? match.getTeam1().getName()
-                : match.getTeam2().getName());
+                : match.getTeam2().getName();
+        result.add(winnerTeam);
         result.add(winner.getDate().toString());
         return result;
     }

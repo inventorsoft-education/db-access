@@ -2,6 +2,7 @@ package co.inventorsoft.academy.model;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,6 +24,7 @@ import java.time.LocalDate;
 @ToString(of = "id")
 @Table(name = "tournament")
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class Tournament {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,9 +39,6 @@ public class Tournament {
 
     @Column(nullable = false)
     LocalDate date;
-
-    public Tournament() {
-    }
 
     public Tournament(@NonNull String name,
                       @NonNull Match match,

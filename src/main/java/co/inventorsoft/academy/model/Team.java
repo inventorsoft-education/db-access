@@ -2,6 +2,7 @@ package co.inventorsoft.academy.model;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,6 +21,7 @@ import javax.persistence.Table;
 @ToString(exclude = {"id"})
 @Table(name = "teams")
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,9 +36,6 @@ public class Team {
 
     @Column(nullable = false)
     String pilot2;
-
-    public Team() {
-    }
 
     public Team(@NonNull String name,
                 @NonNull String pilot1,
