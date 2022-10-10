@@ -28,6 +28,12 @@ public class Application implements CommandLineRunner {
         SpringApplication.run(Application.class, args).close();
     }
 
+    public static final String FORMAT_LINE = """
+            ***************************************\
+            ***************************************\
+            **************************************\
+            """;
+
     /**
      * Start of my Application and display header
      */
@@ -35,13 +41,15 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... args) throws InterruptedException {
         Thread.sleep(3000);
-        System.out.println("*********************************************************"
-                + "***********************************************************");
-        System.out.println(GREEN.getValue() + "\t\t\t\t\t\t\t\t\t\t\t\t\tWelcome!!");
-        System.out.println("\tPlease, register your team to derby. Amount of teams "
-                + "should be power of 2 and at least 4(4, 8, 16, 32, etc)");
-        System.out.println(RESET.getValue() + "*******************************************"
-                + "*************************************************************************");
+        System.out.println(FORMAT_LINE);
+        System.out.println(GREEN.getValue() +
+                "\t\t\t\t\t\t\t\t\t\t\t\t\tWelcome!!");
+        System.out.println("""
+                \tPlease, register your team to derby. \
+                Amount of teams  should be power of 2 \
+                and at least 4(4, 8, 16, 32, etc)\
+                """);
+        System.out.println(RESET.getValue() + FORMAT_LINE);
         registration.createTeam();
         tournament.start();
     }

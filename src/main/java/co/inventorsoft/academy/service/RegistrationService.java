@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
 
+import static co.inventorsoft.academy.Application.FORMAT_LINE;
 import static co.inventorsoft.academy.enums.ColorText.RESET;
 import static co.inventorsoft.academy.enums.ColorText.RED;
 import static co.inventorsoft.academy.enums.ColorText.GREEN;
@@ -34,24 +35,25 @@ public class RegistrationService {
         try (Scanner in = new Scanner(System.in)) {
             boolean exitFlag = true;
             while (exitFlag) {
-                System.out.println(BLUE.getValue() + "Please choose number of option:\n"
-                        + " 1. Create team \n" + " 2. Start tournament\n" + " 3. Exit"
-                        + RESET.getValue());
+                System.out.println(BLUE.getValue() + """
+                        Please choose number of option:
+                        1. Create team
+                        2. Start tournament
+                        3. Exit\
+                        """ + RESET.getValue());
                 String option = in.nextLine();
                 switch (option) {
                     /* Add new team to list  */
                     case "1" -> {
-                        System.out.println("*******************************************************"
-                                + "*************************************************************");
-                        System.out.print(GREEN.getValue() + "Input name of Team: " + RESET.getValue());
+                        System.out.println(FORMAT_LINE);
+                        System.out.print(GREEN.getValue() + "Input name of Team: ");
                         String name = in.nextLine();
-                        System.out.print(GREEN.getValue() + "Input pilot #1 name: " + RESET.getValue());
+                        System.out.print("Input pilot #1 name: ");
                         String pilot1 = in.nextLine();
-                        System.out.print(GREEN.getValue() + "Input pilot #2 name: " + RESET.getValue());
+                        System.out.print("Input pilot #2 name: " + RESET.getValue());
                         String pilot2 = in.nextLine();
                         teamService.createTeam(new Team(name, pilot1, pilot2));
-                        System.out.println("*******************************************************"
-                                + "*************************************************************");
+                        System.out.println(FORMAT_LINE);
                     }
                     /* check team list and go to next step (start tournament) */
                     case "2" -> {
@@ -59,9 +61,11 @@ public class RegistrationService {
                         if (isPowerOfTwo(size) && size >= 4) {
                             exitFlag = false;
                         } else {
-                            System.out.println("***********************************" + RED.getValue()
-                                    + " You input " + size + " teams please, input more teams! "
-                                    + RESET.getValue() + "************************************");
+                            System.out.println("***********************************"
+                                    + RED.getValue() + " You input " + size
+                                    + " teams please, input more teams! "
+                                    + RESET.getValue()
+                                    + "************************************");
                         }
                     }
                     /*  Exit of application */
@@ -73,14 +77,14 @@ public class RegistrationService {
                     }
                     /*  Wrong input case */
                     default -> {
-                        System.out.println(RED.getValue() + "Wrong input parameter! Go to next step."
+                        System.out.println(RED.getValue()
+                                + "Wrong input parameter! Go to next step."
                                 + RESET.getValue());
                         exitFlag = false;
                     }
                 }
             }
-            System.out.println("*******************************************************"
-                    + "*************************************************************");
+            System.out.println(FORMAT_LINE);
         }
     }
 
