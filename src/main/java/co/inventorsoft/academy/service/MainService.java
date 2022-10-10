@@ -40,7 +40,10 @@ public class MainService {
         System.out.println("*****************************************************"
                 + GREEN.getValue() + "Teams list" + RESET.getValue() + "*********"
                 + "********************************************" + PURPLE.getValue());
-        teams.forEach(System.out::println);
+        teams.stream()
+                .map(team -> String.format("Team: %s with pilots: %s and %s",
+                team.getName(), team.getPilot1(), team.getPilot2()))
+                .forEach(System.out::println);
         System.out.println(RESET.getValue() + FORMAT_LINE);
         System.out.println("*****"
                 + GREEN.getValue() + "Round"

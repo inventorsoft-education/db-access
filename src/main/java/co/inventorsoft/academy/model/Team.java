@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Entity
 @Getter
 @Setter
-@ToString(of = {"name","pilot1","pilot2"})
+@ToString(of = "id")
 @Table(name = "teams")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
