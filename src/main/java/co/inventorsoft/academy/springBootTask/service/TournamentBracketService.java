@@ -10,14 +10,8 @@ public interface TournamentBracketService {
 
     void showResults();
 
-    TournamentBracketDto getTournamentBracket(Integer id);
-
     List<TournamentBracketDto> listTournamentBrackets();
 
     TournamentBracketDto createTournamentBracket(TournamentBracketDto tournamentBracketDto);
-
-    TournamentBracketDto updateTournamentBracket(Integer id, TournamentBracketDto tournamentBracketDto);
-
-    void deleteTournamentBracket(Integer id);
 
 }
