@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EmailController {
 
-   final TextMessageService ts;
+    final TextMessageService ts;
 
     @GetMapping()
     public List<TextMessage> getMessages() {
@@ -27,25 +27,23 @@ public class EmailController {
 
     @GetMapping("/{id}")
     public TextMessage getById(@PathVariable Integer id) {
-     return ts.findById(id);
+        return ts.findById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(/*@RequestBody TextMessage textMessage*/) {
-     ts.saveTextMessage(new TextMessage(2,"Test1", "Test2", "Test3", "Test4", LocalDate.now()));
-     /*ts.saveTextMessage(textMessage);*/
+    public void create(@RequestBody TextMessage textMessage) {
+        ts.saveTextMessage(textMessage);
     }
 
     @PutMapping("/{id}")
-    public void updateMessage(@PathVariable Integer id/*, @RequestBody TextMessage textMessage*/) {
-        //db.updateTextMessage(id, textMessage);
-     ts.update(id, new TextMessage(20,"ne test", "non", "new", "text", LocalDate.now()));
+    public void updateMessage(@PathVariable Integer id, @RequestBody TextMessage textMessage) {
+        ts.update(id, textMessage);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Integer id) {
-
+        ts.deleteById(id);
     }
 }
