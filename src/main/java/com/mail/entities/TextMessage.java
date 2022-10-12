@@ -1,11 +1,15 @@
 package com.mail.entities;
 
-import lombok.*;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.springframework.lang.NonNull;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
