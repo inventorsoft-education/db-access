@@ -33,7 +33,7 @@ public class TextMessageService {
 
     @Transactional
     public TextMessage findById(int id) {
-        return tr.findById(id).orElseThrow();
+        return tr.findById(id).orElseThrow(() -> new RuntimeException("Entity not found"));
     }
 
     @Transactional
