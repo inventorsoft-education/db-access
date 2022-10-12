@@ -1,14 +1,10 @@
 package com.mail.entities;
 
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.springframework.lang.NonNull;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -16,19 +12,26 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "messages")
 public class TextMessage {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
     int id;
 
+    @Column(nullable = false)
     String title;
 
-    @NonNull
-    String from;
+    @Column(nullable = false)
+    String from_who;
+    @Column(nullable = false)
+    String to_whom;
 
-    @NonNull
-    String to;
-
+    @Column(nullable = false)
     String message;
 
-    LocalDate date;
+    @Column(nullable = false)
+    LocalDate date_posted;
 }
