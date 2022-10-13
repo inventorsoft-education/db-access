@@ -1,11 +1,12 @@
 package co.inventorsoft.academy.springBootTask.domain.entity;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "tournament")
 @Builder
 @Getter
 @Setter
@@ -14,8 +15,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class TournamentBracket {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String matches;
