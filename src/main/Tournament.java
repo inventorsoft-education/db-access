@@ -7,7 +7,6 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 @Component
@@ -15,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Tournament {
-    LinkedList<Team> teamList;
+    List<Team> teamList;
     List<Race> raceList = new ArrayList<>();
 
     public Team start() {
@@ -24,8 +23,8 @@ public class Tournament {
         if (isPowerOfTwo(teamListSize)) {
             Collections.shuffle(teamList);
             while (teamList.size() != 1) {
-                Team firstTeam = teamList.pop();
-                Team secondTeam = teamList.pop();
+                Team firstTeam = teamList.remove(0);
+                Team secondTeam = teamList.remove(0);
                 Race race = new Race(round, firstTeam, secondTeam);
                 Team winner = race.startRace();
                 teamList.add(winner);
@@ -38,7 +37,7 @@ public class Tournament {
                 }
             }
         }
-        return teamList.pop();
+        return teamList.remove(0);
     }
 
     public boolean isPowerOfTwo(int number) {

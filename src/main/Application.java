@@ -1,18 +1,14 @@
 package main;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
+@AllArgsConstructor
 public class Application implements CommandLineRunner {
     private final MainController mainController;
-
-    @Autowired
-    public Application(MainController mainController) {
-        this.mainController = mainController;
-    }
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

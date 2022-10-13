@@ -1,15 +1,43 @@
 package main;
 
 import lombok.AccessLevel;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
-@Data
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Getter
+@Setter
+@Table(name = "races")
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class Race {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
+    Integer id;
+
+    @Column(nullable = false)
     int round;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     Team firstTeam;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     Team secondTeam;
+
+    @Column(nullable = false)
     String time;
 
     public Race(int round, Team firstTeam, Team secondTeam) {
@@ -31,6 +59,6 @@ public class Race {
 
     @Override
     public String toString() {
-        return "1/" + round + ", " + firstTeam.getTeamName() + ", " + secondTeam.getTeamName()+ ", " + time;
+        return String.format("1/%x, %s, %s, %s, ", round, firstTeam.getTeam_name(), secondTeam.getTeam_name(), time);
     }
 }
