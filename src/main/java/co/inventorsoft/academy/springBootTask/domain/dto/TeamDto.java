@@ -19,11 +19,7 @@ public class TeamDto {
 
     @Override
     public String toString() {
-        return "{" +
-                "name='" + name + '\'' +
-                ", capitan='" + capitan + '\'' +
-                ", coach='" + coach + '\'' +
-                '}';
+        return String.format("{name: %s, capitan: %s, coach: %s}", name, capitan, coach);
     }
 
 }
