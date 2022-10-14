@@ -91,8 +91,7 @@ public class TournamentBracketServiceImpl implements TournamentBracketService {
     @Override
     public List<TournamentBracketDto> listTournamentBrackets() {
         log.info("Get all tournamentBrackets");
-        List<TournamentBracket> tournamentBrackets = tournamentBracketRepository.findAll();
-        return TournamentBracketMapper.INSTANCE.mapListOfTournamentBracketToListOfDto(tournamentBrackets);
+        return TournamentBracketMapper.INSTANCE.mapListOfTournamentBracketToListOfDto(tournamentBracketRepository.findAll());
     }
 
     @Override
