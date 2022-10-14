@@ -80,6 +80,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    @Transactional
     public TeamDto createTeam(TeamDto teamDto) {
         Team team = TeamMapper.INSTANCE.mapDtoToModel(teamDto);
         log.info("Creating team with {} id...", team.getId());
