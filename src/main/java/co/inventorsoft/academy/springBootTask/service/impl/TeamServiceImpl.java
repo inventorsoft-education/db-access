@@ -29,7 +29,7 @@ public class TeamServiceImpl {
             System.out.println("Enter team (name, capitan, coach)");
             System.out.println("Enter 'stop' to finish adding teams");
             String currentLine = scanner.nextLine();
-            if (currentLine.equals("stop")) {
+            if ("stop".equals(currentLine)) {
                 if (isPowerOfTwo(teamNumber) && teamNumber >= MINIMUM_TEAMS_NUMBER) {
                     isActiveScanner = false;
                 } else {
