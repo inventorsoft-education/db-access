@@ -53,7 +53,7 @@ public class TournamentBracketServiceImpl {
             } else {
                 winners.add(team2);
             }
-            int round = teams.size()/2;
+            int round = teams.size() / 2;
             String match = String.format("1/%d, %s, %s, %d:%d%n", round,
                     team1.getName(), team2.getName(), score1, score2);
             matches += match;
@@ -67,8 +67,10 @@ public class TournamentBracketServiceImpl {
 
     public void showResults() {
         List<TournamentBracketDto> results = listTournamentBrackets();
-        System.out.println(results.get(0).getMatches());
-        System.out.println(results.get(0).getWinner());
+        results.stream().findFirst().ifPresent(t -> {
+            System.out.println(t.getMatches());
+            System.out.println(t.getWinner());
+        });
     }
 
     public List<TournamentBracketDto> listTournamentBrackets() {
