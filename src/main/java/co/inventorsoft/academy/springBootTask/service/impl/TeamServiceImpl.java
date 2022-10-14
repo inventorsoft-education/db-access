@@ -90,18 +90,6 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    @Transactional
-    public TeamDto updateTeam(Integer id, TeamDto teamDto) {
-        log.info("Updating team with {} id...", id);
-        Team persistedTeam = teamRepository.findById(id)
-                .orElseThrow(TeamNotFoundException::new);
-        TeamMapper.INSTANCE.updateTeamFromDto(persistedTeam, teamDto);
-        Team storedTeam = teamRepository.save(persistedTeam);
-        log.info("Team with id {} successfully updated", storedTeam.getId());
-        return TeamMapper.INSTANCE.mapModelToDto(persistedTeam);
-    }
-
-    @Override
     public void deleteTeam(Integer id) {
         teamRepository.deleteById(id);
         log.info("Team with id {} was deleted", id);

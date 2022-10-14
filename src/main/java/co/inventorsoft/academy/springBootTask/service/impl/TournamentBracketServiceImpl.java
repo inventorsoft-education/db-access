@@ -11,7 +11,6 @@ import co.inventorsoft.academy.springBootTask.service.TournamentBracketService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -91,7 +90,8 @@ public class TournamentBracketServiceImpl implements TournamentBracketService {
     @Override
     public List<TournamentBracketDto> listTournamentBrackets() {
         log.info("Get all tournamentBrackets");
-        return TournamentBracketMapper.INSTANCE.mapListOfTournamentBracketToListOfDto(tournamentBracketRepository.findAll());
+        return TournamentBracketMapper.INSTANCE
+                .mapListOfTournamentBracketToListOfDto(tournamentBracketRepository.findAll());
     }
 
     @Override
@@ -101,19 +101,6 @@ public class TournamentBracketServiceImpl implements TournamentBracketService {
         tournamentBracket = tournamentBracketRepository.save(tournamentBracket);
         log.info("TournamentBracket with id {} successfully created", tournamentBracket.getId());
         return TournamentBracketMapper.INSTANCE.mapModelToDto(tournamentBracket);
-    }
-
-    @Override
-    @Transactional
-    public TournamentBracketDto updateTournamentBracket(Integer id, TournamentBracketDto tournamentBracketDto) {
-        log.info("Updating tournamentBracket with {} id...", id);
-        TournamentBracket persistedTournamentBracket = tournamentBracketRepository.findById(id)
-                .orElseThrow(TournamentBracketNotFoundException::new);
-        TournamentBracketMapper.INSTANCE.updateTournamentBracketFromDto(
-                persistedTournamentBracket, tournamentBracketDto);
-        TournamentBracket storedTournamentBracket = tournamentBracketRepository.save(persistedTournamentBracket);
-        log.info("TournamentBracket with id {} successfully updated", storedTournamentBracket.getId());
-        return TournamentBracketMapper.INSTANCE.mapModelToDto(persistedTournamentBracket);
     }
 
     @Override

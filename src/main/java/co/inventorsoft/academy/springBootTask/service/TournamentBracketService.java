@@ -16,8 +16,6 @@ public interface TournamentBracketService {
 
     TournamentBracketDto createTournamentBracket(TournamentBracketDto tournamentBracketDto);
 
-    TournamentBracketDto updateTournamentBracket(Integer id, TournamentBracketDto tournamentBracketDto);
-
     void deleteTournamentBracket(Integer id);
 
 }
