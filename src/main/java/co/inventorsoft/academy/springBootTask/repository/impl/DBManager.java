@@ -32,18 +32,9 @@ public class DBManager {
             con = DriverManager.getConnection(url, name, pass);
             log.info("Connection created");
         } catch (Exception e) {
-            System.out.println(e.toString());
+            log.info(e.toString());
         }
         return con;
-    }
-
-    public void commitAndClose(Connection con) {
-        try {
-            con.commit();
-            con.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
     }
 
     public void rollbackAndClose(Connection con) {
