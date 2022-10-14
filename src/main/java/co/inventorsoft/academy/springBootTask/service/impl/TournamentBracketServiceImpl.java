@@ -58,8 +58,9 @@ public class TournamentBracketServiceImpl implements TournamentBracketService {
             } else {
                 winners.add(team2);
             }
-            String match = "1/" + teams.size() / 2 + ", " + team1.getName() +
-                    ", " + team2.getName() + ", " + score1 + ":" + score2 + System.lineSeparator();
+            int round = teams.size() / 2;
+            String match = String.format("1/%d, %s, %s, %d:%d%n", round,
+                    team1.getName(), team2.getName(), score1, score2);
             matches += match;
         }
         return winners;
