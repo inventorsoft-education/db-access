@@ -45,6 +45,7 @@ public class TeamServiceImpl implements TeamService {
                 }
             }
         }
+        scanner.close();
     }
 
     private Team addTeam(String currentLine) {
