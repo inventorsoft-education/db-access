@@ -19,9 +19,9 @@ import java.util.List;
 @Slf4j
 public class TournamentBracketRepositoryImpl implements TournamentBracketRepository {
 
-    private static final String SQL__FIND_ALL_TOURNAMENT_BRACKETS = "SELECT * FROM tournament";
+    private static final String SQL__FIND_ALL_TOURNAMENT_BRACKETS = "SELECT id, matches, winner FROM tournament";
     private static final String SQL__ADD_TOURNAMENT_BRACKET =
-            "INSERT into tournament(matches, winner) " + "values(?, ?)";
+            "INSERT into tournament(matches, winner) values(?, ?)";
 
     public List<TournamentBracket> findAll() {
         List<TournamentBracket> tournamentBracketList = new ArrayList<TournamentBracket>();

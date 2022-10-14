@@ -19,8 +19,8 @@ import java.util.List;
 @Slf4j
 public class TeamRepositoryImpl implements TeamRepository {
 
-    private static final String SQL__FIND_ALL_TEAMS = "SELECT * FROM team";
-    private static final String SQL__ADD_TEAM = "INSERT into `team`(name, `capitan`, coach) " + "values(?, ?, ?)";
+    private static final String SQL__FIND_ALL_TEAMS = "SELECT id, name, capitan, coach FROM team";
+    private static final String SQL__ADD_TEAM = "INSERT into team(name, capitan, coach) values(?, ?, ?)";
 
     @Override
     public List<Team> findAll() {
