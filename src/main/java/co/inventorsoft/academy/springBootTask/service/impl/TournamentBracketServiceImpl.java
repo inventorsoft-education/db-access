@@ -5,8 +5,6 @@ import co.inventorsoft.academy.springBootTask.domain.dto.TournamentBracketDto;
 import co.inventorsoft.academy.springBootTask.domain.entity.TournamentBracket;
 import co.inventorsoft.academy.springBootTask.domain.mapper.TournamentBracketMapper;
 import co.inventorsoft.academy.springBootTask.repository.TournamentBracketRepository;
-import co.inventorsoft.academy.springBootTask.service.TeamService;
-import co.inventorsoft.academy.springBootTask.service.TournamentBracketService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,17 +16,16 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class TournamentBracketServiceImpl implements TournamentBracketService {
+public class TournamentBracketServiceImpl {
 
     private final TournamentBracketRepository tournamentBracketRepository;
 
     TournamentBracketDto tbDto;
-    private final TeamService teamService;
+    private final TeamServiceImpl teamServiceImpl;
     String matches = "";
 
-    @Override
     public void makeResults() {
-        List<TeamDto> teams = teamService.listTeams();
+        List<TeamDto> teams = teamServiceImpl.listTeams();
         Collections.shuffle(teams);
         int numberOfTeams = teams.size();
         int numberOfRounds = (int) log2(numberOfTeams);
@@ -67,21 +64,18 @@ public class TournamentBracketServiceImpl implements TournamentBracketService {
         return Math.log(x) / Math.log(2);
     }
 
-    @Override
     public void showResults() {
         List<TournamentBracketDto> results = listTournamentBrackets();
         System.out.println(results.get(0).getMatches());
         System.out.println(results.get(0).getWinner());
     }
 
-    @Override
     public List<TournamentBracketDto> listTournamentBrackets() {
         log.info("Get all tournamentBrackets");
         List<TournamentBracket> tournamentBrackets = tournamentBracketRepository.findAll();
         return TournamentBracketMapper.INSTANCE.mapListOfTournamentBracketToListOfDto(tournamentBrackets);
     }
 
-    @Override
     public TournamentBracketDto createTournamentBracket(TournamentBracketDto tournamentBracketDto) {
         TournamentBracket tournamentBracket = TournamentBracketMapper.INSTANCE.mapDtoToModel(tournamentBracketDto);
         log.info("Creating tournamentBracket with {} id...", tournamentBracket.getId());

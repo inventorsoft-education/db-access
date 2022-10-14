@@ -4,7 +4,6 @@ import co.inventorsoft.academy.springBootTask.domain.dto.TeamDto;
 import co.inventorsoft.academy.springBootTask.domain.entity.Team;
 import co.inventorsoft.academy.springBootTask.domain.mapper.TeamMapper;
 import co.inventorsoft.academy.springBootTask.repository.TeamRepository;
-import co.inventorsoft.academy.springBootTask.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,13 +14,12 @@ import java.util.Scanner;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class TeamServiceImpl implements TeamService {
+public class TeamServiceImpl {
 
     public static final int MINIMUM_TEAMS_NUMBER = 4;
 
     private final TeamRepository teamRepository;
 
-    @Override
     public void addTeams() {
         int teamNumber = 0;
         Scanner scanner = new Scanner(System.in);
@@ -61,7 +59,6 @@ public class TeamServiceImpl implements TeamService {
         return TeamMapper.INSTANCE.mapDtoToModel(teamDto);
     }
 
-    @Override
     public List<TeamDto> listTeams() {
         log.info("Get all teams");
         List<Team> teams = teamRepository.findAll();
