@@ -67,7 +67,7 @@ public class TournamentBracketRepositoryImpl implements TournamentBracketReposit
 
     public void addTournamentBracket(Connection con, TournamentBracket tb) {
         log.info("add tb2 started");
-        try (PreparedStatement pstmt = con.prepareStatement(SQL__ADD_TOURNAMENT_BRACKET);) {
+        try (PreparedStatement pstmt = con.prepareStatement(SQL__ADD_TOURNAMENT_BRACKET)) {
             pstmt.setString(1, tb.getMatches());
             pstmt.setString(2, tb.getWinner());
             log.info("all lines added to pstm");

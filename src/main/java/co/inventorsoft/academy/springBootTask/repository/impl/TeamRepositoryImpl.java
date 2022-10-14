@@ -24,7 +24,7 @@ public class TeamRepositoryImpl implements TeamRepository {
 
     @Override
     public List<Team> findAll() {
-        List<Team> teamList = new ArrayList<Team>();
+        List<Team> teamList = new ArrayList<>();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         Connection con = null;

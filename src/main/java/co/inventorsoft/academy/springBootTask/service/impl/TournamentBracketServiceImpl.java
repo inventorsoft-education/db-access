@@ -75,7 +75,8 @@ public class TournamentBracketServiceImpl {
 
     public List<TournamentBracketDto> listTournamentBrackets() {
         log.info("Get all tournamentBrackets");
-        return TournamentBracketMapper.INSTANCE.mapListOfTournamentBracketToListOfDto(tournamentBracketRepository.findAll());
+        return TournamentBracketMapper.INSTANCE
+                .mapListOfTournamentBracketToListOfDto(tournamentBracketRepository.findAll());
     }
 
     public TournamentBracketDto createTournamentBracket(TournamentBracketDto tournamentBracketDto) {
