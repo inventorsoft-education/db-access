@@ -73,8 +73,10 @@ public class TournamentBracketServiceImpl implements TournamentBracketService {
     @Override
     public void showResults() {
         List<TournamentBracketDto> results = listTournamentBrackets();
-        System.out.println(results.get(0).getMatches());
-        System.out.println(results.get(0).getWinner());
+        results.stream().findFirst().ifPresent(t -> {
+            System.out.println(t.getMatches());
+            System.out.println(t.getWinner());
+        });
     }
 
     @Override
