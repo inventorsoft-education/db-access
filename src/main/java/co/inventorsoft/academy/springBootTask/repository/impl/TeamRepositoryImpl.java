@@ -33,11 +33,19 @@ public class TeamRepositoryImpl implements TeamRepository {
             TeamMapper mapper = new TeamMapper();
             pstmt = con.prepareStatement(SQL__FIND_ALL_TEAMS);
             rs = pstmt.executeQuery();
-            while (rs.next())
+            while (rs.next()) {
                 teamList.add(mapper.mapRow(rs));
+            }
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
+        } finally {
+            assert con != null;
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return teamList;
     }
@@ -58,15 +66,17 @@ public class TeamRepositoryImpl implements TeamRepository {
 
     public void addTeam(Connection con, Team team) throws SQLException {
         log.info("add team2 started");
-        PreparedStatement pstmt = con.prepareStatement(SQL__ADD_TEAM);
-        int k = 1;
-        pstmt.setString(k++, team.getName());
-        pstmt.setString(k++, team.getCapitan());
-        pstmt.setString(k, team.getCoach());
-        log.info("all lines added to pstm");
-        pstmt.executeUpdate();
-        pstmt.close();
-        log.info("add user2 finished");
+        try (PreparedStatement pstmt = con.prepareStatement(SQL__ADD_TEAM)) {
+            pstmt.setString(1, team.getName());
+            pstmt.setString(2, team.getCapitan());
+            pstmt.setString(3, team.getCoach());
+            log.info("all lines added to pstm");
+            pstmt.executeUpdate();
+            pstmt.close();
+            log.info("add user2 finished");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private static class TeamMapper implements EntityMapper<Team> {

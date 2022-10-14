@@ -24,7 +24,7 @@ public class TournamentBracketRepositoryImpl implements TournamentBracketReposit
             "INSERT into tournament(matches, winner) values(?, ?)";
 
     public List<TournamentBracket> findAll() {
-        List<TournamentBracket> tournamentBracketList = new ArrayList<TournamentBracket>();
+        List<TournamentBracket> tournamentBracketList = new ArrayList<>();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         Connection con = null;
@@ -34,11 +34,19 @@ public class TournamentBracketRepositoryImpl implements TournamentBracketReposit
                     new TournamentBracketRepositoryImpl.TournamentBracketMapper();
             pstmt = con.prepareStatement(SQL__FIND_ALL_TOURNAMENT_BRACKETS);
             rs = pstmt.executeQuery();
-            while (rs.next())
+            while (rs.next()) {
                 tournamentBracketList.add(mapper.mapRow(rs));
+            }
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
+        } finally {
+            assert con != null;
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return tournamentBracketList;
     }
@@ -57,16 +65,17 @@ public class TournamentBracketRepositoryImpl implements TournamentBracketReposit
         return tb;
     }
 
-    public void addTournamentBracket(Connection con, TournamentBracket tb) throws SQLException {
+    public void addTournamentBracket(Connection con, TournamentBracket tb) {
         log.info("add tb2 started");
-        PreparedStatement pstmt = con.prepareStatement(SQL__ADD_TOURNAMENT_BRACKET);
-        int k = 1;
-        pstmt.setString(k++, tb.getMatches());
-        pstmt.setString(k, tb.getWinner());
-        log.info("all lines added to pstm");
-        pstmt.executeUpdate();
-        pstmt.close();
-        log.info("add tb2 finished");
+        try (PreparedStatement pstmt = con.prepareStatement(SQL__ADD_TOURNAMENT_BRACKET);) {
+            pstmt.setString(1, tb.getMatches());
+            pstmt.setString(2, tb.getWinner());
+            log.info("all lines added to pstm");
+            pstmt.executeUpdate();
+            log.info("add tb2 finished");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private static class TournamentBracketMapper implements EntityMapper<TournamentBracket> {
